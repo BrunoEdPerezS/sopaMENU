@@ -20,6 +20,7 @@
  /*
  * Cuidaito con las vistas, avece los lcd.clear() se pifean y la pantalla no actualiza correctamente
  * la solucion mas simple es borrar el clear de la funcion de cambio de vista y aliminar la condicion del clear en el generador de vista
+ * en este caso la pantalla se actualizara constantemente de acuerdo al Ts del main loop.
 */
 
 
@@ -46,21 +47,21 @@ int numeroVISTA = 0;
 
 
 //INTERRUPCION BOTON UP
-#line 135 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 136 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setup();
-#line 193 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 194 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void loop();
-#line 253 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 254 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarVISTA(char entrada[][20], char salida[4][20], int scroll, int filas);
-#line 272 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 273 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling(int filas);
-#line 292 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 293 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollSIGN(int filas);
-#line 312 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 313 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTA(char menu[][20],int opciones);
-#line 333 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 334 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, int destino);
-#line 47 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 48 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce

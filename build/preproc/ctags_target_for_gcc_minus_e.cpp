@@ -33,7 +33,10 @@
 
  * la solucion mas simple es borrar el clear de la funcion de cambio de vista y aliminar la condicion del clear en el generador de vista
 
+ * en este caso la pantalla se actualizara constantemente de acuerdo al Ts del main loop.
+
 */
+# 26 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 //Inicializar botones y variables globales
 
 
@@ -42,9 +45,9 @@
 unsigned long buttonTIME = 0;
 unsigned long lastBTIME = 0;
 hw_timer_t *My_timer = 
-# 32 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 3 4
+# 33 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 3 4
                       __null
-# 32 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 33 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
                           ;
 portMUX_TYPE mux = {.owner = 0xB33FFFFF,.count = 0} /**< Spinlock initializer */;
 
@@ -106,7 +109,7 @@ if (buttonTIME - lastBTIME > 250)
 lastBTIME = buttonTIME;
  }
 }
-# 115 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 116 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 // Init del LCD y del display
 int lcdColumns = 20;
 int lcdRows = 4;
@@ -240,7 +243,7 @@ void loop(){
   scrollSIGN(menu0F);
 
 */
-# 245 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 246 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
   delay(200);
 }
 
@@ -330,7 +333,7 @@ void generarVISTA(char menu[][20],int opciones) {
 /*Esta funcion realiza el cambio de vista, para ello se le entrega el estado de "Scroll" en el que realizara, y la vista hacia la que 
 
 se deriva dicho cambio*/
-# 333 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 334 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, int destino){
 
    if ((scrollSTATE == opcion)&&(SELECT)){

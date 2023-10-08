@@ -16,7 +16,7 @@
 
 //TODO     OJITO CON ESTOO!!!
  /*
- * Cuidaito con las vistas, avece los lcd.clear() se pifean y la pantalla no actualiza correctamente
+ * Cuidaito con las vistas, aveces los lcd.clear() se pifean y la pantalla no actualiza correctamente
  * la solucion mas simple es borrar el clear de la funcion de cambio de vista y aliminar la condicion del clear en el generador de vista
  * en este caso la pantalla se actualizara constantemente de acuerdo al Ts del main loop.
 */
@@ -131,6 +131,10 @@ char menu2[4][20];
 int menu2AF = 6;
 char menu2A[6][20];
 
+int menu3F = 4;
+char menu3[4][20];
+
+
 char displaySHOW[4][20];
 
 void setup(){
@@ -229,6 +233,8 @@ void loop(){
    scrollSIGN(menu2AF);
    cambioVISTA(5,2);
    break;
+  case 4:
+   scrolling();
 
   default:
    Serial.print("Problemas con las vistas...");
