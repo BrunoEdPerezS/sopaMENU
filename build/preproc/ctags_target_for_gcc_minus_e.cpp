@@ -26,17 +26,66 @@
 
   */
 # 17 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+//! Estructura base para implementar una vista de SETTING------------
+  /*
+
+  *Todas las vistas de setting se componene de 4 lineas
+
+    * EXPLICACION DE VARIABLE(que valor setea)
+
+    * VALOR (el numero)
+
+    * CONFIRMAR (lo guarda en memoria)
+
+    * VOLVER (retorna a la vista anterior)
+
+  
+
+
+
+  *Para generar la vista se utilizan la funcion settingMENU()y cambioSETTING(), la primer
+
+  *se encarga de generar la vista y del setting menu, la segunda crea la instancia del "setting", implementando una nueva
+
+  *rama en el arbol de vistas, la cual hace variar el valor que se ve en pantalla.
+
+   settingMENU(menu0);
+
+   cambioSETTING(5); (el parámetro de esta funcion debe ser la vista a la cual responde)
+
+  */
+# 33 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+//! Estructura base para implementar una notificacion (como un cuadro de dialogo)------------
+/*
+
+  *Basicament un mensaje que se muestra a modo de notificacion, cualquier evento desencadena el "goBACK"
+
+
+
+*/
 //TODO     OJITO CON ESTOO!!!
  /*
 
- * Cuidaito con las vistas, avece los lcd.clear() se pifean y la pantalla no actualiza correctamente
+ * Cuidaito con las vistas, aveces los lcd.clear() se pifean y la pantalla no actualiza correctamente
 
  * la solucion mas simple es borrar el clear de la funcion de cambio de vista y aliminar la condicion del clear en el generador de vista
 
  * en este caso la pantalla se actualizara constantemente de acuerdo al Ts del main loop.
 
+ * 
+
+ * OJO CON LOS CAMBIOS EN LAS VARIABLES DE SETTING, FALTA PROGRAMAR LAS ADICIONES A MEMORIA EPROM
+
+ * 
+
+ * FALTA PROGRAMAR EL MODELO PARA LAS FUNCIONES DE CARGA Y DESCARGA Y PURGA
+
+ * 
+
+ * FALTA PROGRAMAR EL MONITOREO DE ESTADO
+
 */
-# 26 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 56 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 //Inicializar botones y variables globales
 
 
@@ -45,9 +94,9 @@
 unsigned long buttonTIME = 0;
 unsigned long lastBTIME = 0;
 hw_timer_t *My_timer = 
-# 33 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 3 4
+# 63 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 3 4
                       __null
-# 33 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 63 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
                           ;
 portMUX_TYPE mux = {.owner = 0xB33FFFFF,.count = 0} /**< Spinlock initializer */;
 
@@ -59,6 +108,13 @@ int scrollSTATE = 0;
 int scrollOFFSET = 0;
 
 int numeroVISTA = 0;
+int numeroVISTAant = 0;
+
+char VISTA[12] = "MAIN";
+
+
+int valuetoSET = 0;
+int settingLOOP = false;
 
 
 
@@ -109,26 +165,36 @@ if (buttonTIME - lastBTIME > 250)
 lastBTIME = buttonTIME;
  }
 }
-# 116 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 153 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 // Init del LCD y del display
 int lcdColumns = 20;
 int lcdRows = 4;
 LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);
 
-//Crear arrays con las vistas
-int menu0F = 12;
-char menu0[12][20];
 
-int menu1F = 4;
-char menu1[4][20];
-
-int menu2F = 4;
-char menu2[4][20];
-
-int menu2AF = 6;
-char menu2A[6][20];
-
+//? Declarar las vistas
+//Display de 4 filas 20 caracteres
 char displaySHOW[4][20];
+
+
+
+
+//Crear arrays con las vistas 
+int menuMAIN_F = 12; //Declarar opciones (filas del menu)
+char menuMAIN[12][20]; //Declarar la matriz de la vista
+
+int menuA0_F = 5;
+char menuA0[5][20]; //Declarar la matriz de la vista
+
+int menuB0_F = 7;
+char menuB0[7][20]; //Declarar la matriz de la vista
+
+//Crear menu de setting 
+char menuA0A0[4][20];
+
+//NOTIFICACION
+int menuA0A0Conf_F = 4;
+char menuA0A0Conf[4][20];
 
 void setup(){
 Serial.begin(115200);
@@ -146,37 +212,50 @@ attachInterrupt(17, BUTTONpress3, 0x02);
 
 // Init de las vistas
 // Asignar valores a los elementos del array
-  strcpy(menu0[0], "M0 - Menu 1");
-  strcpy(menu0[1], "M0 - Menu 2");
-  strcpy(menu0[2], "M0 - 3");
-  strcpy(menu0[3], "M0 - 4");
-  strcpy(menu0[4], "M0 - 5");
-  strcpy(menu0[5], "M0 - 6");
-  strcpy(menu0[6], "M0 - 7");
-  strcpy(menu0[7], "M0 - 8");
-  strcpy(menu0[8], "M0 - 9");
-  strcpy(menu0[9], "M0 - 10");
-  strcpy(menu0[10], "M0 - 11");
-  strcpy(menu0[11], "M0 - 12");
 
-  strcpy(menu1[0], "M1 - 1");
-  strcpy(menu1[1], "M1 - 2");
-  strcpy(menu1[2], "M1 - 3");
-  strcpy(menu1[3], "M1 - Volver");
+//MAIN MENU
+  strcpy(menuMAIN[0], "M0 - Menu 1");
+  strcpy(menuMAIN[1], "M0 - Menu 2");
+  strcpy(menuMAIN[2], "M0 - Menu 3");
+  strcpy(menuMAIN[3], "M0 - 4");
+  strcpy(menuMAIN[4], "M0 - 5");
+  strcpy(menuMAIN[5], "M0 - 6");
+  strcpy(menuMAIN[6], "M0 - 7");
+  strcpy(menuMAIN[7], "M0 - 8");
+  strcpy(menuMAIN[8], "M0 - 9");
+  strcpy(menuMAIN[9], "M0 - 10");
+  strcpy(menuMAIN[10], "M0 - 11");
+  strcpy(menuMAIN[11], "M0 - 12");
 
-  strcpy(menu2[0], "M2 - 1");
-  strcpy(menu2[1], "M2 - 2");
-  strcpy(menu2[2], "M2 - Menu2A");
-  strcpy(menu2[3], "M2 - Volver");
+//Menu A0
+  strcpy(menuA0[0], "MA0 - A0A0");
+  strcpy(menuA0[1], "MA0 - OPT 2");
+  strcpy(menuA0[2], "MA0 - OPT 3");
+  strcpy(menuA0[3], "MA0 - OPT 4");
+  strcpy(menuA0[4], "MA0 - Volver");
 
-  strcpy(menu2A[0], "M2A - 1");
-  strcpy(menu2A[1], "M2A - 2");
-  strcpy(menu2A[2], "M2A - 3");
-  strcpy(menu2A[3], "M2A - 4");
-  strcpy(menu2A[4], "M2A - 5");
-  strcpy(menu2A[5], "M2A - Volver");
+//Menu A0A0 (SETTING MENU)
+  strcpy(menuA0A0[0], "SETEE VALOR");
+  strcpy(menuA0A0[1], "");
+  strcpy(menuA0A0[2], "Confirmar");
+  strcpy(menuA0A0[3], "Volver");
+
+//Menu B0
+  strcpy(menuB0[0], "MB0 - A0A0");
+  strcpy(menuB0[1], "MB0 - OPT 2");
+  strcpy(menuB0[2], "MB0 - OPT 3");
+  strcpy(menuB0[3], "MB0 - OPT 4");
+  strcpy(menuB0[4], "MB0 - OPT 5");
+  strcpy(menuB0[5], "MB0 - OPT 6");
+  strcpy(menuB0[6], "MB0 - Volver");
 
 
+
+//NOTIFICACION
+  strcpy(menuA0A0Conf[0], "Valor guardado");
+  strcpy(menuA0A0Conf[1], "correctamente!");
+  strcpy(menuA0A0Conf[2], "");
+  strcpy(menuA0A0Conf[3], "");
 
 
 
@@ -190,61 +269,79 @@ attachInterrupt(17, BUTTONpress3, 0x02);
 
 void loop(){
 
-  switch (numeroVISTA)
-  {
-  case 0:
-   scrolling(menu0F);
-   generarVISTA(menu0,menu0F);
-   scrollSIGN(menu0F);
+if (strcmp(VISTA, "MAIN") == 0) {
+   //!VISTA
+   scrolling(menuMAIN_F);
+   generarVISTA(menuMAIN,menuMAIN_F);
+   scrollSIGN(menuMAIN_F);
+   //!MODELO
+
+
+
    //Cambio de vista 
-   cambioVISTA(0,1);
-   //Cambio de vista
-   cambioVISTA(1,2);
-   break;
+   cambioVISTA(0,"A0");
+   cambioVISTA(1,"B0");
+}
+else if (strcmp(VISTA, "A0") == 0) {
+   //!VISTA
+   scrolling(menuA0_F);
+   generarVISTA(menuA0,menuA0_F);
+   scrollSIGN(menuA0_F);
+   //!MODELO
 
-  case 1:
-   scrolling(menu1F);
-   generarVISTA(menu1,menu1F);
-   scrollSIGN(menu1F);
-   //Cambio de vista
-   cambioVISTA(3,0);
-   break;
 
-  case 2:
-   scrolling(menu2F);
-   generarVISTA(menu2,menu2F);
-   scrollSIGN(menu2F);
-   //Cambio de vista
-   cambioVISTA(3,0);
-   //Cambio de vista
-   cambioVISTA(2,3);
-   break;
+   //Cambio de vista 
+   cambioVISTA(0,"A0A0");
+   //go BACK
+   cambioVISTA(4,"MAIN");
+}
+else if (strcmp(VISTA, "B0") == 0) {
+   //!VISTA
+   scrolling(menuB0_F);
+   generarVISTA(menuB0,menuB0_F);
+   scrollSIGN(menuB0_F);
+   //!MODELO
 
-  case 3:
-   scrolling(menu2AF);
-   generarVISTA(menu2A,menu2AF);
-   scrollSIGN(menu2AF);
-   cambioVISTA(5,2);
-   break;
-
-  default:
-   Serial.print("Problemas con las vistas...");
-   break;
-  }
+   //go BACK
+   cambioVISTA(6,"MAIN");
+}
 
 
 
-/*
+else if (strcmp(VISTA, "A0A0") == 0) {
+   //! VISTA
+   settingMENU(menuA0A0);
+   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
 
-  scrolling(menu0F);
 
-  generarVISTA(menu0,menu0F);
+   //!MODELO
+   cambioSETTING("A0A0-S");
+   //Cambio de vista confirmacion
+   cambioVISTA(2,"A0A0-S+");
+   //Cambio de vista al menu anterior
+   cambioVISTA(3,"A0");
 
-  scrollSIGN(menu0F);
+}
+else if (strcmp(VISTA, "A0A0-S") == 0){
+   //!VISTA + MODELO
+   setterFUNC(10,100,1000);
+   settingBACK("A0A0");
+}
+else if (strcmp(VISTA, "A0A0-S+") == 0) {
+   //!VISTA
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(menuA0A0Conf,menuA0A0Conf_F);
+   //scrollSIGN(menuA0A0Conf_F);
 
-*/
-# 246 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
-  delay(200);
+   //!MODELO
+   //Cambio de vista 
+   cambioEVENTO("A0");
+}
+else {
+  Serial.print("Problemas con las vistas...");
+}
+
+delay(200);
 }
 
 
@@ -333,13 +430,112 @@ void generarVISTA(char menu[][20],int opciones) {
 /*Esta funcion realiza el cambio de vista, para ello se le entrega el estado de "Scroll" en el que realizara, y la vista hacia la que 
 
 se deriva dicho cambio*/
-# 334 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
-void cambioVISTA(int opcion, int destino){
+# 416 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void cambioVISTA(int opcion, char destino[12] ){
 
    if ((scrollSTATE == opcion)&&(SELECT)){
       SELECT = false;
       scrollSTATE=0;
-      numeroVISTA = destino;
+      valuetoSET = 0;
+      strcpy(VISTA, destino);
+      lcd.clear();
+   }
+}
+
+
+
+//? Funciones para los setting menu
+/*Inicializa un setting menú de forma estandar*/
+void settingMENU(char menu[4][20]){
+   scrollinSETMENU();
+   generarVISTA(menu,4);
+   //Display de la variable del set
+   lcd.setCursor(0, 1);
+   lcd.print(valuetoSET);
+   scrollSIGN(4);
+}
+
+/*Deriva a una vista de setting*/
+void cambioSETTING(char destino[12]){
+   if ((scrollSTATE == 1)&&(SELECT)){
+      SELECT = false;
+      scrollSTATE=0;
+      strcpy(VISTA, destino);
+   }
+}
+
+/*Activa la vista del setting mode (el step modifica cuanto añadimos con cada UP-DOWN)*/
+void setterFUNC(int steps, int setSTEP, int limit){
+
+   lcd.setCursor(19, 1);
+   lcd.print("-");
+   lcd.setCursor(0, 1);
+   lcd.print("      ");
+
+
+   int endINDEX = (steps);
+   if (UP){
+   scrollSTATE = scrollSTATE+1;
+   if(scrollSTATE >= endINDEX){
+      scrollSTATE = endINDEX;
+   }
+   UP = false;
+   valuetoSET = valuetoSET + setSTEP;
+   }
+   if (DOWN){
+   scrollSTATE = scrollSTATE-1;
+   if(scrollSTATE <= 0){
+      scrollSTATE = 0;
+   }
+   DOWN = false;
+   valuetoSET = valuetoSET - setSTEP;
+   }
+   if ((valuetoSET > limit)||(valuetoSET<0)){
+   valuetoSET = 0;
+   }
+   lcd.setCursor(0, 1);
+   lcd.print(valuetoSET);
+}
+
+/*Devuelve a la vista originaL*/
+void settingBACK(char destino[12]){
+   if (SELECT){
+      SELECT = false;
+      scrollSTATE=0;
+      strcpy(VISTA, destino);
+      lcd.clear();
+   }
+}
+
+/*Permite scrollear de forma cómoda en el setting menu*/
+void scrollinSETMENU(){
+
+   int endINDEX = 3;
+   if (UP){
+   scrollSTATE = scrollSTATE+1;
+   if(scrollSTATE >= endINDEX){
+      scrollSTATE = endINDEX;
+   }
+   UP = false;
+   }
+   if (DOWN){
+   scrollSTATE = scrollSTATE-1;
+   DOWN = false;
+   }
+  if(scrollSTATE <= 1){
+      scrollSTATE = 1;
+   }
+}
+
+//? Cambio de vista triggeado por evento
+void cambioEVENTO(char destino[12]){
+   if (UP||DOWN||SELECT){
+      EVENT = false;
+      UP = false;
+      DOWN = false;
+      SELECT = false;
+      scrollSTATE=0;
+      strcpy(VISTA, destino);
       lcd.clear();
    }
 }
