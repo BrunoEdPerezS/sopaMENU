@@ -100,19 +100,15 @@ hw_timer_t *My_timer =
                           ;
 portMUX_TYPE mux = {.owner = 0xB33FFFFF,.count = 0} /**< Spinlock initializer */;
 
+
+//Constantes del menu
 volatile bool UP = false;
 volatile bool DOWN = false;
 volatile bool SELECT = false;
 volatile bool EVENT = true;
 int scrollSTATE = 0;
 int scrollOFFSET = 0;
-
-int numeroVISTA = 0;
-int numeroVISTAant = 0;
-
 char VISTA[12] = "MAIN";
-
-
 int valuetoSET = 0;
 int settingLOOP = false;
 
@@ -165,7 +161,8 @@ if (buttonTIME - lastBTIME > 250)
 lastBTIME = buttonTIME;
  }
 }
-# 153 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+
+
 // Init del LCD y del display
 int lcdColumns = 20;
 int lcdRows = 4;
@@ -179,23 +176,67 @@ char displaySHOW[4][20];
 
 
 
-//Crear arrays con las vistas 
-int menuMAIN_F = 12; //Declarar opciones (filas del menu)
-char menuMAIN[12][20]; //Declarar la matriz de la vista
+//! Crear arrays con las vistas 
+
+//? Main MENU
+char mainMENU[6][20]; //Declarar la matriz de la vista
+int mainMENU_F = 6; //Declarar opciones (filas del menu)
+
+//? Menus rama A
+
+//* scroll A0
+char A0scroll[4][20]; //Declarar la matriz de la vista
+int A0scroll_f = 4; //Declarar opciones (filas del menu)
+
+//* scroll A0A0
+char A0A0scroll[4][20]; //Declarar la matriz de la vista
+int A0A0scroll_f = 4; //Declarar opciones (filas del menu)
+
+//* setting A0B0
+char A0B0sett[4][20]; //Declarar la matriz de la vista
+
+//* notif A0B1
+char A0B1not[4][20]; //Declarar la matriz de la vista
+int A0B1not_f = 4; //Declarar opciones (filas del menu)
+
+//* scroll A0C0 (ELIMINABLE)
+char A0C0scroll[4][20]; //Declarar la matriz de la vista
+int A0C0scroll_f = 4; //Declarar opciones (filas del menu)
+
+//* scroll A0C1 (ELIMINABLE)
+char A0C1scroll[4][20]; //Declarar la matriz de la vista
+int A0C1scroll_f = 4; //Declarar opciones (filas del menu)
+
+
+
+/*
 
 int menuA0_F = 5;
+
 char menuA0[5][20]; //Declarar la matriz de la vista
 
+
+
 int menuB0_F = 7;
+
 char menuB0[7][20]; //Declarar la matriz de la vista
 
+
+
 //Crear menu de setting 
-char menuA0A0[4][20];
 
-//NOTIFICACION
+char menuA0A0[4][20]; 
+
+
+
+//NOTIFICACIONES
+
 int menuA0A0Conf_F = 4;
-char menuA0A0Conf[4][20];
 
+char menuA0A0Conf[4][20]; 
+
+*/
+# 191 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setup(){
 Serial.begin(115200);
 //Interrupciones
@@ -213,52 +254,111 @@ attachInterrupt(17, BUTTONpress3, 0x02);
 // Init de las vistas
 // Asignar valores a los elementos del array
 
-//MAIN MENU
-  strcpy(menuMAIN[0], "M0 - Menu 1");
-  strcpy(menuMAIN[1], "M0 - Menu 2");
-  strcpy(menuMAIN[2], "M0 - Menu 3");
-  strcpy(menuMAIN[3], "M0 - 4");
-  strcpy(menuMAIN[4], "M0 - 5");
-  strcpy(menuMAIN[5], "M0 - 6");
-  strcpy(menuMAIN[6], "M0 - 7");
-  strcpy(menuMAIN[7], "M0 - 8");
-  strcpy(menuMAIN[8], "M0 - 9");
-  strcpy(menuMAIN[9], "M0 - 10");
-  strcpy(menuMAIN[10], "M0 - 11");
-  strcpy(menuMAIN[11], "M0 - 12");
+//? MAIN MENU
+  strcpy(mainMENU[0], "Preparar");
+  strcpy(mainMENU[1], "Iniciar");
+  strcpy(mainMENU[2], "Recetas");
+  strcpy(mainMENU[3], "Control");
+  strcpy(mainMENU[4], "Calibración");
+  strcpy(mainMENU[5], "About");
+
+//? Menus de la rama A
+
+  //* A0 
+  strcpy(A0scroll[0], "Cargar conts.");
+  strcpy(A0scroll[1], "Sel. receta");
+  strcpy(A0scroll[2], "Purgar conts.");
+  strcpy(A0scroll[3], "Volver");
+  //* A0A0
+  strcpy(A0A0scroll[0], "Carga - 1");
+  strcpy(A0A0scroll[1], "Carga - 2");
+  strcpy(A0A0scroll[2], "Carga - 3");
+  strcpy(A0A0scroll[3], "Volver");
+  //* A0B0
+  strcpy(A0B0sett[0], "Seleccione receta");
+  strcpy(A0B0sett[1], "1-10");
+  strcpy(A0B0sett[2], "Confirmar");
+  strcpy(A0B0sett[3], "Volver");
+  //* A0B1
+  strcpy(A0B1not[0], "Receta guardada");
+  strcpy(A0B1not[1], "correctamente.");
+  strcpy(A0B1not[2], "");
+  strcpy(A0B1not[3], "Volver");
+  //* A0C0 (ELIMINABLE)
+  strcpy(A0C0scroll[0], "Confirme proceso de purga");
+  strcpy(A0C0scroll[1], "");
+  strcpy(A0C0scroll[2], "Confirmar");
+  strcpy(A0C0scroll[3], "Volver");
+  //* A0C1 (ELIMINABLE)
+  strcpy(A0C1scroll[0], "PURGA-1");
+  strcpy(A0C1scroll[1], "PURGA-1");
+  strcpy(A0C1scroll[2], "PURGA-2");
+  strcpy(A0C1scroll[3], "Volver");
+
+
+
+/*
 
 //Menu A0
-  strcpy(menuA0[0], "MA0 - A0A0");
-  strcpy(menuA0[1], "MA0 - OPT 2");
-  strcpy(menuA0[2], "MA0 - OPT 3");
-  strcpy(menuA0[3], "MA0 - OPT 4");
-  strcpy(menuA0[4], "MA0 - Volver");
+
+  strcpy(menuA0[0],  "MA0 - A0A0");
+
+  strcpy(menuA0[1],  "MA0 - OPT 2");
+
+  strcpy(menuA0[2],  "MA0 - OPT 3");
+
+  strcpy(menuA0[3],  "MA0 - OPT 4");
+
+  strcpy(menuA0[4],  "MA0 - Volver");
+
+
 
 //Menu A0A0 (SETTING MENU)
-  strcpy(menuA0A0[0], "SETEE VALOR");
-  strcpy(menuA0A0[1], "");
-  strcpy(menuA0A0[2], "Confirmar");
-  strcpy(menuA0A0[3], "Volver");
+
+  strcpy(menuA0A0[0],  "SETEE VALOR");
+
+  strcpy(menuA0A0[1],  "");
+
+  strcpy(menuA0A0[2],  "Confirmar");
+
+  strcpy(menuA0A0[3],  "Volver");
+
+
 
 //Menu B0
-  strcpy(menuB0[0], "MB0 - A0A0");
-  strcpy(menuB0[1], "MB0 - OPT 2");
-  strcpy(menuB0[2], "MB0 - OPT 3");
-  strcpy(menuB0[3], "MB0 - OPT 4");
-  strcpy(menuB0[4], "MB0 - OPT 5");
-  strcpy(menuB0[5], "MB0 - OPT 6");
-  strcpy(menuB0[6], "MB0 - Volver");
+
+  strcpy(menuB0[0],  "MB0 - A0A0");
+
+  strcpy(menuB0[1],  "MB0 - OPT 2");
+
+  strcpy(menuB0[2],  "MB0 - OPT 3");
+
+  strcpy(menuB0[3],  "MB0 - OPT 4");
+
+  strcpy(menuB0[4],  "MB0 - OPT 5");
+
+  strcpy(menuB0[5],  "MB0 - OPT 6");
+
+  strcpy(menuB0[6],  "MB0 - Volver");
+
+
+
+  
 
 
 
 //NOTIFICACION
-  strcpy(menuA0A0Conf[0], "Valor guardado");
-  strcpy(menuA0A0Conf[1], "correctamente!");
-  strcpy(menuA0A0Conf[2], "");
-  strcpy(menuA0A0Conf[3], "");
 
+  strcpy(menuA0A0Conf[0],  "Valor guardado");
 
+  strcpy(menuA0A0Conf[1],  "correctamente!");
 
+  strcpy(menuA0A0Conf[2],  "");
+
+  strcpy(menuA0A0Conf[3],  "");
+
+*/
+# 284 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
   //Setup del lcd
   lcd.init();
   lcd.backlight();
@@ -269,74 +369,209 @@ attachInterrupt(17, BUTTONpress3, 0x02);
 
 void loop(){
 
+//? MAIN MENU
 if (strcmp(VISTA, "MAIN") == 0) {
    //!VISTA
-   scrolling(menuMAIN_F);
-   generarVISTA(menuMAIN,menuMAIN_F);
-   scrollSIGN(menuMAIN_F);
+   scrolling(mainMENU_F);
+   generarVISTA(mainMENU,mainMENU_F);
+   scrollSIGN(mainMENU_F);
    //!MODELO
-
-
 
    //Cambio de vista 
    cambioVISTA(0,"A0");
-   cambioVISTA(1,"B0");
 }
+
+//? Vistas de rama A
 else if (strcmp(VISTA, "A0") == 0) {
-   //!VISTA
-   scrolling(menuA0_F);
-   generarVISTA(menuA0,menuA0_F);
-   scrollSIGN(menuA0_F);
+   //!VISTA SCROLL
+   scrolling(A0scroll_f);
+   generarVISTA(A0scroll,A0scroll_f);
+   scrollSIGN(A0scroll_f);
    //!MODELO
 
 
    //Cambio de vista 
    cambioVISTA(0,"A0A0");
+   cambioVISTA(1,"A0B0");
+   cambioVISTA(2,"A0C0");
    //go BACK
-   cambioVISTA(4,"MAIN");
+   cambioVISTA(3,"MAIN");
 }
-else if (strcmp(VISTA, "B0") == 0) {
-   //!VISTA
-   scrolling(menuB0_F);
-   generarVISTA(menuB0,menuB0_F);
-   scrollSIGN(menuB0_F);
-   //!MODELO
-
-   //go BACK
-   cambioVISTA(6,"MAIN");
-}
-
-
-
 else if (strcmp(VISTA, "A0A0") == 0) {
-   //! VISTA
-   settingMENU(menuA0A0);
-   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
-
-
+   //!VISTA SCROLL
+   scrolling(A0A0scroll_f);
+   generarVISTA(A0A0scroll,A0A0scroll_f);
+   scrollSIGN(A0A0scroll_f);
    //!MODELO
-   cambioSETTING("A0A0-S");
+
+
+   //Cambio de vista 
+
+   //go BACK
+   cambioVISTA(3,"A0");
+}
+else if (strcmp(VISTA, "A0B0") == 0) {
+   //! VISTA SETTING
+   settingMENU(A0B0sett);
+   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
+   //!MODELO
+   cambioSETTING("A0B0set");
    //Cambio de vista confirmacion
-   cambioVISTA(2,"A0A0-S+");
+   cambioVISTA(2,"A0B1");
    //Cambio de vista al menu anterior
    cambioVISTA(3,"A0");
-
 }
-else if (strcmp(VISTA, "A0A0-S") == 0){
-   //!VISTA + MODELO
-   setterFUNC(10,100,1000);
-   settingBACK("A0A0");
+else if (strcmp(VISTA, "A0B0set") == 0){
+   //!VISTA SETTING LOOP
+   setterFUNC(10,1,10);
+   settingBACK("A0B0");
 }
-else if (strcmp(VISTA, "A0A0-S+") == 0) {
-   //!VISTA
+else if (strcmp(VISTA, "A0B1") == 0) {
+   //!VISTA NOTIF
    //scrolling(menuA0A0Conf_F);
-   generarVISTA(menuA0A0Conf,menuA0A0Conf_F);
+   generarVISTA(A0B1not,A0B1not_f);
    //scrollSIGN(menuA0A0Conf_F);
 
    //!MODELO
    //Cambio de vista 
    cambioEVENTO("A0");
 }
+else if (strcmp(VISTA, "A0C0") == 0) {
+   //!VISTA SCROLL
+   scrolling(A0C0scroll_f);
+   generarVISTA(A0C0scroll,A0C0scroll_f);
+   scrollSIGN(A0C0scroll_f);
+   //!MODELO
+
+
+   //Cambio de vista 
+   cambioVISTA(3,"A0C1");
+   //go BACK
+   cambioVISTA(3,"A0");
+}
+else if (strcmp(VISTA, "A0C1") == 0) {
+   //!VISTA SCROLL
+   scrolling(A0C1scroll_f);
+   generarVISTA(A0C1scroll,A0C1scroll_f);
+   scrollSIGN(A0C1scroll_f);
+   //!MODELO
+
+
+   //Cambio de vista 
+
+   //go BACK
+   cambioVISTA(3,"A0C0");
+}
+
+
+/*
+
+else if (strcmp(VISTA, "A0") == 0) {
+
+   //!VISTA
+
+   scrolling(menuA0_F);
+
+   generarVISTA(menuA0,menuA0_F);
+
+   scrollSIGN(menuA0_F);
+
+   //!MODELO
+
+
+
+
+
+   //Cambio de vista 
+
+   cambioVISTA(0,"A0A0");
+
+   //go BACK
+
+   cambioVISTA(4,"MAIN");
+
+} 
+
+else if (strcmp(VISTA, "B0") == 0) {
+
+   //!VISTA
+
+   scrolling(menuB0_F);
+
+   generarVISTA(menuB0,menuB0_F);
+
+   scrollSIGN(menuB0_F);
+
+   //!MODELO
+
+
+
+   //go BACK
+
+   cambioVISTA(6,"MAIN");
+
+} 
+
+else if (strcmp(VISTA, "A0A0") == 0) {
+
+   //! VISTA SETTING
+
+   settingMENU(menuA0A0);
+
+   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
+
+
+
+
+
+   //!MODELO
+
+   cambioSETTING("A0A0-S");
+
+   //Cambio de vista confirmacion
+
+   cambioVISTA(2,"A0A0-S+");
+
+   //Cambio de vista al menu anterior
+
+   cambioVISTA(3,"A0");
+
+   
+
+} 
+
+else if (strcmp(VISTA, "A0A0-S") == 0){
+
+   //!VISTA SETTING LOOP
+
+   setterFUNC(10,100,1000);
+
+   settingBACK("A0A0");
+
+}
+
+else if (strcmp(VISTA, "A0A0-S+") == 0) {
+
+   //!VISTA NOTIF
+
+   //scrolling(menuA0A0Conf_F);
+
+   generarVISTA(menuA0A0Conf,menuA0A0Conf_F);
+
+   //scrollSIGN(menuA0A0Conf_F);
+
+
+
+   //!MODELO
+
+   //Cambio de vista 
+
+   cambioEVENTO("A0");
+
+} 
+
+*/
+# 444 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 else {
   Serial.print("Problemas con las vistas...");
 }
@@ -430,7 +665,7 @@ void generarVISTA(char menu[][20],int opciones) {
 /*Esta funcion realiza el cambio de vista, para ello se le entrega el estado de "Scroll" en el que realizara, y la vista hacia la que 
 
 se deriva dicho cambio*/
-# 416 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 536 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] ){
 
    if ((scrollSTATE == opcion)&&(SELECT)){
