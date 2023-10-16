@@ -88,8 +88,9 @@ int  addRECparam [9] = {0,0,0,0,0,0,0,99999,99999};
 int  addRECshowparam[4];
 int  addRECcantidad = 0;
 
-int RECETA[10][9] = {
-  {0, 0, 0, 0, 0, 0, 0, 99999, 99999},
+//La primera fila del array es inaccesible para el programa ya que esta reservada para edicion
+int RECETA[11][9] = {
+  {1, 0, 0, 0, 0, 0, 0, 99999, 99999},
   {1, 0, 0, 0, 0, 0, 0, 99999, 99999},
   {2, 0, 0, 0, 0, 0, 0, 99999, 99999},
   {3, 0, 0, 0, 0, 0, 0, 99999, 99999},
@@ -98,46 +99,47 @@ int RECETA[10][9] = {
   {6, 0, 0, 0, 0, 0, 0, 99999, 99999},
   {7, 0, 0, 0, 0, 0, 0, 99999, 99999},
   {8, 0, 0, 0, 0, 0, 0, 99999, 99999},
-  {9, 0, 0, 0, 0, 0, 0, 99999, 99999}
+  {9, 0, 0, 0, 0, 0, 0, 99999, 99999},
+  {10, 0, 0, 0, 0, 0, 0, 99999, 99999}
 };
 
 
 //INTERRUPCION BOTON UP
-#line 255 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 264 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setup();
-#line 426 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 443 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void loop();
-#line 812 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 870 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarVISTA(char entrada[][20], char salida[4][20], int scroll, int filas);
-#line 831 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 889 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling(int filas);
-#line 851 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 909 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollSIGN(int filas);
-#line 871 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 929 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTA(char menu[][20],int opciones);
-#line 892 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 950 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] );
-#line 905 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 963 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingMENU(char menu[4][20], int valor);
-#line 912 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 970 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioSETTING(char destino[12]);
-#line 921 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 979 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setterFUNC(int steps, int setSTEP, int startIndex, int limit);
-#line 954 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1012 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingBACK(char destino[12]);
-#line 964 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1022 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollingSETMENU();
-#line 984 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1042 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling2();
-#line 1004 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1062 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAsettmenu(char menu[][20],int opciones, int valor);
-#line 1024 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1082 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioEVENTO(char destino[12]);
-#line 1039 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1097 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarPARAMS(int entrada[9], int salida_int[4], int scroll, int filas);
-#line 1058 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1116 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAparams(char menu[][20],int entrada[9] ,int opciones);
-#line 104 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 106 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce
@@ -273,6 +275,13 @@ char C0A2Tsett[4][20]; //Declarar la matriz de la vista
 char C0A3notif[4][20]; //Declarar la matriz de la vista
 int C0A3notif_f = 4;   //Declarar opciones (filas del menu)
 
+//* sett C0B0
+char C0B0sett[4][20]; //Declarar la matriz de la vista
+int C0B0sett_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif C0B2
+char C0B1notif[4][20]; //Declarar la matriz de la vista
+int C0B1notif_f = 4;   //Declarar opciones (filas del menu)
 /*
 int menuA0_F = 5;
 char menuA0[5][20]; //Declarar la matriz de la vista
@@ -382,7 +391,7 @@ attachInterrupt(BUTTON3, BUTTONpress3, FALLING);
   strcpy(C0scroll[3],  "Volver");
   //* C0A0
   strcpy(C0A0sett[0],  "Seleccione receta");
-  strcpy(C0A0sett[1],  "0 /10");
+  strcpy(C0A0sett[1],  "  /10");
   strcpy(C0A0sett[2],  "Confirmar");
   strcpy(C0A0sett[3],  "Volver");
   //* C0A1X 
@@ -415,8 +424,16 @@ attachInterrupt(BUTTON3, BUTTONpress3, FALLING);
   strcpy(C0A3notif[1],  "correctamente.");
   strcpy(C0A3notif[2],  "");
   strcpy(C0A3notif[3],  "Volver");
-
-
+  //* C0B0
+  strcpy(C0B0sett[0],  "Seleccione receta;");
+  strcpy(C0B0sett[1],  "  /10");
+  strcpy(C0B0sett[2],  "Confirmar");
+  strcpy(C0B0sett[3],  "Volver");
+  //* C0B1
+  strcpy(C0B1notif[0],  "Receta eliminada");
+  strcpy(C0B1notif[1],  "correctamente.");
+  strcpy(C0B1notif[2],  "");
+  strcpy(C0B1notif[3],  "Volver");
 
 
 /*
@@ -509,6 +526,7 @@ else if (strcmp(VISTA, "A0B0") == 0) {
    //! VISTA SETTING
    settingMENU(A0B0sett,receta_seleccionada);
    //Cambio de vista al setting loop (indicar CASE del setting LOOP)
+   Serial.println(RECETA[receta_seleccionada][0]);
    //!MODELO
    cambioSETTING("A0B0set");
    //Cambio de vista confirmacion
@@ -518,9 +536,11 @@ else if (strcmp(VISTA, "A0B0") == 0) {
 } 
 else if (strcmp(VISTA, "A0B0set") == 0){
    //!VISTA SETTING LOOP
-   setterFUNC(10,1,1,20);
+   setterFUNC(10,1,1,10);
    receta_seleccionada = valuetoSET;
    settingBACK("A0B0");
+   //Printear receta seleccionada
+   
 }
 else if (strcmp(VISTA, "A0B1") == 0) {
    //!VISTA NOTIF
@@ -641,6 +661,7 @@ else if (strcmp(VISTA, "C0") == 0) {
 
    //Cambio de vista 
    cambioVISTA(1,"C0A0");
+   cambioVISTA(2,"C0B0");
    //go BACK
    cambioVISTA(3,"MAIN");
 } 
@@ -648,14 +669,22 @@ else if (strcmp(VISTA, "C0A0") == 0) {
    //! VISTA SETTING
    settingMENU(C0A0sett,addREC_slot);
    //Cambio de vista al setting loop (indicar CASE del setting LOOP)
-   //!MODELO
+   //!MODELO 
+
+   //Asegurar que si no se entre al setting loop se parta desde 1 
    cambioSETTING("C0A0set");
    //Cambio de vista confirmacion
    if (slotDISPONIBLE){
+   for (int i = 0; i < 9; i++) {
+   RECETA[0][i] = RECETA[addREC_slot][i];
+   }
    cambioVISTA(2,"C0A1");
    }
    else{
    cambioVISTA(2,"C0A1X");  
+   for (int i = 0; i < 9; i++) {
+   RECETA[0][i] = RECETA[addREC_slot][i];
+   }
    }
    //Cambio de vista al menu anterior
    cambioVISTA(3,"C0");
@@ -664,9 +693,7 @@ else if (strcmp(VISTA, "C0A0set") == 0){
    //!VISTA SETTING LOOP
    setterFUNC(10,1,1,10);
    addREC_slot = valuetoSET;
-   for (int i = 0; i < 9; i++) {
-   addRECparam[i] = RECETA[addREC_slot][i];
-   }
+   //Asegurar que no acceda al array de setting
    settingBACK("C0A0");
 }
 else if (strcmp(VISTA, "C0A1X") == 0) {
@@ -690,7 +717,7 @@ else if (strcmp(VISTA, "C0A1") == 0) {
    //scrolling(C0scroll_f);
    scrolling(C0A1scroll_f);
    //generarVISTA(C0A1scroll,C0A1scroll_f);
-   generarVISTAparams(C0A1scroll,addRECparam,C0A1scroll_f);  
+   generarVISTAparams(C0A1scroll,RECETA[0],C0A1scroll_f);  
    scrollSIGN(C0A1scroll_f);
    //!MODELO
    addREC_ingSELECT = scrollSTATE;
@@ -698,31 +725,31 @@ else if (strcmp(VISTA, "C0A1") == 0) {
    //Cambio de vista 
    //* En este caso todo los cambios llevan al mismo setting menu, exceoto que la variable cambia de acuerdo al scrollSTATE
    if (scrollSTATE == 0){
-   addRECcantidad = addRECparam[addREC_ingSELECT];
+   addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(0,"C0A2I");}
    if (scrollSTATE == 1){
-   addRECcantidad = addRECparam[addREC_ingSELECT];
+   addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(1,"C0A2I");}
    if (scrollSTATE == 2){
-   addRECcantidad = addRECparam[addREC_ingSELECT];
+   addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(2,"C0A2I");}
    if (scrollSTATE == 3){
-   addRECcantidad = addRECparam[addREC_ingSELECT];
+   addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(3,"C0A2I");}
    if (scrollSTATE == 4){
-   addRECcantidad = addRECparam[addREC_ingSELECT];
+   addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(4,"C0A2I");}
    if (scrollSTATE == 5){
-   addRECcantidad = addRECparam[addREC_ingSELECT];
+   addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(5,"C0A2I");}
    if (scrollSTATE == 6){
-   addRECcantidad = addRECparam[addREC_ingSELECT];
+   addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(6,"C0A2T");}
 
    //GUARDAR EDICION
    if ((scrollSTATE == 7)&&(SELECT)){
-   for (int i = 0; i < 6; i++) {
-   RECETA[addREC_slot][i] = addRECparam[i];
+   for (int i = 0; i < 7; i++) {
+   RECETA[addREC_slot][i] = RECETA[0][i];
    }
    cambioVISTA(7,"C0");}
    //go BACK
@@ -743,7 +770,7 @@ else if (strcmp(VISTA, "C0A2Iset") == 0){
    //!VISTA SETTING LOOP
    setterFUNC(10,100,0,1000);
    addRECcantidad = valuetoSET;
-   addRECparam[addREC_ingSELECT] = valuetoSET;
+   RECETA[0][addREC_ingSELECT] = valuetoSET;
    settingBACK("C0A2I");
    
 }
@@ -762,7 +789,7 @@ else if (strcmp(VISTA, "C0A2Tset") == 0){
    //!VISTA SETTING LOOP
    setterFUNC(10,10,0,300);
    addRECcantidad = valuetoSET;
-   addRECparam[addREC_ingSELECT] = valuetoSET;
+   RECETA[0][addREC_ingSELECT] = valuetoSET;
    settingBACK("C0A2T");
    
 }
@@ -774,8 +801,39 @@ else if (strcmp(VISTA, "C0A3") == 0){
    //Cambio de vista 
    cambioEVENTO("C0");
 }
+else if (strcmp(VISTA, "C0B0") == 0) {
+   //! VISTA SETTING
+   settingMENU(C0B0sett,addREC_slot);
+   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
+   
+   //!MODELO
+   cambioSETTING("C0B0set");
+   //Cambio de vista confirmacion
+   cambioVISTA(2,"C0B1");
+   //Cambio de vista al menu anterior
+   cambioVISTA(3,"C0");
+} 
+else if (strcmp(VISTA, "C0B0set") == 0){
+   //!VISTA SETTING LOOP
+   setterFUNC(10,1,1,10);
+   addREC_slot = valuetoSET;
+   //Asegurar que no acceda al array de setting
+   settingBACK("C0B0");
+}
+else if (strcmp(VISTA, "C0B1") == 0){
+   //!VISTA NOTIF
+   generarVISTA(C0B1notif,C0B1notif_f);
 
+   //!MODELO
+   //Cambio de vista 
+   for (int i = 0; i < 7; i++) {
+   RECETA[addREC_slot][i] = 0;
+   }
 
+   Serial.println(addREC_slot);
+   Serial.println(RECETA[addREC_slot][0]);
+   cambioEVENTO("C0");
+}
 
 
 
