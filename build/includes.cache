@@ -21,6 +21,11 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\build\\sketch\\sopaMENU.ino.cpp",
+    "Include": "EEPROM.h",
+    "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\EEPROM\\src"
+  },
+  {
+    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\build\\sketch\\sopaMENU.ino.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -31,6 +36,11 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\Wire\\src\\Wire.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\EEPROM\\src\\EEPROM.cpp",
     "Include": "",
     "Includepath": null
   }
