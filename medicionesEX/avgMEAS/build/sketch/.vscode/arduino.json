@@ -1,0 +1,7 @@
+#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS\\.vscode\\arduino.json"
+{
+    "sketch": "avgMEAS.ino",
+    "output": "build",
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
+    "board": "esp32:esp32:esp32doit-devkit-v1"
+}

@@ -143,13 +143,13 @@ int RECETA[11][9] = {
 void __attribute__((section(".iram1" "." "28"))) BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce
-if (buttonTIME - lastBTIME > 250)
+if (buttonTIME - lastBTIME > 500)
 {
    UP = true;
    DOWN = false;
    SELECT = false;
    EVENT = true;
-   //Serial.println("UP  presionado");
+   Serial.println("UP  presionado");
 
 lastBTIME = buttonTIME;
  }
@@ -159,13 +159,13 @@ lastBTIME = buttonTIME;
 void __attribute__((section(".iram1" "." "29"))) BUTTONpress2(){
    buttonTIME = millis();
 //Condicion para el debounce
-if (buttonTIME - lastBTIME > 250)
+if (buttonTIME - lastBTIME > 500)
 {
    UP = false;
    DOWN = true;
    SELECT = false;
    EVENT = true;
-   //Serial.println("DOWN  presionado");
+   Serial.println("DOWN  presionado");
 
 lastBTIME = buttonTIME;
  }
@@ -175,13 +175,13 @@ lastBTIME = buttonTIME;
 void __attribute__((section(".iram1" "." "30"))) BUTTONpress3(){
    buttonTIME = millis();
 //Condicion para el debounce
-if (buttonTIME - lastBTIME > 250)
+if (buttonTIME - lastBTIME > 500)
 {
    UP = false;
    DOWN = false;
    SELECT = true;
    EVENT = true;
-   //Serial.println("SELECT  presionado");
+   Serial.println("SELECT  presionado");
 
 lastBTIME = buttonTIME;
  }
@@ -313,14 +313,14 @@ char menuA0A0Conf[4][20];
 void setup(){
 Serial.begin(115200);
 //Interrupciones
-pinMode(18, 0x09);
-attachInterrupt(18, BUTTONpress1, 0x02);
+pinMode(18, 0x05);
+attachInterrupt((((18)<40)?(18):-1), BUTTONpress1, 0x02);
 
-pinMode(19, 0x09);
-attachInterrupt(19, BUTTONpress2, 0x02);
+pinMode(19, 0x05);
+attachInterrupt((((19)<40)?(19):-1), BUTTONpress2, 0x02);
 
-pinMode(17, 0x09);
-attachInterrupt(17, BUTTONpress3, 0x02);
+pinMode(17, 0x05);
+attachInterrupt((((17)<40)?(17):-1), BUTTONpress3, 0x02);
 
 
 

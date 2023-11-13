@@ -143,13 +143,13 @@ void generarVISTAparams(char menu[][20],int entrada[9] ,int opciones);
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce
-if (buttonTIME - lastBTIME > 250)
+if (buttonTIME - lastBTIME > 500)
 {
    UP     = true;
    DOWN   = false;
    SELECT = false;
    EVENT  = true;
-   //Serial.println("UP  presionado");
+   Serial.println("UP  presionado");
    
 lastBTIME = buttonTIME;
  }
@@ -159,13 +159,13 @@ lastBTIME = buttonTIME;
 void IRAM_ATTR BUTTONpress2(){
    buttonTIME = millis();
 //Condicion para el debounce
-if (buttonTIME - lastBTIME > 250)
+if (buttonTIME - lastBTIME > 500)
 {
    UP     = false;
    DOWN   = true;
    SELECT = false;
    EVENT  = true;
-   //Serial.println("DOWN  presionado");
+   Serial.println("DOWN  presionado");
    
 lastBTIME = buttonTIME;
  }
@@ -175,13 +175,13 @@ lastBTIME = buttonTIME;
 void IRAM_ATTR BUTTONpress3(){
    buttonTIME = millis();
 //Condicion para el debounce
-if (buttonTIME - lastBTIME > 250)
+if (buttonTIME - lastBTIME > 500)
 {
    UP     = false;
    DOWN   = false;
    SELECT = true;
    EVENT  = true;
-   //Serial.println("SELECT  presionado");
+   Serial.println("SELECT  presionado");
    
 lastBTIME = buttonTIME;
  }
@@ -301,14 +301,14 @@ char menuA0A0Conf[4][20];
 void setup(){
 Serial.begin(115200);
 //Interrupciones
-pinMode(BUTTON1, INPUT_PULLDOWN);
-attachInterrupt(BUTTON1, BUTTONpress1, FALLING);
+pinMode(BUTTON1, INPUT_PULLUP);
+attachInterrupt(digitalPinToInterrupt(BUTTON1), BUTTONpress1, FALLING);
 
-pinMode(BUTTON2, INPUT_PULLDOWN);
-attachInterrupt(BUTTON2, BUTTONpress2, FALLING);
+pinMode(BUTTON2, INPUT_PULLUP);
+attachInterrupt(digitalPinToInterrupt(BUTTON2), BUTTONpress2, FALLING);
 
-pinMode(BUTTON3, INPUT_PULLDOWN);
-attachInterrupt(BUTTON3, BUTTONpress3, FALLING);
+pinMode(BUTTON3, INPUT_PULLUP);
+attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
 
 
 
