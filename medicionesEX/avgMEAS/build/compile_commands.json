@@ -1,6 +1,6 @@
 [
  {
-  "directory": "c:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS",
+  "directory": "c:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\avgMEAS",
   "arguments": [
    "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\xtensa-esp32-elf-gcc\\esp-2021r2-patch5-8.4.0/bin/xtensa-esp32-elf-g++",
    "-DHAVE_CONFIG_H",
@@ -233,14 +233,14 @@
    "-DESP32",
    "-DCORE_DEBUG_LEVEL=0",
    "-DARDUINO_USB_CDC_ON_BOOT=0",
-   "@c:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS\\build/build_opt.h",
-   "@c:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS\\build/file_opts",
+   "@C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\avgMEAS\\build/build_opt.h",
+   "@C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\avgMEAS\\build/file_opts",
    "-IC:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\cores\\esp32",
    "-IC:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\variants\\doitESP32devkitV1",
-   "c:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp",
+   "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp",
    "-o",
-   "c:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp.o"
+   "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp.o"
   ],
-  "file": "c:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp"
+  "file": "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp"
  }
 ]

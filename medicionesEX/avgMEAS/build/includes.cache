@@ -10,7 +10,7 @@
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\variants\\doitESP32devkitV1"
   },
   {
-    "Sourcefile": "c:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\avgMEAS\\build\\sketch\\avgMEAS.ino.cpp",
     "Include": "",
     "Includepath": null
   }
