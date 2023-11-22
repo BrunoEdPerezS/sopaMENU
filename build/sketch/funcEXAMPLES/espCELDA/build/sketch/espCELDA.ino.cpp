@@ -8,6 +8,18 @@
 
 
 
+
+volatile bool initCARGA = false;
+volatile bool initPURGA = false;
+volatile bool initVERTX = false;
+
+volatile bool STOPX = false;
+
+
+
+
+
+
 // REPLACE WITH THE MAC Address of your receiver 
 uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
 
@@ -18,27 +30,27 @@ esp_now_peer_info_t master;
 
 
 // Callback when data is sent
-#line 18 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 30 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
-#line 24 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 36 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 69 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 82 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void setup();
-#line 102 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 115 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void loop();
-#line 105 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 139 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 130 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 164 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void cargasCELDA();
-#line 134 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 177 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void purgaCELDA();
-#line 138 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 181 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void vertxCELDA(int cantidad);
-#line 142 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 185 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void estadCELDA();
-#line 146 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 189 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void driveCELDA();
-#line 18 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
+#line 30 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.print("\r\nLast Packet Send Status:\t");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
@@ -56,13 +68,13 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   //* Filtrado de comandos
 
   if (ORDEN == "CARGA"){
-    cargasCELDA();
+    initCARGA = true;
   }
   else if (ORDEN == "PURGA"){
-    purgaCELDA();
+    initPURGA = true;
   }
   else if (ORDEN == "VERTX"){
-    vertxCELDA(CANTIDAD);
+    initVERTX = true;
   }
   else if (ORDEN == "ESTAD"){
     estadCELDA();
@@ -71,6 +83,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     driveCELDA();
   }
   else if (ORDEN == "STOPX"){
+    STOPX = true;
     Serial.println("ORDEN DE STOP");
   }
   else{
@@ -124,6 +137,27 @@ void setup() {
 }
 
 void loop() {
+
+if(initCARGA){
+cargasCELDA();
+initCARGA = false;
+}
+else if (initPURGA)
+{
+  purgaCELDA();
+  initPURGA = false;
+}
+else if (initVERTX)
+{
+  vertxCELDA(5000);
+  initVERTX = false;
+}
+else
+{
+  Serial.println("Celda inactiva");
+}
+
+delay(500);
 }
 
 void sendSTRING(String messageToSend, uint8_t* MAC){
@@ -153,6 +187,15 @@ void sendSTRING(String messageToSend, uint8_t* MAC){
 
 void cargasCELDA(){
   Serial.println("CARGA iniciada");
+  Serial.println("PESO TARADO");
+  while (STOPX == false)
+  {
+    Serial.println("CARGUE EL CONTENEDOR");
+    delay(100);
+  }
+  STOPX = false;
+  Serial.println("Carga realizada.");
+  
 }
 
 void purgaCELDA(){

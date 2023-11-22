@@ -7,6 +7,18 @@
 
 
 
+
+volatile bool initCARGA = false;
+volatile bool initPURGA = false;
+volatile bool initVERTX = false;
+
+volatile bool STOPX = false;
+
+
+
+
+
+
 // REPLACE WITH THE MAC Address of your receiver 
 uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
 
@@ -34,13 +46,13 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   //* Filtrado de comandos
 
   if (ORDEN == "CARGA"){
-    cargasCELDA();
+    initCARGA = true;
   }
   else if (ORDEN == "PURGA"){
-    purgaCELDA();
+    initPURGA = true;
   }
   else if (ORDEN == "VERTX"){
-    vertxCELDA(CANTIDAD);
+    initVERTX = true;
   }
   else if (ORDEN == "ESTAD"){
     estadCELDA();
@@ -49,6 +61,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     driveCELDA();
   }
   else if (ORDEN == "STOPX"){
+    STOPX = true;
     Serial.println("ORDEN DE STOP");
   }
   else{
@@ -102,6 +115,27 @@ void setup() {
 }
 
 void loop() {
+
+if(initCARGA){
+cargasCELDA();
+initCARGA = false;
+}
+else if (initPURGA)
+{
+  purgaCELDA();
+  initPURGA = false;
+}
+else if (initVERTX)
+{
+  vertxCELDA(5000);
+  initVERTX = false;
+}
+else
+{
+  Serial.println("Celda inactiva");
+}
+
+delay(500);
 }
 
 void sendSTRING(String messageToSend, uint8_t* MAC){
@@ -131,6 +165,15 @@ void sendSTRING(String messageToSend, uint8_t* MAC){
 
 void cargasCELDA(){
   Serial.println("CARGA iniciada");
+  Serial.println("PESO TARADO");
+  while (STOPX == false)
+  {
+    Serial.println("CARGUE EL CONTENEDOR");
+    delay(100);
+  }
+  STOPX = false;
+  Serial.println("Carga realizada.");
+
 }
 
 void purgaCELDA(){

@@ -28,25 +28,26 @@ volatile bool UP     = false;
 volatile bool DOWN   = false;
 volatile bool SELECT = false;
 volatile bool EVENT  = true;
+volatile bool initCARGA = false;
 
 //INTERRUPCION BOTON UP
-#line 106 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 107 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
-#line 112 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 113 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 131 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 140 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void setup();
-#line 229 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 239 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void loop();
-#line 279 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 296 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 305 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 322 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void funcCARGA(uint8_t *cellADDRESS);
-#line 327 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 338 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void funcPURGA(uint8_t *cellADDRESS);
-#line 335 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 346 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void funcVERTX(uint8_t *cellADDRESS,int cantidad);
-#line 30 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 31 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce
@@ -133,6 +134,14 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   String receivedMessage = String((char*)incomingData);
   Serial.println("Mensaje recibido: ");
   Serial.println(receivedMessage);
+  if (receivedMessage == "initCARGA"){
+    initCARGA == true;
+  }
+
+
+
+
+
   digitalWrite(2,HIGH);
   delay(500);
   digitalWrite(2,LOW);
@@ -240,7 +249,8 @@ void setup() {
 
   pinMode(2,OUTPUT);
   digitalWrite(2,LOW);
-
+  lcd.init();                      
+  lcd.backlight();
 
 
 
@@ -254,6 +264,13 @@ void loop() {
   funcCARGA(macCELDA_A);
   delay(2000);
   UP = false;
+  }
+  delay(500);
+  
+  if (SELECT){
+  sendSTRING("STOPX",macCELDA_A);
+  delay(2000);
+  SELECT = false;
   }
   delay(500);
 
@@ -328,20 +345,14 @@ void funcCARGA(uint8_t *cellADDRESS){
   // Concatenar "CARGA" con el número
   sprintf(buffer, "CARGA");
   sendSTRING(buffer,cellADDRESS);
+  delay(2000);
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Funcion de carga");
   lcd.setCursor(0,1);
   lcd.print("Carga en curso");
-  
-
-
-
-
-
-
-
-
+  lcd.setCursor(0,2);
+  lcd.print("Pulsa para detener");
 }
 
 void funcPURGA(uint8_t *cellADDRESS){

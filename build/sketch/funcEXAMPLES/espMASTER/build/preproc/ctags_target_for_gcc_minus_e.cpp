@@ -31,6 +31,7 @@ volatile bool UP = false;
 volatile bool DOWN = false;
 volatile bool SELECT = false;
 volatile bool EVENT = true;
+volatile bool initCARGA = false;
 
 //INTERRUPCION BOTON UP
 void __attribute__((section(".iram1" "." "28"))) BUTTONpress1(){
@@ -119,6 +120,14 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   String receivedMessage = String((char*)incomingData);
   Serial.println("Mensaje recibido: ");
   Serial.println(receivedMessage);
+  if (receivedMessage == "initCARGA"){
+    initCARGA == true;
+  }
+
+
+
+
+
   digitalWrite(2,0x1);
   delay(500);
   digitalWrite(2,0x0);
@@ -136,7 +145,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   }
 
   */
-# 127 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 136 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 }
 
 
@@ -233,7 +242,8 @@ void setup() {
 
   pinMode(2,0x03);
   digitalWrite(2,0x0);
-
+  lcd.init();
+  lcd.backlight();
 
 
 
@@ -247,6 +257,13 @@ void loop() {
   funcCARGA(macCELDA_A);
   delay(2000);
   UP = false;
+  }
+  delay(500);
+
+  if (SELECT){
+  sendSTRING("STOPX",macCELDA_A);
+  delay(2000);
+  SELECT = false;
   }
   delay(500);
 
@@ -273,7 +290,7 @@ void loop() {
   delay(2000);
 
   */
-# 257 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 274 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
   /*
 
   Serial.println("\nCELDA B");
@@ -313,7 +330,7 @@ void loop() {
   delay(2000);
 
   */
-# 277 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 294 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 }
 
 void sendSTRING(String messageToSend, uint8_t* MAC){
@@ -348,12 +365,14 @@ void funcCARGA(uint8_t *cellADDRESS){
   // Concatenar "CARGA" con el número
   sprintf(buffer, "CARGA");
   sendSTRING(buffer,cellADDRESS);
+  delay(2000);
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Funcion de carga");
   lcd.setCursor(0,1);
   lcd.print("Carga en curso");
-# 325 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+  lcd.setCursor(0,2);
+  lcd.print("Pulsa para detener");
 }
 
 void funcPURGA(uint8_t *cellADDRESS){
