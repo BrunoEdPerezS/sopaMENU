@@ -1,0 +1,26 @@
+
+
+Comandos de funcion normales:
+La sintaxis es RUN <ESPACIO> <COMANDO DE 5 CARACTERES> <ESPACIO> <CELDAX, DONDE X ES EL NUMERO DE LA CELDA>
+EJEMPLO: RUN <funcion> <CELDAX> 
+
+COMANDOS:
+
+RUN CARGA CELDA0 -> Inicia funcion de carga
+RUN PURGA CELDA0 -> Inicia funcion de purga
+RUN TAREX CELDA0 -> Inicia funcion de tara
+
+Comandos de funcion CON ARGUMENTO
+La sintaxis es RUN <ESPACIO> <COMANDO DE 5 CARACTERES> <ESPACIO> <CELDAX, DONDE X ES EL NUMERO DE LA CELDA> <ESPACIO> <ARGUMENTO, ENTERO DE 4 DIGITOS>
+EJEMPLO: RUN <funcion> <CELDAX> <ARGUMENTO>
+
+RUN VERTX CELDA0 1000 -> Inicia funcion de vertimiento para 1000 gramos.
+RUN CALIB CELDA0 500  -> Inicia funcion de calibracion con 500 gramos.
+
+Comando de envío variables:
+La sintaxis es SND <ESPACIO> <COMANDO DE 5 CARACTERES> <ESPACIO> <CELDAX, DONDE X ES EL NUMERO DE LA CELDA>
+EJEMPLO: SND <comando> <CELDAX> 
+
+SND STOPX CELDA0 -> Señal de parada
+SND PRINT CELDA0 -> Init de print
+

@@ -1,9 +1,11 @@
 # 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 //* COMUNICACION MULTICELDA DESDE EL MASTER
+//* Control con comandos
 
-# 4 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 2
-# 5 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 2
+
 # 6 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 2
+# 7 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 2
+# 8 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 2
 
 // Init del LCD y del display
 int lcdColumns = 20;
@@ -18,9 +20,9 @@ LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);
 unsigned long buttonTIME = 0;
 unsigned long lastBTIME = 0;
 hw_timer_t *My_timer = 
-# 19 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 3 4
+# 21 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 3 4
                       __null
-# 19 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 21 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
                           ;
 portMUX_TYPE mux = {.owner = 0xB33FFFFF,.count = 0} /**< Spinlock initializer */;
 
@@ -31,7 +33,7 @@ volatile bool DOWN = false;
 volatile bool SELECT = false;
 volatile bool EVENT = true;
 volatile bool initCARGA = false;
-
+String substrings[4];
 //INTERRUPCION BOTON UP
 void __attribute__((section(".iram1" "." "28"))) BUTTONpress1(){
    buttonTIME = millis();
@@ -85,7 +87,8 @@ lastBTIME = buttonTIME;
 
 
 // REPLACE WITH THE MAC Address of your receiver 
-uint8_t macCELDA_A[] = {0xA0, 0xB7, 0x65, 0xDD, 0x4, 0x5C};
+//uint8_t macCELDA_A[] = {0xA0, 0xB7, 0x65, 0xDD, 0x4, 0x5C};
+uint8_t macCELDA_A[] = {0x94, 0xB5, 0x55, 0xF9, 0x12, 0x68};
 uint8_t macCELDA_B[] = {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8};
 uint8_t macCELDA_C[] = {0xA1, 0xB7, 0x65, 0xDC, 0x15, 0xA8};
 uint8_t macCELDA_D[] = {0xA2, 0xB7, 0x65, 0xDD, 0x4, 0x5C};
@@ -93,7 +96,15 @@ uint8_t macCELDA_E[] = {0xA3, 0xB7, 0x65, 0xDC, 0x15, 0xA8};
 uint8_t macCELDA_F[] = {0xA4, 0xB7, 0x65, 0xDC, 0x15, 0xA8};
 uint8_t macCELDA_G[] = {0xA4, 0xB7, 0x65, 0xDC, 0x15, 0xA8};
 
-
+uint8_t macCeldas[][6] = {
+  {0x94, 0xB5, 0x55, 0xF9, 0x12, 0x68},
+  {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA1, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA2, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
+  {0xA3, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA4, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA4, 0xB7, 0x65, 0xDC, 0x15, 0xA8}
+};
 
 
 // Define the message to be sent as a string
@@ -117,34 +128,19 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 // Callback when data is received
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   String receivedMessage = String((char*)incomingData);
-  Serial.println("Mensaje recibido: ");
-  Serial.println(receivedMessage);
-  if (receivedMessage == "initCARGA"){
-    initCARGA == true;
-  }
 
-
-
-
-
-  digitalWrite(2,0x1);
-  delay(500);
-  digitalWrite(2,0x0);
-  // Verifica si el mensaje recibido es "string2" y, si es así, imprímelo
-  /*
-
-  if (receivedMessage.equals("RESPUESTA1")) {
-
-    Serial.println("Mensaje recibido");
-
+  // Verifica si los primeros 5 caracteres del mensaje son "print"
+  String HEADER = receivedMessage.substring(0, 5);
+  String TEXTO = receivedMessage.substring(5, len);
+  if (HEADER.equalsIgnoreCase("print")) {
+    Serial.println(TEXTO);
+    digitalWrite(2, 0x1);
+    delay(500);
+    digitalWrite(2, 0x0);
+    delay(500);
   } else {
-
-    Serial.println("Received message: " + receivedMessage);
-
+    Serial.println("Mensaje recibido no válido: " + receivedMessage);
   }
-
-  */
-# 136 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 }
 
 
@@ -152,7 +148,6 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 void setup() {
   // Init Serial Monitor
   Serial.begin(115200);
-
   //Interrupciones
   pinMode(18, 0x05);
   attachInterrupt((((18)<40)?(18):-1), BUTTONpress1, 0x02);
@@ -175,31 +170,31 @@ void setup() {
   esp_now_register_recv_cb(OnDataRecv);
 
   //* REGISTRAR PEERS
-  memcpy(celda1.peer_addr, macCELDA_A, 6);
+  memcpy(celda1.peer_addr, macCeldas[0], 6);
   celda1.channel = 1;
   celda1.encrypt = false;
 
-  memcpy(celda2.peer_addr, macCELDA_B, 6);
+  memcpy(celda2.peer_addr, macCeldas[1], 6);
   celda2.channel = 1;
   celda2.encrypt = false;
 
-  memcpy(celda3.peer_addr, macCELDA_C, 6);
+  memcpy(celda3.peer_addr, macCeldas[2], 6);
   celda3.channel = 1;
   celda3.encrypt = false;
 
-  memcpy(celda4.peer_addr, macCELDA_D, 6);
+  memcpy(celda4.peer_addr, macCeldas[3], 6);
   celda4.channel = 1;
   celda4.encrypt = false;
 
-  memcpy(celda5.peer_addr, macCELDA_E, 6);
+  memcpy(celda5.peer_addr, macCeldas[4], 6);
   celda5.channel = 1;
   celda5.encrypt = false;
 
-  memcpy(celda6.peer_addr, macCELDA_F, 6);
+  memcpy(celda6.peer_addr, macCeldas[5], 6);
   celda6.channel = 1;
   celda6.encrypt = false;
 
-  memcpy(celda6.peer_addr, macCELDA_G, 6);
+  memcpy(celda6.peer_addr, macCeldas[6], 6);
   celda7.channel = 1;
   celda7.encrypt = false;
 
@@ -253,20 +248,29 @@ void loop() {
   Serial.println("\nCELDA A");
   //sendSTRING("Celda A request",macCELDA_A);
   if (UP){
-  funcCARGA(macCELDA_A);
+  funcCARGA(macCeldas[0]);
   delay(2000);
   UP = false;
   }
   delay(500);
-
+  if (DOWN){
+  //funcCARGA(macCELDA_A);
+  sendSTRING("ESTAD",macCeldas[0]);
+  delay(2000);
+  DOWN = false;
+  }
+  delay(500);
   if (SELECT){
-  sendSTRING("STOPX",macCELDA_A);
+  sendSTRING("STOPX",macCeldas[0]);
   delay(2000);
   SELECT = false;
   }
   delay(500);
 
-
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n'); // Lee la entrada hasta encontrar un salto de línea
+    processCommand(command);
+  }
 
 
 
@@ -289,7 +293,7 @@ void loop() {
   delay(2000);
 
   */
-# 274 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 285 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
   /*
 
   Serial.println("\nCELDA B");
@@ -329,7 +333,7 @@ void loop() {
   delay(2000);
 
   */
-# 294 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 305 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 }
 
 void sendSTRING(String messageToSend, uint8_t* MAC){
@@ -387,5 +391,112 @@ void funcVERTX(uint8_t *cellADDRESS,int cantidad){
   char buffer[10];
   // Concatenar "CARGA" con el número
   sprintf(buffer, "VERTX%d",cantidad);
+  Serial.println(buffer);
   sendSTRING(buffer,cellADDRESS);
+}
+
+void calibCELL(uint8_t *cellADDRESS,int cantidad){
+  // Buffer para convertir el número a cadena
+  char buffer[10];
+  // Concatenar "CARGA" con el número
+  sprintf(buffer, "CALIB%d",cantidad);
+  Serial.println(buffer);
+  sendSTRING(buffer,cellADDRESS);
+}
+
+void processCommand(String command) {
+
+  separarCadena(command,substrings);
+  String HEADER = substrings[0]; //command.substring(0, 3);
+  String COMANDO = substrings[1];//command.substring(4, 9);
+  String CELDA = substrings[2];//command.substring(10, 16);
+  String CANTIDAD = substrings[3];
+  int CANTIDADnum = CANTIDAD.toInt();
+  //Determinar CELDAOBJETIVO
+  int numeroCelda = CELDA.charAt(5) - '0';
+
+  if (HEADER.equals("RUN")){
+    //Serial.print("Correr funcion: ");
+    if (COMANDO.equals("CARGA")){
+      //Serial.printf(" de CARGA en la CELDA %d \n",numeroCelda);
+      funcCARGA(macCeldas[numeroCelda]);
+    }else if (COMANDO.equals("VERTX"))
+    {
+      //Serial.printf(" de VERTX en la CELDA %d \n",numeroCelda);
+      funcVERTX(macCeldas[numeroCelda],CANTIDADnum);
+    }else if (COMANDO.equals("PURGA"))
+    {
+      //Serial.printf(" de VERTX en la CELDA %d \n",numeroCelda);
+      funcPURGA(macCeldas[numeroCelda]);
+    }else if (COMANDO.equals("TAREX"))
+    {
+      //Serial.printf(" de VERTX en la CELDA %d \n",numeroCelda);
+      sendSTRING("TAREX",macCeldas[numeroCelda]);
+    }else if (COMANDO.equals("CALIB"))
+    {
+      calibCELL(macCeldas[numeroCelda],CANTIDADnum);
+    }
+
+
+  }else if(HEADER.equals("SND")){
+    //Serial.println("Enviar comando: ");
+    if (COMANDO.equals("STOPX")){
+      //Serial.printf(" de STOPX a la CELDA %d \n",numeroCelda);
+      sendSTRING("STOPX",macCeldas[numeroCelda]);
+    }else if(COMANDO.equals("PRINT")){
+      sendSTRING("PRINT",macCeldas[numeroCelda]);
+    }
+  }
+
+
+
+
+
+
+  Serial.println(HEADER);
+  Serial.println(COMANDO);
+  Serial.println(CELDA);
+  Serial.println(CANTIDAD);
+  /*
+
+  if (COMANDO.equals("CARGA")) {
+
+    funcCARGA(macCELDA_A);
+
+    delay(2000);
+
+  }
+
+  */
+# 434 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+}
+
+
+
+void separarCadena(String cadena, String* resultado) {
+  int espacio1, espacio2;
+  espacio1 = cadena.indexOf(' ');
+
+  if (espacio1 != -1) {
+    resultado[0] = cadena.substring(0, espacio1);
+    espacio2 = cadena.indexOf(' ', espacio1 + 1);
+
+    if (espacio2 != -1) {
+      resultado[1] = cadena.substring(espacio1 + 1, espacio2);
+      if((cadena.substring(espacio1 + 1, espacio2) == "VERTX")||(cadena.substring(espacio1 + 1, espacio2) == "CALIB")){
+        int espacio3 = cadena.indexOf(' ', espacio2 + 1);
+        resultado[2] = cadena.substring(espacio2 + 1,espacio3);
+        resultado[3] = cadena.substring(espacio3 + 1);
+      }else{
+      int espacio3 = cadena.indexOf(' ', espacio2 + 1);
+      if (espacio3 != -1){
+      resultado[2] = cadena.substring(espacio2 + 1,espacio3);
+      resultado[3] = "";
+      }else{
+      resultado[2] = cadena.substring(espacio2 + 1);
+      resultado[3] = "";
+      }
+      }
+    }
+  }
 }
