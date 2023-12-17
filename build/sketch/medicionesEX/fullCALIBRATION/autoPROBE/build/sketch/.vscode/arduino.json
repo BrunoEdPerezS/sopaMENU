@@ -1,0 +1,9 @@
+#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\fullCALIBRATION\\autoPROBE\\build\\sketch\\.vscode\\arduino.json"
+#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\fullCALIBRATION\\autoPROBE\\.vscode\\arduino.json"
+{
+    "sketch": "autoPROBE.ino",
+    "output": "build",
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
+    "board": "esp32:esp32:esp32doit-devkit-v1",
+    "port": "COM7"
+}

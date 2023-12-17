@@ -1,0 +1,8 @@
+#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\versiones\\v2\\espCELDA\\.vscode\\arduino.json"
+{
+    "sketch": "espCELDA.ino",
+    "output": "build",
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
+    "board": "esp32:esp32:esp32doit-devkit-v1",
+    "port": "COM3"
+}

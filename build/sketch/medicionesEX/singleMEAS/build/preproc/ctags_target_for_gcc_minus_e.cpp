@@ -16,13 +16,13 @@ const int LOADCELL_DOUT_PIN3 = 27;
 const int LOADCELL_SCK_PIN3 = 14;
 const int LOADCELL_DOUT_PIN4 = 12;
 const int LOADCELL_SCK_PIN4 = 13;
+int celdaMONITOR = 1;
 
 
-
-
-const long LOADCELL_OFFSET = 7135;
-const long LOADCELL_DIVIDER = 207;
-
+volatile long LOADCELL_DIVIDER1 = 207;
+volatile long LOADCELL_DIVIDER2 = 207;
+volatile long LOADCELL_DIVIDER3 = 207;
+volatile long LOADCELL_DIVIDER4 = 207;
 
 uint8_t remoteTXRX1[] = {0xA0, 0xB7, 0x65, 0xDD, 0x4, 0x5C};
 
@@ -89,14 +89,13 @@ void setup() {
 
   //celda1.set_gain(32);
   celda1.tare(10); // Set ZERO using an averaged 10 readings
-  celda1.set_scale(LOADCELL_DIVIDER); // Reads out in grams, approximately (for my test setup)
+  celda1.set_scale(LOADCELL_DIVIDER1); // Reads out in grams, approximately (for my test setup)
   celda2.tare(10); // Set ZERO using an averaged 10 readings
-  celda2.set_scale(LOADCELL_DIVIDER); // Reads out in grams, approximately (for my test setup)
+  celda2.set_scale(LOADCELL_DIVIDER2); // Reads out in grams, approximately (for my test setup)
   celda3.tare(10); // Set ZERO using an averaged 10 readings
-  celda3.set_scale(LOADCELL_DIVIDER); // Reads out in grams, approximately (for my test setup)
+  celda3.set_scale(LOADCELL_DIVIDER3); // Reads out in grams, approximately (for my test setup)
   celda4.tare(10); // Set ZERO using an averaged 10 readings
-  celda4.set_scale(LOADCELL_DIVIDER); // Reads out in grams, approximately (for my test setup)
-
+  celda4.set_scale(LOADCELL_DIVIDER4); // Reads out in grams, approximately (for my test setup)
 
   pinMode(2,0x03);
   digitalWrite(2,0x0);
@@ -109,16 +108,16 @@ void setup() {
 void loop() {
 
 
-    String myString1 = String("Celda1") + String("Raw:") + String(celda1.read()) + String(" Offset:") + String(celda1.get_offset()) + String(" celda1:") + String(celda1.get_scale()) + String(" Corrected:") + String(celda1.get_units(5));
-    String myString2 = String("Celda2") + String("Raw:") + String(celda2.read()) + String(" Offset:") + String(celda2.get_offset()) + String(" celda1:") + String(celda2.get_scale()) + String(" Corrected:") + String(celda2.get_units(5));
-    String myString3 = String("Celda3") + String("Raw:") + String(celda3.read()) + String(" Offset:") + String(celda3.get_offset()) + String(" celda1:") + String(celda3.get_scale()) + String(" Corrected:") + String(celda3.get_units(5));
-    String myString4 = String("Celda4") + String("Raw:") + String(celda4.read()) + String(" Offset:") + String(celda4.get_offset()) + String(" celda1:") + String(celda4.get_scale()) + String(" Corrected:") + String(celda4.get_units(5));
+    //String myString1 = String("Celda1") + String("Raw:") + String(celda1.read()) + String(" Offset:") + String(celda1.get_offset()) + String(" celda1:") + String(celda1.get_scale()) + String(" Corrected:") + String(celda1.get_units(5));
+
+
+    String myString1 = String(" Medidas: ") + String("C1: ") + String(celda1.get_units(5)) + String("  C2: ") + String(celda2.get_units(5)) + String("  C3: ") + String(celda3.get_units(5)) + String("  C4: ") + String(celda4.get_units(5));
 
     Serial.println("MEDICIONES: ");
     Serial.println(myString1);
-    Serial.println(myString2);
-    Serial.println(myString3);
-    Serial.println(myString4);
+    //Serial.println(myString2);
+    //Serial.println(myString3);
+    //Serial.println(myString4);
 
     /*
 
@@ -139,7 +138,7 @@ void loop() {
     sendSTRING(myString4);
 
     */
-# 131 "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\singleMEAS\\singleMEAS.ino"
+# 130 "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\singleMEAS\\singleMEAS.ino"
     delay(1000);
 
 }
