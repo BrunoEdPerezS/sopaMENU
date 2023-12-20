@@ -46,6 +46,11 @@ float tarado1, tarado2, tarado3, tarado4;
 float gainC1=1,gainC2=1,gainC3=1,gainC4=1;
 float meanCELDA =0; //Valor medio medido en la celda
 float CONTENIDO =0; //Carga que posee el contenedor
+float meanSCALED =0;
+float gainMEAN =1;
+float meanALL =0, meanOFFSET =0;
+
+
 int indice = 0;           // Índice actual en el array
 int CANTIDADVERT = 0;
 
@@ -63,43 +68,43 @@ HX711 celda3;
 HX711 celda4;
 
 // Callback when data is sent
-#line 64 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 69 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
-#line 70 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 75 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 133 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 138 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void setup();
-#line 177 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 182 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void loop();
-#line 260 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 266 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 285 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 291 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void cargaCELDA();
-#line 304 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 310 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void purgaCELDA();
-#line 319 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 325 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void vertxCELDA(int cantidad);
-#line 344 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 350 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void estadCELDA();
-#line 348 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 354 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void driveCELDA();
-#line 352 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 358 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 float calcularMediaMovil(float datosIN[30]);
-#line 360 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 366 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void tareCELLS();
-#line 367 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 374 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void resetCELLS();
-#line 378 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 386 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void cellMEASURE();
-#line 402 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 415 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void driverACTIVE(bool sentido);
-#line 414 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 427 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void driverSTOP();
-#line 420 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 433 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void calibrarCELDAS(int PESO);
-#line 440 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 455 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void sendDATOSLCD();
-#line 64 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 69 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   //Serial.print("\r\nLast Packet Send Status:\t");
   //Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
@@ -285,7 +290,8 @@ Serial.printf("C1: %.4f\n",tarado1);
 Serial.printf("C2: %.4f\n",tarado2);
 Serial.printf("C3: %.4f\n",tarado3);
 Serial.printf("C4: %.4f\n",tarado4);
-
+Serial.printf("Promedio:  %.4f\n",meanCELDA);
+Serial.printf("Promedio CORREX:  %.4f\n",meanSCALED);
 //float finalMEAN = (tarado1+tarado2+tarado3+tarado4)/4;
 //Serial.println(finalMEAN);
 sendDATOSLCD();
@@ -401,6 +407,7 @@ void tareCELLS(){
   offset2 = mean2;
   offset3 = mean3;
   offset4 = mean4;
+  meanOFFSET = meanALL;
 }
 
 void resetCELLS(){
@@ -412,6 +419,7 @@ void resetCELLS(){
   gainC2 = 1;
   gainC3 = 1;
   gainC4 = 1;
+  gainMEAN = 1;
 }
 
 void cellMEASURE(){
@@ -426,15 +434,20 @@ void cellMEASURE(){
   mean3 = calcularMediaMovil(buff3);
   mean4 = calcularMediaMovil(buff4);
 
+  meanALL = (mean1+mean2+mean3+mean4)/4;
+
 
   //(Mean - offset)*GAIN
   tarado1 = (mean1-offset1)*gainC1;
   tarado2 = (mean2-offset2)*gainC2;
   tarado3 = (mean3-offset3)*gainC3;
   tarado4 = (mean4-offset4)*gainC4; 
+  meanSCALED = (meanALL-meanOFFSET)*gainMEAN;
   
   //MEAN CELDA FINAL 
   meanCELDA = (tarado1+tarado2+tarado3+tarado4)/4;
+
+
   indice = (indice + 1) % numDatos;
 }
 
@@ -460,17 +473,19 @@ void calibrarCELDAS(int PESO){
   float PESOF = float(PESO);
   if (CANTIDADVERT == 9999){
   Serial.printf("Reseteando ganancias a 1\n");
-  gainC1 = 1;
-  gainC2 = 1;
-  gainC3 = 1;
-  gainC4 = 1;
+  gainC1   = 1;
+  gainC2   = 1;
+  gainC3   = 1;
+  gainC4   = 1;
+  gainMEAN = 1;
   }else{
   Serial.printf("Calibrando celdas con %d g.\n",CANTIDADVERT);
   cellMEASURE();
-  gainC1 = PESOF/(mean1-offset1);
-  gainC2 = PESOF/(mean2-offset2);
-  gainC3 = PESOF/(mean3-offset3);
-  gainC4 = PESOF/(mean4-offset4);
+  gainC1   = PESOF/(mean1-offset1);
+  gainC2   = PESOF/(mean2-offset2);
+  gainC3   = PESOF/(mean3-offset3);
+  gainC4   = PESOF/(mean4-offset4);
+  gainMEAN = PESOF/(meanALL-meanOFFSET);
   Serial.printf("Ganancias obtenidas G1:%.4f ,G1:%.4f ,G1:%.4f ,G1:%.4f \n",gainC1,gainC2,gainC3,gainC4);
   }
 

@@ -45,6 +45,11 @@ float tarado1, tarado2, tarado3, tarado4;
 float gainC1=1,gainC2=1,gainC3=1,gainC4=1;
 float meanCELDA =0; //Valor medio medido en la celda
 float CONTENIDO =0; //Carga que posee el contenedor
+float meanSCALED =0;
+float gainMEAN =1;
+float meanALL =0, meanOFFSET =0;
+
+
 int indice = 0; // Índice actual en el array
 int CANTIDADVERT = 0;
 
@@ -218,7 +223,7 @@ rawMEASURE = celda4.read();
 Serial.println(rawMEASURE);
 
 */
-# 211 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+# 216 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 // Buffers de medida
 /*
 
@@ -277,7 +282,7 @@ Serial.println(rawMEASURE);
 indice = (indice + 1) % numDatos;
 
 */
-# 241 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+# 246 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 cellMEASURE();
 // Imprimir resultado
 if (printENABLE){
@@ -286,7 +291,8 @@ Serial.printf("C1: %.4f\n",tarado1);
 Serial.printf("C2: %.4f\n",tarado2);
 Serial.printf("C3: %.4f\n",tarado3);
 Serial.printf("C4: %.4f\n",tarado4);
-
+Serial.printf("Promedio:  %.4f\n",meanCELDA);
+Serial.printf("Promedio CORREX:  %.4f\n",meanSCALED);
 //float finalMEAN = (tarado1+tarado2+tarado3+tarado4)/4;
 //Serial.println(finalMEAN);
 sendDATOSLCD();
@@ -379,7 +385,7 @@ void vertxCELDA(int cantidad){
     }
 
     */
-# 336 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+# 342 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
     delay(2000);
     break;
   }
@@ -409,6 +415,7 @@ void tareCELLS(){
   offset2 = mean2;
   offset3 = mean3;
   offset4 = mean4;
+  meanOFFSET = meanALL;
 }
 
 void resetCELLS(){
@@ -420,6 +427,7 @@ void resetCELLS(){
   gainC2 = 1;
   gainC3 = 1;
   gainC4 = 1;
+  gainMEAN = 1;
 }
 
 void cellMEASURE(){
@@ -434,15 +442,20 @@ void cellMEASURE(){
   mean3 = calcularMediaMovil(buff3);
   mean4 = calcularMediaMovil(buff4);
 
+  meanALL = (mean1+mean2+mean3+mean4)/4;
+
 
   //(Mean - offset)*GAIN
   tarado1 = (mean1-offset1)*gainC1;
   tarado2 = (mean2-offset2)*gainC2;
   tarado3 = (mean3-offset3)*gainC3;
   tarado4 = (mean4-offset4)*gainC4;
+  meanSCALED = (meanALL-meanOFFSET)*gainMEAN;
 
   //MEAN CELDA FINAL 
   meanCELDA = (tarado1+tarado2+tarado3+tarado4)/4;
+
+
   indice = (indice + 1) % numDatos;
 }
 
@@ -472,6 +485,7 @@ void calibrarCELDAS(int PESO){
   gainC2 = 1;
   gainC3 = 1;
   gainC4 = 1;
+  gainMEAN = 1;
   }else{
   Serial.printf("Calibrando celdas con %d g.\n",CANTIDADVERT);
   cellMEASURE();
@@ -479,6 +493,7 @@ void calibrarCELDAS(int PESO){
   gainC2 = PESOF/(mean2-offset2);
   gainC3 = PESOF/(mean3-offset3);
   gainC4 = PESOF/(mean4-offset4);
+  gainMEAN = PESOF/(meanALL-meanOFFSET);
   Serial.printf("Ganancias obtenidas G1:%.4f ,G1:%.4f ,G1:%.4f ,G1:%.4f \n",gainC1,gainC2,gainC3,gainC4);
   }
 
