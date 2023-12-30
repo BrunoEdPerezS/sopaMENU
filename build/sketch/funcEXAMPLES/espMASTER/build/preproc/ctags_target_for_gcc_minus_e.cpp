@@ -139,6 +139,8 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     delay(500);
     digitalWrite(2, 0x0);
     delay(500);
+  } else if (HEADER.equalsIgnoreCase("LCDPR")){
+    lcdPRINT(TEXTO);
   } else {
     Serial.println("Mensaje recibido no válido: " + receivedMessage);
   }
@@ -294,7 +296,7 @@ void loop() {
   delay(2000);
 
   */
-# 285 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 287 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
   /*
 
   Serial.println("\nCELDA B");
@@ -334,7 +336,7 @@ void loop() {
   delay(2000);
 
   */
-# 305 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 307 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 }
 
 void sendSTRING(String messageToSend, uint8_t* MAC){
@@ -469,7 +471,7 @@ void processCommand(String command) {
   }
 
   */
-# 434 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+# 436 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 }
 
 
@@ -500,4 +502,43 @@ void separarCadena(String cadena, String* resultado) {
       }
     }
   }
+}
+
+void lcdPRINT(String data){
+    // Limpiar la pantalla
+    lcd.clear();
+
+    // Utilizar un separador para dividir la cadena (en este caso, la coma)
+    char separador = ',';
+
+    // Inicializar un puntero a la cadena recibida
+    char *str = strdup(data.c_str());
+
+    // Dividir la cadena en tokens usando el separador
+    char *token = strtok(str, &separador);
+
+    // Iterar sobre los tokens e imprimir cada número en una fila separada
+    int fila = 0;
+    while (token != 
+# 483 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 3 4
+                   __null 
+# 483 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+                        && fila < 4) {
+        // Convertir el token a un número y mostrarlo en la pantalla
+        lcd.setCursor(0, fila);
+        lcd.print(atoi(token));
+
+        // Obtener el siguiente token
+        token = strtok(
+# 489 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino" 3 4
+                      __null
+# 489 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+                          , &separador);
+
+        // Mover al siguiente fila
+        fila++;
+    }
+
+    // Liberar la memoria asignada al duplicado de la cadena
+    free(str);
 }

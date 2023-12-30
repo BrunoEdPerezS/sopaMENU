@@ -75,6 +75,10 @@ int scrollOFFSET = 0;
 char VISTA[12] = "MAIN";
 int valuetoSET = 0;
 int settingLOOP = false;
+int cantPORCIONES = 1;
+volatile bool cellCHECK = false;
+
+volatile int contSELECT=0;
 
 //Constante condicionales de la operacion
 volatile bool contenedoresCARGADOS = true;
@@ -105,41 +109,41 @@ int RECETA[11][9] = {
 
 
 //INTERRUPCION BOTON UP
-#line 264 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 320 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setup();
-#line 443 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 559 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void loop();
-#line 870 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1193 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarVISTA(char entrada[][20], char salida[4][20], int scroll, int filas);
-#line 889 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1212 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling(int filas);
-#line 909 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1232 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollSIGN(int filas);
-#line 929 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1252 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTA(char menu[][20],int opciones);
-#line 950 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1273 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] );
-#line 963 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1286 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingMENU(char menu[4][20], int valor);
-#line 970 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1293 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioSETTING(char destino[12]);
-#line 979 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1302 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setterFUNC(int steps, int setSTEP, int startIndex, int limit);
-#line 1012 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1335 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingBACK(char destino[12]);
-#line 1022 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1345 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollingSETMENU();
-#line 1042 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1365 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling2();
-#line 1062 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1385 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAsettmenu(char menu[][20],int opciones, int valor);
-#line 1082 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1405 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioEVENTO(char destino[12]);
-#line 1097 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1420 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarPARAMS(int entrada[9], int salida_int[4], int scroll, int filas);
-#line 1116 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1439 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAparams(char menu[][20],int entrada[9] ,int opciones);
-#line 106 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 110 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce
@@ -201,32 +205,34 @@ char displaySHOW[4][20];
 //! Crear arrays con las vistas 
 
 //? Main MENU
-char mainMENU[6][20]; //Declarar la matriz de la vista
-int mainMENU_F = 6;   //Declarar opciones (filas del menu)
+char mainMENU[5][20]; //Declarar la matriz de la vista
+int mainMENU_F = 5;   //Declarar opciones (filas del menu)
 
 //? Menus rama A
 //* scroll A0
 char A0scroll[4][20]; //Declarar la matriz de la vista
 int A0scroll_f = 4;   //Declarar opciones (filas del menu)
 
-//* scroll A0A0
-char A0A0scroll[4][20]; //Declarar la matriz de la vista
-int A0A0scroll_f = 4;   //Declarar opciones (filas del menu)
+//* scroll conSELEC
+char conSELECTscroll[8][20]; //Declarar la matriz de la vista
+int conSELECTscroll_f = 8;   //Declarar opciones (filas del menu)
 
-//* setting A0B0
-char A0B0sett[4][20]; //Declarar la matriz de la vista
+//* notif A0A1
+char A0A1notif[4][20]; //Declarar la matriz de la vista
+int A0A1notif_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif A0A2
+char A0A2notif[4][20]; //Declarar la matriz de la vista
+int A0A2notif_f = 4;   //Declarar opciones (filas del menu)
 
 //* notif A0B1
 char A0B1notif[4][20]; //Declarar la matriz de la vista
 int A0B1notif_f = 4;   //Declarar opciones (filas del menu)
 
-//* scroll A0C0 (ELIMINABLE)
-char A0C0scroll[4][20]; //Declarar la matriz de la vista
-int A0C0scroll_f = 4;   //Declarar opciones (filas del menu)
+//* notif A0B2
+char A0B2notif[4][20]; //Declarar la matriz de la vista
+int A0B2notif_f = 4;   //Declarar opciones (filas del menu)
 
-//* scroll A0C1 (ELIMINABLE)
-char A0C1scroll[4][20]; //Declarar la matriz de la vista
-int A0C1scroll_f = 4;   //Declarar opciones (filas del menu)
 
 //? Menus de la rama B
 //* scroll B0a
@@ -237,17 +243,44 @@ int B0ascroll_f = 4;   //Declarar opciones (filas del menu)
 char B0bnotif[4][20]; //Declarar la matriz de la vista
 int B0bnotif_f = 4;   //Declarar opciones (filas del menu)
 
-//* setting B1
-char B1scroll[4][20]; //Declarar la matriz de la vista
-int B1scroll_f = 4;   //Declarar opciones (filas del menu)
+//* setting B0A0
+char B0A0sett[4][20]; //Declarar la matriz de la vista
 
-//* scroll B2
-char B2scroll[4][20]; //Declarar la matriz de la vista
-int B2scroll_f = 4;   //Declarar opciones (filas del menu)
+//* notif B0A1
+char B0A1notif[4][20]; //Declarar la matriz de la vista
+int B0A1notif_f = 4;   //Declarar opciones (filas del menu)
 
-//* scroll B3
-char B3scroll[4][20]; //Declarar la matriz de la vista
-int B3scroll_f = 4;   //Declarar opciones (filas del menu)
+//* scroll B0B0
+char B0B0scroll[4][20]; //Declarar la matriz de la vista
+int B0B0scroll_f = 4;   //Declarar opciones (filas del menu)
+
+//* setting B0B0A0
+char B0B0A0sett[4][20]; //Declarar la matriz de la vista
+
+//* notif B0B0A1
+char B0B0A1notif[4][20]; //Declarar la matriz de la vista
+int B0B0A1notif_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif B0B0A2a
+char B0B0A2anotif[4][20]; //Declarar la matriz de la vista
+int B0B0A2anotif_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif B0B0A2a
+char B0B0A2bnotif[4][20]; //Declarar la matriz de la vista
+int B0B0A2bnotif_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif B0B0B0
+char B0B0B0notif[4][20]; //Declarar la matriz de la vista
+int B0B0B0notif_f = 4;   //Declarar opciones (filas del menu)
+
+//* scroll B0B0C0
+char B0B0C0scroll[4][20]; //Declarar la matriz de la vista
+int B0B0C0scroll_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif B0B0C1
+char B0B0C1notif[4][20]; //Declarar la matriz de la vista
+int B0B0C1notif_f = 4;   //Declarar opciones (filas del menu)
+
 
 //? Menus de la rama C
 //* scroll C0
@@ -282,21 +315,44 @@ int C0B0sett_f = 4;   //Declarar opciones (filas del menu)
 //* notif C0B2
 char C0B1notif[4][20]; //Declarar la matriz de la vista
 int C0B1notif_f = 4;   //Declarar opciones (filas del menu)
-/*
-int menuA0_F = 5;
-char menuA0[5][20]; //Declarar la matriz de la vista
 
-int menuB0_F = 7;
-char menuB0[7][20]; //Declarar la matriz de la vista
+//? Menus de la rama D
 
-//Crear menu de setting 
-char menuA0A0[4][20]; 
+//* scroll D0
+char D0scroll[4][20]; //Declarar la matriz de la vista
+int  D0scroll_f = 4;   //Declarar opciones (filas del menu)
 
-//NOTIFICACIONES
-int menuA0A0Conf_F = 4;
-char menuA0A0Conf[4][20]; 
-*/
+//* scroll D0A1
+char D0A1scroll[5][20]; //Declarar la matriz de la vista
+int  D0A1scroll_f = 5;   //Declarar opciones (filas del menu)
 
+//* notif D0A1a
+char D0A1anotif[4][20]; //Declarar la matriz de la vista
+int  D0A1anotif_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif D0A1b
+char D0A1bnotif[4][20]; //Declarar la matriz de la vista
+int  D0A1bnotif_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif D0A1c
+char D0A1cnotif[4][20]; //Declarar la matriz de la vista
+int  D0A1cnotif_f = 4;   //Declarar opciones (filas del menu)
+
+//* notif D0A1d
+char D0A1dnotif[4][20]; //Declarar la matriz de la vista
+int  D0A1dnotif_f = 4;   //Declarar opciones (filas del menu)
+
+//* scroll D0B1
+char D0B1scroll[4][20]; //Declarar la matriz de la vista
+int  D0B1scroll_f = 4;   //Declarar opciones (filas del menu)
+
+//* scroll D0C0
+char D0C0scroll[8][20]; //Declarar la matriz de la vista
+int  D0C0scroll_f = 8;   //Declarar opciones (filas del menu)
+
+//? Menus rama E
+char E0notif[4][20]; //Declarar la matriz de la vista
+int  E0notif_f = 4;   //Declarar opciones (filas del menu)
 
 void setup(){
 Serial.begin(115200);
@@ -316,72 +372,112 @@ attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
 // Asignar valores a los elementos del array
 
 //? MAIN MENU
-  strcpy(mainMENU[0],  "Preparar");
-  strcpy(mainMENU[1],  "Iniciar");
-  strcpy(mainMENU[2],  "Recetas");
-  strcpy(mainMENU[3],  "Control");
-  strcpy(mainMENU[4],  "Calibración");
-  strcpy(mainMENU[5],  "About");
+  strcpy(mainMENU[0],  "Carga/Descarga");
+  strcpy(mainMENU[1],  "Prep. receta");
+  strcpy(mainMENU[2],  "Adm. recetas");
+  strcpy(mainMENU[3],  "Configuraciones");
+  strcpy(mainMENU[4],  "About");
 
 //? Menus de la rama A
 
   //* A0 
-  strcpy(A0scroll[0],  "Cargar conts.");
-  strcpy(A0scroll[1],  "Sel. receta");
-  strcpy(A0scroll[2],  "Purgar conts.");
+  strcpy(A0scroll[0],  "Seleccione accion:");
+  strcpy(A0scroll[1],  "Cargar");
+  strcpy(A0scroll[2],  "Purgar");
   strcpy(A0scroll[3],  "Volver");
-  //* A0A0
-  strcpy(A0A0scroll[0],  "Carga - 1");
-  strcpy(A0A0scroll[1],  "Carga - 2");
-  strcpy(A0A0scroll[2],  "Carga - 3");
-  strcpy(A0A0scroll[3],  "Volver");
-  //* A0B0
-  strcpy(A0B0sett[0],  "Seleccione receta");
-  strcpy(A0B0sett[1],  "  /20");
-  strcpy(A0B0sett[2],  "Confirmar");
-  strcpy(A0B0sett[3],  "Volver");
-  //* A0B1
-  strcpy(A0B1notif[0],  "Receta guardada");
-  strcpy(A0B1notif[1],  "correctamente.");
-  strcpy(A0B1notif[2],  "");
-  strcpy(A0B1notif[3],  "Volver");
-  //* A0C0 (ELIMINABLE)
-  strcpy(A0C0scroll[0],  "Confirme proceso de purga");
-  strcpy(A0C0scroll[1],  "");
-  strcpy(A0C0scroll[2],  "Confirmar");
-  strcpy(A0C0scroll[3],  "Volver");
-  //* A0C1 (ELIMINABLE)
-  strcpy(A0C1scroll[0],  "PURGA-1");
-  strcpy(A0C1scroll[1],  "PURGA-1");
-  strcpy(A0C1scroll[2],  "PURGA-2");
-  strcpy(A0C1scroll[3],  "Volver");
+  //* CONT SELECT  --- COMUN PARA LAS OPCIONES DE CARGA Y PURGA
+  strcpy(conSELECTscroll[0],  "Contenedor 1");
+  strcpy(conSELECTscroll[1],  "Contenedor 2");
+  strcpy(conSELECTscroll[2],  "Contenedor 3");
+  strcpy(conSELECTscroll[3],  "Contenedor 4");
+  strcpy(conSELECTscroll[4],  "Contenedor 5");
+  strcpy(conSELECTscroll[5],  "Contenedor 6");
+  strcpy(conSELECTscroll[6],  "Contenedor 7");
+  strcpy(conSELECTscroll[7],  "Volver");
+  //* A0A1 
+  strcpy(A0A1notif[0],  "Pulse cuando el");
+  strcpy(A0A1notif[1],  "contenedor");
+  strcpy(A0A1notif[2],  "hay sido");
+  strcpy(A0A1notif[3],  "cargado.");
+  //* A0A2
+  strcpy(A0A2notif[0],  "EL contenedor");
+  strcpy(A0A2notif[1],  "ha sido cargado.");
+  strcpy(A0A2notif[2],  "");
+  strcpy(A0A2notif[3],  "Volver.");
+  //* A0B1 
+  strcpy(A0B1notif[0],  "Pulse cuando el");
+  strcpy(A0B1notif[1],  "contenedor");
+  strcpy(A0B1notif[2],  "hay sido");
+  strcpy(A0B1notif[3],  "purgado.");
+  //* A0B2
+  strcpy(A0B2notif[0],  "EL contenedor");
+  strcpy(A0B2notif[1],  "ha sido purgado.");
+  strcpy(A0B2notif[2],  "");
+  strcpy(A0B2notif[3],  "Volver.");
+
 
 //? Menus de la rama B
+
   //* B0a
-  strcpy(B0ascroll[0],  "Confirme proceso");
-  strcpy(B0ascroll[1],  "de dispensado.");
-  strcpy(B0ascroll[2],  "Confirmar");
+  strcpy(B0ascroll[0],  "Seleccione accion:");
+  strcpy(B0ascroll[1],  "Selec. receta");
+  strcpy(B0ascroll[2],  "Preparar");
   strcpy(B0ascroll[3],  "Volver");
   //* B0b
   strcpy(B0bnotif[0],  "Hay una carga de");
   strcpy(B0bnotif[1],  "contenedores");
   strcpy(B0bnotif[2],  "pendiente.");
   strcpy(B0bnotif[3],  "Volver");
-  //* B1
-  strcpy(B1scroll[0],  "Preparar receta:");
-  strcpy(B1scroll[1],  "");
-  strcpy(B1scroll[2],  "Confirmar");
-  strcpy(B1scroll[3],  "Volver");
-  //* B2
-  strcpy(B2scroll[0],  "MEZCLA-1");
-  strcpy(B2scroll[1],  "MEZCLA-2");
-  strcpy(B2scroll[2],  "Confirmar");
-  strcpy(B2scroll[3],  "Volver");
-  //* B3
-  strcpy(B3scroll[0],  "DISPENSADO-1");
-  strcpy(B3scroll[1],  "DISPENSADO-2");
-  strcpy(B3scroll[2],  "Confirmar");
-  strcpy(B3scroll[3],  "Volver");
+  //* B0A0
+  strcpy(B0A0sett[0],  "Seleccione receta");
+  strcpy(B0A0sett[1],  "  /10");
+  strcpy(B0A0sett[2],  "Confirmar");
+  strcpy(B0A0sett[3],  "Volver");
+  //* B0A1
+  strcpy(B0A1notif[0],  "Receta guardada");
+  strcpy(B0A1notif[1],  "correctamente.");
+  strcpy(B0A1notif[2],  "");
+  strcpy(B0A1notif[3],  "Volver.");
+  //* B0B0
+  strcpy(B0B0scroll[0],  "Preparar");
+  strcpy(B0B0scroll[1],  "Mezclar.");
+  strcpy(B0B0scroll[2],  "Dispensar");
+  strcpy(B0B0scroll[3],  "Volver.");
+  //* B0B0A0
+  strcpy(B0B0A0sett[0],  "Numero porciones");
+  strcpy(B0B0A0sett[1],  "  /10");
+  strcpy(B0B0A0sett[2],  "Confirmar");
+  strcpy(B0B0A0sett[3],  "Volver");
+  //* B0B0A1
+  strcpy(B0B0A1notif[0],  "Preparando...");
+  strcpy(B0B0A1notif[1],  "");
+  strcpy(B0B0A1notif[2],  "PULSE PARA");
+  strcpy(B0B0A1notif[3],  " CANCELAR.");
+  //* B0B0A2a
+  strcpy(B0B0A2anotif[0],  "Porciones");
+  strcpy(B0B0A2anotif[1],  "preparadas.");
+  strcpy(B0B0A2anotif[2],  "");
+  strcpy(B0B0A2anotif[3],  "Volver.");
+  //* B0B0A2b
+  strcpy(B0B0A2bnotif[0],  " PROCESO ");
+  strcpy(B0B0A2bnotif[1],  "CANCELADO.");
+  strcpy(B0B0A2bnotif[2],  "");
+  strcpy(B0B0A2bnotif[3],  "Volver.");
+  //* B0B0B0
+  strcpy(B0B0B0notif[0],  "Mezclando material");
+  strcpy(B0B0B0notif[1],  "");
+  strcpy(B0B0B0notif[2],  "Pulse para");
+  strcpy(B0B0B0notif[3],  "detener.");
+  //* B0B0C0
+  strcpy(B0B0C0scroll[0],  "Seleccione accion:");
+  strcpy(B0B0C0scroll[1],  "");
+  strcpy(B0B0C0scroll[2],  "Dispensar porcion");
+  strcpy(B0B0C0scroll[3],  "Volver");
+  //* B0B0C1
+  strcpy(B0B0C1notif[0],  "Porcion dispensada");
+  strcpy(B0B0C1notif[1],  "correctamente.");
+  strcpy(B0B0C1notif[2],  "");
+  strcpy(B0B0C1notif[3],  "Volver.");
 
 //? Menus de la rama C
   //* C0 
@@ -400,13 +496,13 @@ attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
   strcpy(C0A1Xscroll[2],  "Confirmar");
   strcpy(C0A1Xscroll[3],  "Volver");
   //* C0A1
-  strcpy(C0A1scroll[0],  "Ing 1  -      g");
-  strcpy(C0A1scroll[1],  "Ing 2  -      g");
-  strcpy(C0A1scroll[2],  "Ing 3  -      g");
-  strcpy(C0A1scroll[3],  "Ing 4  -      g");
-  strcpy(C0A1scroll[4],  "Ing 5  -      g");
-  strcpy(C0A1scroll[5],  "Ing 6  -      g");
-  strcpy(C0A1scroll[6],  "Tiempo -      seg");
+  strcpy(C0A1scroll[0],  "Ing 1   -      g");
+  strcpy(C0A1scroll[1],  "Ing 2   -      g");
+  strcpy(C0A1scroll[2],  "Ing 3   -      g");
+  strcpy(C0A1scroll[3],  "Ing 4   -      g");
+  strcpy(C0A1scroll[4],  "Ing 5   -      g");
+  strcpy(C0A1scroll[5],  "Ing 6   -      g");
+  strcpy(C0A1scroll[6],  "Porcion -      g");
   strcpy(C0A1scroll[7],  "Confirmar");
   strcpy(C0A1scroll[8],  "Cancelar"); 
   //* C0A2I
@@ -436,39 +532,59 @@ attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
   strcpy(C0B1notif[3],  "Volver");
 
 
-/*
-//Menu A0
-  strcpy(menuA0[0],  "MA0 - A0A0");
-  strcpy(menuA0[1],  "MA0 - OPT 2");
-  strcpy(menuA0[2],  "MA0 - OPT 3");
-  strcpy(menuA0[3],  "MA0 - OPT 4");
-  strcpy(menuA0[4],  "MA0 - Volver");
+//? Menus de la rama D
+//*C0
+  strcpy(D0scroll[0],  "Calibracion");
+  strcpy(D0scroll[1],  "Control");
+  strcpy(D0scroll[2],  "Estado");
+  strcpy(D0scroll[3],  "Volver");
+//*C0A1
+  strcpy(D0A1scroll[0],  "Reiniciar");
+  strcpy(D0A1scroll[1],  "Tarar");
+  strcpy(D0A1scroll[2],  "Calibrar");
+  strcpy(D0A1scroll[3],  "Medicion");
+  strcpy(D0A1scroll[4],  "Volver");
+//*D0A1a
+  strcpy(D0A1anotif[0],  "Contenedor");
+  strcpy(D0A1anotif[1],  "reiniciado");
+  strcpy(D0A1anotif[2],  "");
+  strcpy(D0A1anotif[3],  "Volver");
+//*D0A1b
+  strcpy(D0A1bnotif[0],  "Contenedor");
+  strcpy(D0A1bnotif[1],  "tarado");
+  strcpy(D0A1bnotif[2],  "");
+  strcpy(D0A1bnotif[3],  "Volver");
+//*D0A1c
+  strcpy(D0A1cnotif[0],  "Contenedor");
+  strcpy(D0A1cnotif[1],  "calibrado");
+  strcpy(D0A1cnotif[2],  "");
+  strcpy(D0A1cnotif[3],  "Volver");
+//*D0A1d
+  strcpy(D0A1dnotif[0],  "Contenedor");
+  strcpy(D0A1dnotif[1],  "midiendo:");
+  strcpy(D0A1dnotif[2],  "         g.");
+  strcpy(D0A1dnotif[3],  "Volver");
+//*C0B1
+  strcpy(D0B1scroll[0],  "GIRAR sentido +");
+  strcpy(D0B1scroll[1],  "GIRAR sentido -");
+  strcpy(D0B1scroll[2],  "DETENER");
+  strcpy(D0B1scroll[3],  "Volver");
+//*C0C0
+  strcpy(D0C0scroll[0],  "CONT1: ");
+  strcpy(D0C0scroll[1],  "CONT2: ");
+  strcpy(D0C0scroll[2],  "CONT3: ");
+  strcpy(D0C0scroll[3],  "CONT4: ");
+  strcpy(D0C0scroll[4],  "CONT5: ");
+  strcpy(D0C0scroll[5],  "CONT6: ");
+  strcpy(D0C0scroll[6],  "CONT7: ");
+  strcpy(D0C0scroll[7],  "Volver");
 
-//Menu A0A0 (SETTING MENU)
-  strcpy(menuA0A0[0],  "SETEE VALOR");
-  strcpy(menuA0A0[1],  "");
-  strcpy(menuA0A0[2],  "Confirmar");
-  strcpy(menuA0A0[3],  "Volver");
 
-//Menu B0
-  strcpy(menuB0[0],  "MB0 - A0A0");
-  strcpy(menuB0[1],  "MB0 - OPT 2");
-  strcpy(menuB0[2],  "MB0 - OPT 3");
-  strcpy(menuB0[3],  "MB0 - OPT 4");
-  strcpy(menuB0[4],  "MB0 - OPT 5");
-  strcpy(menuB0[5],  "MB0 - OPT 6");
-  strcpy(menuB0[6],  "MB0 - Volver");
-
-  
-
-//NOTIFICACION
-  strcpy(menuA0A0Conf[0],  "Valor guardado");
-  strcpy(menuA0A0Conf[1],  "correctamente!");
-  strcpy(menuA0A0Conf[2],  "");
-  strcpy(menuA0A0Conf[3],  "");
-*/
-
-
+//? Menus de la rama E
+  strcpy(E0notif[0],  "HAC INGENIERIA");
+  strcpy(E0notif[1],  "SOPA SOFTWARE v1.0");
+  strcpy(E0notif[2],  "         ");
+  strcpy(E0notif[3],  "Volver");
   //Setup del lcd
   lcd.init();                      
   lcd.backlight();
@@ -491,57 +607,93 @@ if (strcmp(VISTA, "MAIN") == 0) {
    cambioVISTA(0,"A0");
    cambioVISTA(1,"B0");
    cambioVISTA(2,"C0");
+   cambioVISTA(3,"D0");
+   cambioVISTA(4,"E0");
 } 
 
 //? Vistas de rama A
 else if (strcmp(VISTA, "A0") == 0) {
    //!VISTA SCROLL
-   scrolling(A0scroll_f);
+   //scrolling(A0scroll_f);
+   scrollingSETMENU();
    generarVISTA(A0scroll,A0scroll_f);
    scrollSIGN(A0scroll_f);
    //!MODELO
 
 
    //Cambio de vista 
-   cambioVISTA(0,"A0A0");
-   cambioVISTA(1,"A0B0");
-   cambioVISTA(2,"A0C0");
+   cambioVISTA(1,"A0A0");
+   cambioVISTA(2,"A0B0");
+   //cambioVISTA(2,"A0C0");
    //go BACK
    cambioVISTA(3,"MAIN");
 } 
 else if (strcmp(VISTA, "A0A0") == 0) {
    //!VISTA SCROLL
-   scrolling(A0A0scroll_f);
-   generarVISTA(A0A0scroll,A0A0scroll_f);
-   scrollSIGN(A0A0scroll_f);
+   scrolling(conSELECTscroll_f);
+   generarVISTA(conSELECTscroll,conSELECTscroll_f);
+   scrollSIGN(conSELECTscroll_f);
    //!MODELO
-
+   contSELECT = scrollSTATE;
+   Serial.printf("Seleccionado contenedor: %d\n",contSELECT);
 
    //Cambio de vista 
    
    //go BACK
-   cambioVISTA(3,"A0");
+   cambioVISTA(0,"A0A1");
+   cambioVISTA(1,"A0A1");
+   cambioVISTA(2,"A0A1");
+   cambioVISTA(3,"A0A1");
+   cambioVISTA(4,"A0A1");
+   cambioVISTA(5,"A0A1");
+   cambioVISTA(6,"A0A1");
+   cambioVISTA(7,"A0");
+} 
+else if (strcmp(VISTA, "A0A1") == 0) {
+   //!VISTA NOTIF
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(A0A1notif,A0A1notif_f);
+   //scrollSIGN(menuA0A0Conf_F);
+
+   //!MODELO
+   //TODO ENVIAR MENSAJE DE CARGA AL CONTENEDOR CORRESPONDIENTE
+
+
+
+   //Cambio de vista 
+   cambioEVENTO("A0A2");
+} 
+else if (strcmp(VISTA, "A0A2") == 0) {
+   //!VISTA NOTIF
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(A0A2notif,A0A2notif_f);
+   //scrollSIGN(menuA0A0Conf_F);
+
+   //!MODELO
+   //Cambio de vista 
+   cambioEVENTO("A0");
 } 
 else if (strcmp(VISTA, "A0B0") == 0) {
-   //! VISTA SETTING
-   settingMENU(A0B0sett,receta_seleccionada);
-   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
-   Serial.println(RECETA[receta_seleccionada][0]);
+   //!VISTA SCROLL
+   scrolling(conSELECTscroll_f);
+   generarVISTA(conSELECTscroll,conSELECTscroll_f);
+   scrollSIGN(conSELECTscroll_f);
    //!MODELO
-   cambioSETTING("A0B0set");
-   //Cambio de vista confirmacion
-   cambioVISTA(2,"A0B1");
-   //Cambio de vista al menu anterior
-   cambioVISTA(3,"A0");
-} 
-else if (strcmp(VISTA, "A0B0set") == 0){
-   //!VISTA SETTING LOOP
-   setterFUNC(10,1,1,10);
-   receta_seleccionada = valuetoSET;
-   settingBACK("A0B0");
-   //Printear receta seleccionada
+   contSELECT = scrollSTATE;
+   Serial.printf("Seleccionado contenedor: %d\n",contSELECT);
+
+   //Cambio de vista 
    
-}
+   //go BACK
+   cambioVISTA(0,"A0B1");
+   cambioVISTA(1,"A0B1");
+   cambioVISTA(2,"A0B1");
+   cambioVISTA(3,"A0B1");
+   cambioVISTA(4,"A0B1");
+   cambioVISTA(5,"A0B1");
+   cambioVISTA(6,"A0B1");
+   cambioVISTA(7,"A0");
+} 
 else if (strcmp(VISTA, "A0B1") == 0) {
    //!VISTA NOTIF
    //scrolling(menuA0A0Conf_F);
@@ -549,33 +701,22 @@ else if (strcmp(VISTA, "A0B1") == 0) {
    //scrollSIGN(menuA0A0Conf_F);
 
    //!MODELO
+   //TODO ENVIAR MENSAJE DE CARGA AL CONTENEDOR CORRESPONDIENTE
+
+
+
+   //Cambio de vista 
+   cambioEVENTO("A0B2");
+} 
+else if (strcmp(VISTA, "A0B2") == 0) {
+   //!VISTA NOTIF
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(A0B2notif,A0B2notif_f);
+   //scrollSIGN(menuA0A0Conf_F);
+
+   //!MODELO
    //Cambio de vista 
    cambioEVENTO("A0");
-} 
-else if (strcmp(VISTA, "A0C0") == 0) {
-   //!VISTA SCROLL
-   scrolling2();
-   generarVISTA(A0C0scroll,A0C0scroll_f);
-   scrollSIGN(A0C0scroll_f);
-   //!MODELO
-
-
-   //Cambio de vista 
-   cambioVISTA(2,"A0C1");
-   //go BACK
-   cambioVISTA(3,"A0");
-} 
-else if (strcmp(VISTA, "A0C1") == 0) {
-   //!VISTA SCROLL
-   scrolling(A0C1scroll_f);
-   generarVISTA(A0C1scroll,A0C1scroll_f);
-   scrollSIGN(A0C1scroll_f);
-   //!MODELO
-
-
-   //Cambio de vista 
-   //go BACK
-   cambioVISTA(3,"A0C0");
 } 
 
 //? Vistas de rama B
@@ -585,14 +726,13 @@ else if (strcmp(VISTA, "B0") == 0) {
    
    //!VISTAa SCROLL con 2 opciones (se activa si los contenedores estan cargados)
    if(contenedoresCARGADOS){
-   scrolling2();
+   scrollingSETMENU();
    generarVISTA(B0ascroll,B0ascroll_f);
    scrollSIGN(B0ascroll_f);
    //!MODELO
-
-
    //Cambio de vista 
-   cambioVISTA(2,"B1");
+   cambioVISTA(1,"B0A0");
+   cambioVISTA(2,"B0B0");
    //go BACK
    cambioVISTA(3,"MAIN");
    }
@@ -605,48 +745,144 @@ else if (strcmp(VISTA, "B0") == 0) {
    cambioEVENTO("MAIN");
    }
 } 
-else if (strcmp(VISTA, "B1") == 0) {
-   //!VISTA SCROLL
-   scrolling2();
-   generarVISTA(B1scroll,B1scroll_f);
-   //!Vista de estado
-   lcd.setCursor(0, 1);
-   lcd.print(receta_seleccionada);
-
-   scrollSIGN(B1scroll_f);
+else if (strcmp(VISTA, "B0A0") == 0) {
+   //! VISTA SETTING
+   settingMENU(B0A0sett,receta_seleccionada);
+   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
+   //Serial.println(RECETA[receta_seleccionada][0]);
    //!MODELO
-
-
-   //Cambio de vista 
-   cambioVISTA(2,"B2");
-   //go BACK
+   cambioSETTING("B0A0set");
+   //Cambio de vista confirmacion
+   cambioVISTA(2,"B0A1");
+   //Cambio de vista al menu anterior
    cambioVISTA(3,"B0");
 } 
-else if (strcmp(VISTA, "B2") == 0) {
-   //!VISTA SCROLL
-   scrolling(B2scroll_f);
-   generarVISTA(B2scroll,B2scroll_f);
-   scrollSIGN(B2scroll_f);
+else if (strcmp(VISTA, "B0A0set") == 0){
+   //!VISTA SETTING LOOP
+   setterFUNC(10,1,1,10);
+   receta_seleccionada = valuetoSET;
+   settingBACK("B0A0");
+   //Printear receta seleccionada
+   
+}
+else if (strcmp(VISTA, "B0A1") == 0) {
+   //!VISTA NOTIF
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(B0A1notif,B0A1notif_f);
+   //scrollSIGN(menuA0A0Conf_F);
+
    //!MODELO
-
-
    //Cambio de vista 
-   cambioVISTA(2,"B2");
-   //go BACK
-   cambioVISTA(3,"B1");
+   cambioEVENTO("B0");
 } 
-else if (strcmp(VISTA, "B3") == 0) {
+else if (strcmp(VISTA, "B0B0") == 0) {
    //!VISTA SCROLL
-   scrolling(B3scroll_f);
-   generarVISTA(B3scroll,B3scroll_f);
-   scrollSIGN(B3scroll_f);
+   scrolling(B0B0scroll_f);
+   generarVISTA(B0B0scroll,B0B0scroll_f);
+   scrollSIGN(B0B0scroll_f);
    //!MODELO
 
+   //Cambio de vista 
+   
+   //go BACK
+   cambioVISTA(0,"B0B0A0");
+   cambioVISTA(1,"B0B0B0");
+   cambioVISTA(2,"B0B0C0");
+   cambioVISTA(3,"B0");
+
+} 
+else if (strcmp(VISTA, "B0B0A0") == 0) {
+   //! VISTA SETTING
+   settingMENU(B0B0A0sett,cantPORCIONES);
+   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
+   //Serial.println(RECETA[receta_seleccionada][0]);
+   //!MODELO
+   cambioSETTING("B0B0A0set");
+   //Cambio de vista confirmacion
+   cambioVISTA(2,"B0B0A1");
+   //Cambio de vista al menu anterior
+   cambioVISTA(3,"B0B0");
+} 
+else if (strcmp(VISTA, "B0B0A0set") == 0){
+   //!VISTA SETTING LOOP
+   setterFUNC(10,1,1,10);
+   cantPORCIONES = valuetoSET;
+   settingBACK("B0B0A0");
+   //Printear receta seleccionada
+   
+}
+else if (strcmp(VISTA, "B0B0A1") == 0) {
+   //!VISTA NOTIF
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(B0B0A1notif,B0B0A1notif_f);
+   //scrollSIGN(menuA0A0Conf_F);
+
+   //!MODELO
+   //Cambio de vista 
+   //Correr cell check
+   if (cellCHECK){
+      UP = true;
+      delay(5000);
+   }
+
+   cambioEVENTO("B0B0A2");
+} 
+else if (strcmp(VISTA, "B0B0A2") == 0) {
+    //! ESTA VISTA ES UNA VISTA CONDICIONADA TIENE VERSION a Y VERSION b
+   //! dependiendo de si se cumple la "condicion de entrada" se activa una o la otra
+   
+   //!VISTAa SCROLL con 2 opciones (se activa si los contenedores estan cargados)
+   if(cellCHECK){
+   //!VISTA NOTIF
+   generarVISTA(B0B0A2anotif,B0B0A2anotif_f);
+   //!MODELO
+   //Cambio de vista 
+   cambioEVENTO("B0B0");
+   }
+   //!VISTAb con notificacion (se activa si los contenedores no estan)
+   else{
+   //!VISTA NOTIF
+   generarVISTA(B0B0A2bnotif,B0B0A2bnotif_f);
+   //!MODELO
+   //Cambio de vista 
+   cambioEVENTO("B0B0");
+   }
+} 
+else if (strcmp(VISTA, "B0B0B0") == 0) {
+   //!VISTA NOTIF
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(B0B0B0notif,B0B0B0notif_f);
+   //scrollSIGN(menuA0A0Conf_F);
+
+   //!MODELO
+   //Cambio de vista 
+   //Correr cell check
+   cambioEVENTO("B0B0");
+} 
+else if (strcmp(VISTA, "B0B0C0") == 0) {
+   //!VISTA SCROLL
+   scrolling2();
+   generarVISTA(B0B0C0scroll,B0B0C0scroll_f);
+   scrollSIGN(B0B0C0scroll_f);
+   //!MODELO
 
    //Cambio de vista 
-
+   
    //go BACK
-   cambioVISTA(3,"B2");
+   cambioVISTA(2,"B0B0C1");
+   cambioVISTA(3,"B0B0");
+
+} 
+else if (strcmp(VISTA, "B0B0C1") == 0) {
+   //!VISTA NOTIF
+   //scrolling(menuA0A0Conf_F);
+   generarVISTA(B0B0C1notif,B0B0C1notif_f);
+   //scrollSIGN(menuA0A0Conf_F);
+
+   //!MODELO
+   //Cambio de vista 
+   //Correr cell check
+   cambioEVENTO("B0B0C0");
 } 
 
 //? Vistas rama C
@@ -835,62 +1071,149 @@ else if (strcmp(VISTA, "C0B1") == 0){
    cambioEVENTO("C0");
 }
 
-
-
-/*
-else if (strcmp(VISTA, "A0") == 0) {
-   //!VISTA
-   scrolling(menuA0_F);
-   generarVISTA(menuA0,menuA0_F);
-   scrollSIGN(menuA0_F);
+//? Vistas rama D
+else if (strcmp(VISTA, "D0") == 0) {
+   //!VISTA SCROLL
+   //scrolling(C0scroll_f);
+   scrolling(D0scroll_f);
+   generarVISTA(D0scroll,D0scroll_f);
+   scrollSIGN(D0scroll_f);
    //!MODELO
 
 
    //Cambio de vista 
-   cambioVISTA(0,"A0A0");
+   cambioVISTA(0,"D0A0");
+   cambioVISTA(1,"D0B0");
+   cambioVISTA(2,"D0C0");
    //go BACK
-   cambioVISTA(4,"MAIN");
+   cambioVISTA(3,"MAIN");
 } 
-else if (strcmp(VISTA, "B0") == 0) {
-   //!VISTA
-   scrolling(menuB0_F);
-   generarVISTA(menuB0,menuB0_F);
-   scrollSIGN(menuB0_F);
+else if (strcmp(VISTA, "D0A0") == 0) {
+   //!VISTA SCROLL
+   scrolling(conSELECTscroll_f);
+   generarVISTA(conSELECTscroll,conSELECTscroll_f);
+   scrollSIGN(conSELECTscroll_f);
    //!MODELO
+   contSELECT = scrollSTATE;
+   Serial.printf("Seleccionado contenedor: %d\n",contSELECT);
 
-   //go BACK
-   cambioVISTA(6,"MAIN");
-} 
-else if (strcmp(VISTA, "A0A0") == 0) {
-   //! VISTA SETTING
-   settingMENU(menuA0A0);
-   //Cambio de vista al setting loop (indicar CASE del setting LOOP)
-
-
-   //!MODELO
-   cambioSETTING("A0A0-S");
-   //Cambio de vista confirmacion
-   cambioVISTA(2,"A0A0-S+");
-   //Cambio de vista al menu anterior
-   cambioVISTA(3,"A0");
+   //Cambio de vista 
    
+   //go BACK
+   cambioVISTA(0,"D0A1");
+   cambioVISTA(1,"D0A1");
+   cambioVISTA(2,"D0A1");
+   cambioVISTA(3,"D0A1");
+   cambioVISTA(4,"D0A1");
+   cambioVISTA(5,"D0A1");
+   cambioVISTA(6,"D0A1");
+   cambioVISTA(7,"D0");
 } 
-else if (strcmp(VISTA, "A0A0-S") == 0){
-   //!VISTA SETTING LOOP
-   setterFUNC(10,100,1000);
-   settingBACK("A0A0");
+else if (strcmp(VISTA, "D0A1") == 0) {
+   //!VISTA SCROLL
+   scrolling(D0A1scroll_f);
+   generarVISTA(D0A1scroll,D0A1scroll_f);
+   scrollSIGN(D0A1scroll_f);
+   //!MODELO
+   
+   //Cambio de vista 
+   
+   //go BACK
+   cambioVISTA(0,"D0A1a");
+   cambioVISTA(1,"D0A1b");
+   cambioVISTA(2,"D0A1c");
+   cambioVISTA(3,"D0A1d");
+   cambioVISTA(4,"D0");
 }
-else if (strcmp(VISTA, "A0A0-S+") == 0) {
+else if (strcmp(VISTA, "D0A1a") == 0){
    //!VISTA NOTIF
-   //scrolling(menuA0A0Conf_F);
-   generarVISTA(menuA0A0Conf,menuA0A0Conf_F);
-   //scrollSIGN(menuA0A0Conf_F);
+   generarVISTA(D0A1anotif,D0A1anotif_f);
 
    //!MODELO
+   //TODO REINICIAR CONTENEDOR
+   cambioEVENTO("D0A1");
+}
+else if (strcmp(VISTA, "D0A1b") == 0){
+   //!VISTA NOTIF
+   generarVISTA(D0A1bnotif,D0A1bnotif_f);
+
+   //!MODELO
+   //TODO TARAR CONTENEDOR
+   cambioEVENTO("D0A1");
+}
+else if (strcmp(VISTA, "D0A1c") == 0){
+   //!VISTA NOTIF
+   generarVISTA(D0A1cnotif,D0A1cnotif_f);
+
+   //!MODELO
+   //TODO CALIBRAR CONTENEDOR
+   cambioEVENTO("D0A1");
+}
+else if (strcmp(VISTA, "D0A1d") == 0){
+   //!VISTA NOTIF
+   generarVISTA(D0A1dnotif,D0A1dnotif_f);
+
+   //!MODELO
+   //TODO EXTRAER MEDICION
+   cambioEVENTO("D0A1");
+}
+
+
+else if (strcmp(VISTA, "D0B0") == 0) {
+   //!VISTA SCROLL
+   scrolling(conSELECTscroll_f);
+   generarVISTA(conSELECTscroll,conSELECTscroll_f);
+   scrollSIGN(conSELECTscroll_f);
+   //!MODELO
+   contSELECT = scrollSTATE;
+   Serial.printf("Seleccionado contenedor: %d\n",contSELECT);
+
    //Cambio de vista 
-   cambioEVENTO("A0");
+   
+   //go BACK
+   cambioVISTA(0,"D0B1");
+   cambioVISTA(1,"D0B1");
+   cambioVISTA(2,"D0B1");
+   cambioVISTA(3,"D0B1");
+   cambioVISTA(4,"D0B1");
+   cambioVISTA(5,"D0B1");
+   cambioVISTA(6,"D0B1");
+   cambioVISTA(7,"D0");
 } 
-*/
+else if (strcmp(VISTA, "D0B1") == 0) {
+   //!VISTA SCROLL
+   //scrolling(C0scroll_f);
+   scrolling(D0B1scroll_f);
+   generarVISTA(D0B1scroll,D0B1scroll_f);
+   scrollSIGN(D0B1scroll_f);
+   //!MODELO
+   //TODO GIRAR DRIVER DEL CONTENEDOR SELECCIONADO
+
+   //go BACK
+   cambioVISTA(3,"D0");
+} 
+
+
+else if (strcmp(VISTA, "D0C0") == 0) {
+   //!VISTA SCROLL
+   //scrolling(C0scroll_f);
+   scrolling(D0C0scroll_f);
+   generarVISTA(D0C0scroll,D0C0scroll_f);
+   scrollSIGN(D0C0scroll_f);
+   //!MODELO
+   //DISPLAY DEL STATUS CHECK
+
+   //Cambio de vista 
+   //go BACK
+   cambioVISTA(7,"D0");
+} 
+
+//? Vista rama E
+else if (strcmp(VISTA, "E0") == 0){
+   generarVISTA(E0notif,E0notif_f);
+   cambioEVENTO("MAIN");
+}
+
 
 else {
   Serial.print("Problemas con las vistas...");
@@ -1164,7 +1487,7 @@ void generarVISTAparams(char menu[][20],int entrada[9] ,int opciones) {
    for (int i = 0; i <= 3; i++) {
       lcd.setCursor(0, i);
       lcd.print(displaySHOW[i]);
-      lcd.setCursor(9, i);
+      lcd.setCursor(10, i);
       if (addRECshowparam[i] != 99999)
       {
          lcd.print(addRECshowparam[i]);

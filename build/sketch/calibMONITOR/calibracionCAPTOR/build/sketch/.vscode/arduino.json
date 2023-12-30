@@ -1,9 +1,0 @@
-#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\calibracionCAPTOR\\build\\sketch\\.vscode\\arduino.json"
-#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\calibracionCAPTOR\\.vscode\\arduino.json"
-{
-    "sketch": "calibracionCAPTOR.ino",
-    "output": "build",
-    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
-    "board": "esp32:esp32:esp32doit-devkit-v1",
-    "port": "COM10"
-}

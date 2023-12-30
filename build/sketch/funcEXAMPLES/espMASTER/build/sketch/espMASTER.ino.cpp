@@ -37,24 +37,26 @@ String substrings[4];
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
 #line 124 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 143 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 145 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void setup();
-#line 241 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 243 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void loop();
-#line 307 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 309 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 333 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 335 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void funcCARGA(uint8_t *cellADDRESS);
-#line 349 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 351 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void funcPURGA(uint8_t *cellADDRESS);
-#line 357 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 359 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void funcVERTX(uint8_t *cellADDRESS,int cantidad);
-#line 366 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 368 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void calibCELL(uint8_t *cellADDRESS,int cantidad);
-#line 375 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 377 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void processCommand(String command);
-#line 438 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+#line 440 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void separarCadena(String cadena, String* resultado);
+#line 468 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
+void lcdPRINT(String data);
 #line 33 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcEXAMPLES\\espMASTER\\espMASTER.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
@@ -159,6 +161,8 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     delay(500);
     digitalWrite(2, LOW);
     delay(500);
+  } else if (HEADER.equalsIgnoreCase("LCDPR")){
+    lcdPRINT(TEXTO);    
   } else {
     Serial.println("Mensaje recibido no válido: " + receivedMessage);
   }
@@ -488,3 +492,35 @@ void separarCadena(String cadena, String* resultado) {
     }
   }
 }
+
+void lcdPRINT(String data){
+    // Limpiar la pantalla
+    lcd.clear();
+
+    // Utilizar un separador para dividir la cadena (en este caso, la coma)
+    char separador = ',';
+
+    // Inicializar un puntero a la cadena recibida
+    char *str = strdup(data.c_str());
+
+    // Dividir la cadena en tokens usando el separador
+    char *token = strtok(str, &separador);
+
+    // Iterar sobre los tokens e imprimir cada número en una fila separada
+    int fila = 0;
+    while (token != NULL && fila < 4) {
+        // Convertir el token a un número y mostrarlo en la pantalla
+        lcd.setCursor(0, fila);
+        lcd.print(atoi(token));
+
+        // Obtener el siguiente token
+        token = strtok(NULL, &separador);
+
+        // Mover al siguiente fila
+        fila++;
+    }
+
+    // Liberar la memoria asignada al duplicado de la cadena
+    free(str);
+}
+
