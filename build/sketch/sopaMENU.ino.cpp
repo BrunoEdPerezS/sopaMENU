@@ -3,7 +3,8 @@
 #include <LiquidCrystal_I2C.h>
 #include <string> 
 #include <EEPROM.h>
-
+#include <esp_now.h>
+#include <WiFi.h>
 
 //! Estructura base para implementar una vista de scroll------------
   /*
@@ -54,6 +55,15 @@
  * FALTA PROGRAMAR EL MONITOREO DE ESTADO
 */
 
+//! MACS DE LOS PEERS CASA:
+//esp1MAC: A0:B7:65:DD:04:5C
+//esp2MAC: 
+//contMAC: 
+
+
+
+
+
 //Inicializar botones y variables globales
 #define BUTTON1 18
 #define BUTTON2 19
@@ -76,14 +86,16 @@ char VISTA[12] = "MAIN";
 int valuetoSET = 0;
 int settingLOOP = false;
 int cantPORCIONES = 1;
+volatile int ESTAD = 0;
 volatile bool cellCHECK = false;
+//volatile bool notSENDED = true;
 
 volatile int contSELECT=0;
 
 //Constante condicionales de la operacion
 volatile bool contenedoresCARGADOS = true;
 int receta_seleccionada = 1;
-
+float MEAS = 9999;
 
 int  addREC_slot = 1;
 bool slotDISPONIBLE = false;
@@ -107,52 +119,74 @@ int RECETA[11][9] = {
   {10, 0, 0, 0, 0, 0, 0, 99999, 99999}
 };
 
+int statusMATRIX[8] ={0, 1, 2, 3, 4, 5, 6,99999};
+
 
 //INTERRUPCION BOTON UP
-#line 320 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 363 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
+#line 369 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
+#line 396 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setup();
-#line 559 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 702 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void loop();
-#line 1193 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1397 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarVISTA(char entrada[][20], char salida[4][20], int scroll, int filas);
-#line 1212 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1416 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling(int filas);
-#line 1232 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1436 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollSIGN(int filas);
-#line 1252 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1456 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTA(char menu[][20],int opciones);
-#line 1273 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1477 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] );
-#line 1286 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1491 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingMENU(char menu[4][20], int valor);
-#line 1293 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1498 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioSETTING(char destino[12]);
-#line 1302 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1507 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setterFUNC(int steps, int setSTEP, int startIndex, int limit);
-#line 1335 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1540 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingBACK(char destino[12]);
-#line 1345 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1550 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollingSETMENU();
-#line 1365 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1570 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling2();
-#line 1385 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1590 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAsettmenu(char menu[][20],int opciones, int valor);
-#line 1405 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1610 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioEVENTO(char destino[12]);
-#line 1420 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1626 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarPARAMS(int entrada[9], int salida_int[4], int scroll, int filas);
-#line 1439 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1645 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAparams(char menu[][20],int entrada[9] ,int opciones);
-#line 110 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1671 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void sendSTRING(String messageToSend, uint8_t* MAC);
+#line 1697 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void funcCARGA(uint8_t *cellADDRESS);
+#line 1700 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void funcPURGA(uint8_t *cellADDRESS);
+#line 1703 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void funcVERTX(uint8_t *cellADDRESS,int cantidad);
+#line 1712 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void statusCHECK(uint8_t *cellADDRESS,int cellIndex);
+#line 1721 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void funcionVERTX();
+#line 1739 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void vertCANCEL();
+#line 1747 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+bool todosCeros();
+#line 124 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce
 if (buttonTIME - lastBTIME > 500)
 {
-   UP     = true;
-   DOWN   = false;
-   SELECT = false;
-   EVENT  = true;
+   UP        = true;
+   DOWN      = false;
+   SELECT    = false;
+   EVENT     = true;
    Serial.println("UP  presionado");
    
 lastBTIME = buttonTIME;
@@ -190,6 +224,32 @@ if (buttonTIME - lastBTIME > 500)
 lastBTIME = buttonTIME;
  }
 }
+
+//? MAC CELDAS Y PEERS
+uint8_t macCeldas[][6] = {
+  {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
+  {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA1, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA2, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
+  {0xA3, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA4, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA4, 0xB7, 0x65, 0xDC, 0x15, 0xA8}
+};
+
+
+// Define the message to be sent as a string
+//String messageToSend = "string1";
+
+esp_now_peer_info_t celda1;
+esp_now_peer_info_t celda2;
+esp_now_peer_info_t celda3;
+esp_now_peer_info_t celda4;
+esp_now_peer_info_t celda5;
+esp_now_peer_info_t celda6;
+esp_now_peer_info_t celda7;
+
+
+
 
 
 // Init del LCD y del display
@@ -354,6 +414,42 @@ int  D0C0scroll_f = 8;   //Declarar opciones (filas del menu)
 char E0notif[4][20]; //Declarar la matriz de la vista
 int  E0notif_f = 4;   //Declarar opciones (filas del menu)
 
+
+//? FUNCIONES CALLBACK DE ESPNOW 
+// Callback when data is sent
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  //Serial.print("\rLast Packet Send Status:\t");
+  //Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+}
+
+// Callback when data is received
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  String receivedMessage = String((char*)incomingData);
+
+  // Verifica si los primeros 5 caracteres del mensaje son "print"
+  String HEADER = receivedMessage.substring(0, 5);
+  String TEXTO  = receivedMessage.substring(5, len);
+  if (HEADER.equalsIgnoreCase("MEASX")) {
+    Serial.println(TEXTO);
+    MEAS = TEXTO.toFloat();
+    digitalWrite(2, HIGH);
+    delay(500);
+    digitalWrite(2, LOW);
+    delay(500);
+  } else if (HEADER.equalsIgnoreCase("STATE")){
+    Serial.println(TEXTO); 
+    ESTAD = TEXTO.toInt();
+    digitalWrite(2, HIGH);
+    delay(500);
+    digitalWrite(2, LOW);
+    delay(500);
+  } else {
+    Serial.println("Mensaje recibido no válido: " + receivedMessage);
+  }
+}
+
+
+
 void setup(){
 Serial.begin(115200);
 //Interrupciones
@@ -366,7 +462,74 @@ attachInterrupt(digitalPinToInterrupt(BUTTON2), BUTTONpress2, FALLING);
 pinMode(BUTTON3, INPUT_PULLUP);
 attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
 
+//? SETUP PEERS ESPNOW
 
+  WiFi.mode(WIFI_STA);
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Error initializing ESP-NOW");
+    return;
+  }
+  esp_now_register_send_cb(OnDataSent);
+  esp_now_register_recv_cb(OnDataRecv);
+
+  //* REGISTRAR PEERS
+  memcpy(celda1.peer_addr, macCeldas[0], 6);
+  celda1.channel = 1;  
+  celda1.encrypt = false;
+
+  memcpy(celda2.peer_addr, macCeldas[1], 6);
+  celda2.channel = 1;  
+  celda2.encrypt = false;
+
+  memcpy(celda3.peer_addr, macCeldas[2], 6);
+  celda3.channel = 1;  
+  celda3.encrypt = false;
+
+  memcpy(celda4.peer_addr, macCeldas[3], 6);
+  celda4.channel = 1;  
+  celda4.encrypt = false;
+
+  memcpy(celda5.peer_addr, macCeldas[4], 6);
+  celda5.channel = 1;  
+  celda5.encrypt = false;
+
+  memcpy(celda6.peer_addr, macCeldas[5], 6);
+  celda6.channel = 1;  
+  celda6.encrypt = false;
+
+  memcpy(celda6.peer_addr, macCeldas[6], 6);
+  celda7.channel = 1;  
+  celda7.encrypt = false;
+
+  //* AÑADIR PEERS      
+  if (esp_now_add_peer(&celda1) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+  if (esp_now_add_peer(&celda2) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+  if (esp_now_add_peer(&celda3) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+  if (esp_now_add_peer(&celda4) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+  if (esp_now_add_peer(&celda5) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+  if (esp_now_add_peer(&celda6) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+    if (esp_now_add_peer(&celda7) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
 
 // Init de las vistas
 // Asignar valores a los elementos del array
@@ -634,9 +797,12 @@ else if (strcmp(VISTA, "A0A0") == 0) {
    generarVISTA(conSELECTscroll,conSELECTscroll_f);
    scrollSIGN(conSELECTscroll_f);
    //!MODELO
+   //TODO ENVIAR MENSAJE DE CARGA AL CONTENEDOR
    contSELECT = scrollSTATE;
    Serial.printf("Seleccionado contenedor: %d\n",contSELECT);
-
+   if (SELECT){
+      sendSTRING("CARGA",macCeldas[contSELECT]);  
+   }
    //Cambio de vista 
    
    //go BACK
@@ -656,8 +822,11 @@ else if (strcmp(VISTA, "A0A1") == 0) {
    //scrollSIGN(menuA0A0Conf_F);
 
    //!MODELO
-   //TODO ENVIAR MENSAJE DE CARGA AL CONTENEDOR CORRESPONDIENTE
-
+   //TODO ENVIAR MENSAJE DE STOP
+   if (UP|DOWN|SELECT){
+      sendSTRING("STOPX",macCeldas[contSELECT]);  
+   }
+   
 
 
    //Cambio de vista 
@@ -670,6 +839,7 @@ else if (strcmp(VISTA, "A0A2") == 0) {
    //scrollSIGN(menuA0A0Conf_F);
 
    //!MODELO
+
    //Cambio de vista 
    cambioEVENTO("A0");
 } 
@@ -679,9 +849,12 @@ else if (strcmp(VISTA, "A0B0") == 0) {
    generarVISTA(conSELECTscroll,conSELECTscroll_f);
    scrollSIGN(conSELECTscroll_f);
    //!MODELO
+   //TODO MANDAR MENSAJE DE PURGA
    contSELECT = scrollSTATE;
    Serial.printf("Seleccionado contenedor: %d\n",contSELECT);
-
+   if (SELECT){
+      sendSTRING("PURGA",macCeldas[contSELECT]);  
+   }
    //Cambio de vista 
    
    //go BACK
@@ -701,10 +874,10 @@ else if (strcmp(VISTA, "A0B1") == 0) {
    //scrollSIGN(menuA0A0Conf_F);
 
    //!MODELO
-   //TODO ENVIAR MENSAJE DE CARGA AL CONTENEDOR CORRESPONDIENTE
-
-
-
+   //TODO ENVIAR MENSAJE DE STOP   
+   if (UP|DOWN|SELECT){
+      sendSTRING("STOPX",macCeldas[contSELECT]);  
+   }
    //Cambio de vista 
    cambioEVENTO("A0B2");
 } 
@@ -797,6 +970,13 @@ else if (strcmp(VISTA, "B0B0A0") == 0) {
    //Cambio de vista al setting loop (indicar CASE del setting LOOP)
    //Serial.println(RECETA[receta_seleccionada][0]);
    //!MODELO
+   //TODO FUNCION DE VERTIMIENTO
+   if((scrollSTATE == 2)&&SELECT){
+   funcionVERTX();
+   }
+
+
+
    cambioSETTING("B0B0A0set");
    //Cambio de vista confirmacion
    cambioVISTA(2,"B0B0A1");
@@ -820,9 +1000,13 @@ else if (strcmp(VISTA, "B0B0A1") == 0) {
    //!MODELO
    //Cambio de vista 
    //Correr cell check
-   if (cellCHECK){
+   for (int yyy = 0; yyy < 7; yyy++) {
+      statusCHECK(macCeldas[yyy], yyy);
+      delay(200);
+   }
+   delay(200);
+   if (todosCeros()){
       UP = true;
-      delay(5000);
    }
 
    cambioEVENTO("B0B0A2");
@@ -832,7 +1016,7 @@ else if (strcmp(VISTA, "B0B0A2") == 0) {
    //! dependiendo de si se cumple la "condicion de entrada" se activa una o la otra
    
    //!VISTAa SCROLL con 2 opciones (se activa si los contenedores estan cargados)
-   if(cellCHECK){
+   if(todosCeros()){
    //!VISTA NOTIF
    generarVISTA(B0B0A2anotif,B0B0A2anotif_f);
    //!MODELO
@@ -959,7 +1143,7 @@ else if (strcmp(VISTA, "C0A1") == 0) {
    addREC_ingSELECT = scrollSTATE;
    
    //Cambio de vista 
-   //* En este caso todo los cambios llevan al mismo setting menu, exceoto que la variable cambia de acuerdo al scrollSTATE
+   //* En este caso todo los cambios llevan al mismo setting menu, excepto que la variable cambia de acuerdo al scrollSTATE
    if (scrollSTATE == 0){
    addRECcantidad = RECETA[0][addREC_ingSELECT];
    cambioVISTA(0,"C0A2I");}
@@ -1079,7 +1263,14 @@ else if (strcmp(VISTA, "D0") == 0) {
    generarVISTA(D0scroll,D0scroll_f);
    scrollSIGN(D0scroll_f);
    //!MODELO
-
+   //STATE SWEEP
+   if((scrollSTATE == 2)&& SELECT){
+      for (int yyy = 0; yyy < 7; yyy++) {
+         statusCHECK(macCeldas[yyy], yyy);
+         delay(200);
+      }
+      delay(500);
+   }
 
    //Cambio de vista 
    cambioVISTA(0,"D0A0");
@@ -1096,7 +1287,6 @@ else if (strcmp(VISTA, "D0A0") == 0) {
    //!MODELO
    contSELECT = scrollSTATE;
    Serial.printf("Seleccionado contenedor: %d\n",contSELECT);
-
    //Cambio de vista 
    
    //go BACK
@@ -1115,7 +1305,20 @@ else if (strcmp(VISTA, "D0A1") == 0) {
    generarVISTA(D0A1scroll,D0A1scroll_f);
    scrollSIGN(D0A1scroll_f);
    //!MODELO
-   
+   //TODO ENVIA COMANDO DE RESET PARA CALIBRACION
+   if ((scrollSTATE==0) && SELECT){
+      sendSTRING("RESET",macCeldas[contSELECT]);  
+   }
+   else if ((scrollSTATE==1) && SELECT){
+      sendSTRING("TAREX",macCeldas[contSELECT]);  
+   }
+   else if ((scrollSTATE==2) && SELECT){
+      sendSTRING("CALIB500",macCeldas[contSELECT]);  
+   }
+   else if ((scrollSTATE==3) && SELECT){
+      sendSTRING("MEASX",macCeldas[contSELECT]);  
+   }
+
    //Cambio de vista 
    
    //go BACK
@@ -1155,6 +1358,10 @@ else if (strcmp(VISTA, "D0A1d") == 0){
 
    //!MODELO
    //TODO EXTRAER MEDICION
+   sendSTRING("MEASX",macCeldas[contSELECT]);
+   lcd.setCursor(0,2);
+   lcd.print(MEAS);
+   delay(500);
    cambioEVENTO("D0A1");
 }
 
@@ -1188,6 +1395,18 @@ else if (strcmp(VISTA, "D0B1") == 0) {
    scrollSIGN(D0B1scroll_f);
    //!MODELO
    //TODO GIRAR DRIVER DEL CONTENEDOR SELECCIONADO
+   if ((scrollSTATE==0) && SELECT){
+      sendSTRING("DRIV+",macCeldas[contSELECT]);  
+      SELECT = false;
+   }
+   else if ((scrollSTATE==1) && SELECT){
+      sendSTRING("DRIV-",macCeldas[contSELECT]);  
+      SELECT = false;
+   }
+   else if ((scrollSTATE==2) && SELECT){
+      sendSTRING("DRIVS",macCeldas[contSELECT]);  
+      SELECT = false;
+   }
 
    //go BACK
    cambioVISTA(3,"D0");
@@ -1195,11 +1414,16 @@ else if (strcmp(VISTA, "D0B1") == 0) {
 
 
 else if (strcmp(VISTA, "D0C0") == 0) {
+
+   
    //!VISTA SCROLL
    //scrolling(C0scroll_f);
    scrolling(D0C0scroll_f);
-   generarVISTA(D0C0scroll,D0C0scroll_f);
+   generarVISTAparams(D0C0scroll,statusMATRIX,D0C0scroll_f); 
    scrollSIGN(D0C0scroll_f);
+   
+
+
    //!MODELO
    //DISPLAY DEL STATUS CHECK
 
@@ -1315,6 +1539,7 @@ void cambioVISTA(int opcion, char destino[12] ){
       valuetoSET = 0;
       strcpy(VISTA, destino);
       lcd.clear();
+      //notSENDED = true;
    }
 }
 
@@ -1448,6 +1673,7 @@ void cambioEVENTO(char destino[12]){
       scrollSTATE=0;
       strcpy(VISTA, destino);
       lcd.clear();
+      //notSENDED = true;
    }
 }
 
@@ -1496,5 +1722,92 @@ void generarVISTAparams(char menu[][20],int entrada[9] ,int opciones) {
 }
 
 
+//? FUNCIONES DE ESPNOW
+
+//FUNCION EDITADA PARA "SENDONCE"
+void sendSTRING(String messageToSend, uint8_t* MAC){
+  //notSENDED = false;
+  // Send message via ESP-NOW
+  uint8_t messageLength = messageToSend.length() + 1; // Include the null terminator
+  uint8_t messageBytes[messageLength];
+  messageToSend.getBytes(messageBytes, messageLength);
+  int retry = 0;
+  bool sended = false;
+  do
+  {
+  esp_err_t result = esp_now_send(MAC, messageBytes, messageLength);
+  if (result == ESP_OK) {
+    Serial.println("Mensaje enviado.");
+    sended = true;
+  }
+  else {
+    Serial.printf("Retry: %d \n",retry);
+    retry++;
+  }
+  } while ((sended == false)||(retry > 3));
+  if (sended == false){
+    Serial.println("No se pudo enviar el mensaje");
+  }
+  delay(100);
+}
+
+void funcCARGA(uint8_t *cellADDRESS){
+  sendSTRING("CARGA",cellADDRESS);
+}
+void funcPURGA(uint8_t *cellADDRESS){
+  sendSTRING("PURGA",cellADDRESS);
+}
+void funcVERTX(uint8_t *cellADDRESS,int cantidad){
+  // Buffer para convertir el número a cadena
+  char buffer[10];  
+  // Concatenar "CARGA" con el número
+  sprintf(buffer, "VERTX%d",cantidad);
+  Serial.println(buffer);
+  sendSTRING(buffer,cellADDRESS);
+}
+
+void statusCHECK(uint8_t *cellADDRESS,int cellIndex){
+   sendSTRING("ESTAD",cellADDRESS);
+   delay(100);
+   statusMATRIX[cellIndex] = ESTAD;
+};
 
 
+//! SOLO SE ACTIVA SI SE HIZO UNA CARGA PREVIA Y SI LOS CONTENEDORES NO ESTAN VACIOS
+//TODO IMPLEMENTAR ESAS CONDICIONES
+void funcionVERTX(){
+//Primero sweep de vertido 100g
+for (int rr = 0; rr < 7; rr++) {
+    sendSTRING("VERTX100",macCeldas[rr]);
+    delay(200);
+}
+//Despues vertido necesario
+for (int rr = 0; rr < 6; rr++) {
+   int toVERT = RECETA[receta_seleccionada][rr] * cantPORCIONES;
+   String buffer = String("VERTX")+String(toVERT);
+   sendSTRING(buffer,macCeldas[rr]);
+   delay(200);
+}
+delay(500);
+//Despues espera
+}
+
+
+void vertCANCEL(){
+for (int rr = 0; rr < 6; rr++) {
+   sendSTRING("STOPX",macCeldas[rr]);
+   delay(200);
+}
+}
+
+//check para el vector de status
+bool todosCeros() {
+    for (int i = 0; i < 7; ++i) {
+        if (statusMATRIX[i] != 0) {
+            // Si al menos un elemento no es cero, retorna falso
+            return false;
+        }
+    }
+    // Si todos los elementos son cero, retorna verdadero
+    return true;
+}

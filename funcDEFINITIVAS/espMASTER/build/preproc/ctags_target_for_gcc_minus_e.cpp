@@ -1,11 +1,11 @@
-# 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino"
+# 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 //* COMUNICACION MULTICELDA DESDE EL MASTER
 //* Control con comandos
 
 
-# 6 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino" 2
-# 7 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino" 2
-# 8 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino" 2
+# 6 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino" 2
+# 7 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino" 2
+# 8 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino" 2
 
 // Init del LCD y del display
 int lcdColumns = 20;
@@ -20,9 +20,9 @@ LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);
 unsigned long buttonTIME = 0;
 unsigned long lastBTIME = 0;
 hw_timer_t *My_timer = 
-# 21 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino" 3 4
+# 21 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino" 3 4
                       __null
-# 21 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino"
+# 21 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
                           ;
 portMUX_TYPE mux = {.owner = 0xB33FFFFF,.count = 0} /**< Spinlock initializer */;
 
@@ -297,7 +297,7 @@ void loop() {
   delay(2000);
 
   */
-# 289 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino"
+# 289 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
   /*
 
   Serial.println("\nCELDA B");
@@ -337,7 +337,7 @@ void loop() {
   delay(2000);
 
   */
-# 309 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino"
+# 309 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 }
 
 void sendSTRING(String messageToSend, uint8_t* MAC){
@@ -484,7 +484,7 @@ void processCommand(String command) {
   }
 
   */
-# 450 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino"
+# 450 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 }
 
 
@@ -524,16 +524,16 @@ void lcdPRINT(String data){
     char *token = strtok(str, &separador);
     int fila = 0;
     while (token != 
-# 488 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino" 3 4
+# 488 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino" 3 4
                    __null 
-# 488 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino"
+# 488 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
                         && fila < 4) {
         lcd.setCursor(0, fila);
         lcd.print(atoi(token));
         token = strtok(
-# 491 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino" 3 4
+# 491 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino" 3 4
                       __null
-# 491 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espMASTER\\espMASTER.ino"
+# 491 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
                           , &separador);
         fila++;
     }

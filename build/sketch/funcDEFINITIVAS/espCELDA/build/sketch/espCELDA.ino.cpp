@@ -1,13 +1,23 @@
 #line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp"
 #include <Arduino.h>
-#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 //* COMUNICACION MULTICELDA DESDE EL MASTER
+//MAC ADRESS DEL MASTER HOUSE: A0:B7:65:DD:9E:D4
+//MAC ADRESS DEL MASTER SOPA: {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}
+//MAC ADRESS DEL MASTER HACMONITOR:
+
+
+
 
 #include <esp_now.h>
 #include <WiFi.h>
 #include "HX711.h"
-#define PINDRIVER1 22
-#define PINDRIVER2 23
+#define PINDRIVER1 18
+#define PINDRIVER2 19
+#define LEDCARGA 17
+#define LEDPURGA 16
+#define LEDVERTX 4
+
 
 //* Variables de control
 volatile bool initCARGA = false;
@@ -16,8 +26,9 @@ volatile bool initVERTX = false;
 volatile bool printENABLE = false;
 volatile bool STOPX = false;
 
+
 //* Variables de estado de celda
-bool disponible = true;
+bool ocupado = false;
 bool empty      = true;
 
 //Setting de mediciones
@@ -69,43 +80,43 @@ HX711 celda3;
 HX711 celda4;
 
 // Callback when data is sent
-#line 69 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 80 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
-#line 75 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 86 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 138 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 164 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void setup();
-#line 182 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 216 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void loop();
-#line 266 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 300 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 291 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 325 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cargaCELDA();
-#line 310 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 347 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void purgaCELDA();
-#line 325 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 365 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void vertxCELDA(int cantidad);
-#line 350 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 393 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void estadCELDA();
-#line 354 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 400 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driveCELDA();
-#line 358 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 404 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 float calcularMediaMovil(float datosIN[30]);
-#line 366 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 412 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void tareCELLS();
-#line 374 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 420 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void resetCELLS();
-#line 386 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 432 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cellMEASURE();
-#line 415 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 461 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverACTIVE(bool sentido);
-#line 427 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 473 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverSTOP();
-#line 433 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 479 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void calibrarCELDAS(int PESO);
-#line 455 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
-void sendDATOSLCD();
-#line 69 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
+#line 501 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+void sendMEASURE();
+#line 80 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   //Serial.print("\r\nLast Packet Send Status:\t");
   //Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
@@ -123,6 +134,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
   //* Filtrado de comandos
 
+  //?FUNCIONES PRINCIPALES
   if (ORDEN == "CARGA"){
     initCARGA = true;
   }
@@ -135,9 +147,17 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   else if (ORDEN == "ESTAD"){
     estadCELDA();
   }
-  else if (ORDEN == "DRIVE"){
-    driveCELDA();
+  //? ORDENES DEL CONTROL MANUAL DEL DRIVER
+  else if (ORDEN == "DRIV+"){
+    driverACTIVE(true);
   }
+  else if (ORDEN == "DRIV-"){
+    driverACTIVE(false);
+  }
+  else if (ORDEN == "DRIVS"){
+    driverSTOP();
+  }
+  //? ORDEN DE STOP
   else if (ORDEN == "STOPX"){
     STOPX = true;
     Serial.println("ORDEN DE STOP");
@@ -148,6 +168,8 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     Serial.println("Print activado");}
     else{
     Serial.println("Print desactivado");}
+
+  //? ORDENES PARA CALIBRACION
   }else if (ORDEN == "TAREX"){
     tareCELLS();
   }else if (ORDEN == "RESET"){
@@ -157,7 +179,11 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     Serial.println(ORDEN);
     Serial.println(CANTIDADVERT);
     calibrarCELDAS(CANTIDADVERT);
+  }else if (ORDEN == "MEASX"){
+    sendMEASURE();
   }
+
+
   else{
     Serial.println("ERROR: comando desconocido");
   }
@@ -212,15 +238,23 @@ void setup() {
   pinMode(2,OUTPUT);
   pinMode(PINDRIVER1,OUTPUT);
   pinMode(PINDRIVER1,OUTPUT);
+  pinMode(LEDCARGA,OUTPUT);
+  pinMode(LEDVERTX,OUTPUT);
+  pinMode(LEDPURGA,OUTPUT);
+
+
+
 
   digitalWrite(2,LOW);
   digitalWrite(PINDRIVER1,LOW);
   digitalWrite(PINDRIVER1,LOW);
-
+  digitalWrite(LEDCARGA,LOW);
+  digitalWrite(LEDVERTX,LOW);
+  digitalWrite(LEDPURGA,LOW);
 }
 
 void loop() {
-
+ocupado = false;
 if(initCARGA){
 cargaCELDA();
 initCARGA = false;
@@ -295,7 +329,7 @@ Serial.printf("Promedio:  %.4f\n",meanCELDA);
 Serial.printf("Promedio CORREX:  %.4f\n",meanSCALED);
 //float finalMEAN = (tarado1+tarado2+tarado3+tarado4)/4;
 //Serial.println(finalMEAN);
-sendDATOSLCD();
+//sendDATOSLCD();
 }
 
 
@@ -329,33 +363,39 @@ void sendSTRING(String messageToSend, uint8_t* MAC){
 }
 
 void cargaCELDA(){
+  ocupado = true;
   Serial.println("CARGA iniciada");
   Serial.println("PESO TARADO");
   tareCELLS();
+  STOPX = false;
   while (STOPX == false)
   {
     Serial.println("CARGUE EL CONTENEDOR");
+    digitalWrite(LEDCARGA,HIGH);
     delay(200);
   }
   STOPX = false;
+  digitalWrite(LEDCARGA,LOW);
   //Medir
   cellMEASURE();
   CONTENIDO = meanCELDA;
   //Guardar
   Serial.println("Se guardo la medicion");
   Serial.println("Carga realizada.");
-  
 }
 
 void purgaCELDA(){
+  ocupado = true;
   Serial.println("PURGA iniciada");
   driverACTIVE(true);
   while (STOPX == false)
   {
     Serial.println("PURGANDO EL CONTENEDOR");
+    digitalWrite(LEDPURGA,HIGH);
     delay(200);
   }
   STOPX = false;
+  digitalWrite(LEDPURGA,LOW);
   driverSTOP();
   //Guardar
   Serial.println("CONTENEDOR PURGADO");
@@ -363,6 +403,7 @@ void purgaCELDA(){
 }
 
 void vertxCELDA(int cantidad){
+  ocupado = true;
   Serial.println("Iniciando vertimiento");
   bool COMPLETE = false;
   //TODO   Ciclo de vertimiento, se vierte material hasta que se cumpla la cota de vertimiento (CONTENIDO TOTAL - CANTIDAD)
@@ -379,16 +420,21 @@ void vertxCELDA(int cantidad){
       COMPLETE = true;
     }
     */
+    digitalWrite(LEDVERTX,HIGH);
     delay(2000);
     break;
   }
   driverSTOP();
   STOPX == false;
+  digitalWrite(LEDVERTX,LOW);
   Serial.printf("Se vertieron %d g. de material\n",cantidad);
 }
 
 void estadCELDA(){
-  Serial.println("ESTADO iniciada");
+  String buffer = String("STATE") + String(int(ocupado));
+  Serial.println(ocupado);
+  Serial.println(buffer);
+  sendSTRING(buffer,macMASTER);
 }
 
 void driveCELDA(){
@@ -492,8 +538,9 @@ void calibrarCELDAS(int PESO){
 
 }
 
-void sendDATOSLCD(){
-  String buffer = String("LCDPR") + String(long(tarado1)) + String(",") + String(long(tarado2)) + String(",") + String(long(tarado3)) + String(",") + String(long(tarado4));
-  Serial.print(buffer);
+void sendMEASURE(){
+  String buffer = String("MEASX") + String(meanSCALED);
   sendSTRING(buffer,macMASTER);
 }
+
+

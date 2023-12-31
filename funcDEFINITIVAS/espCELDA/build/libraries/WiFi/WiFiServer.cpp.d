@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\calibMONITOR\espCELDA\build\libraries\WiFi\WiFiServer.cpp.o: \
+C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\libraries\WiFi\WiFiServer.cpp.o: \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\WiFi\src\WiFiServer.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\WiFi\src\WiFiServer.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \

@@ -1,5 +1,5 @@
-C:\Users\bruno\Desktop\sopaMENU\calibMONITOR\espCELDA\build\sketch\espCELDA.ino.cpp.o: \
- C:\Users\bruno\Desktop\sopaMENU\calibMONITOR\espCELDA\build\sketch\espCELDA.ino.cpp \
+C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.ino.cpp.o: \
+ C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.ino.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/esp_arduino_version.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/freertos/include/freertos/FreeRTOS.h \

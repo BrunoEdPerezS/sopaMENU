@@ -10,17 +10,17 @@
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\variants\\doitESP32devkitV1"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "WiFi.h",
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "HX711.h",
     "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\HX711_Arduino_Library\\src"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "",
     "Includepath": null
   },

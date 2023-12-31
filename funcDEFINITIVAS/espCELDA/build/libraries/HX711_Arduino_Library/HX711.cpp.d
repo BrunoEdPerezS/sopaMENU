@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\calibMONITOR\espCELDA\build\libraries\HX711_Arduino_Library\HX711.cpp.o: \
+C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\libraries\HX711_Arduino_Library\HX711.cpp.o: \
  C:\Users\bruno\Documents\Arduino\libraries\HX711_Arduino_Library\src\HX711.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/esp_arduino_version.h \

@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\calibMONITOR\espMASTER\build\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp.o: \
+C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espMASTER\build\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp.o: \
  C:\Users\bruno\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp \
  C:\Users\bruno\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Print.h \
