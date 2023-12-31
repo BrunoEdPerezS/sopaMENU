@@ -86,35 +86,35 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
 #line 164 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void setup();
-#line 216 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 214 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void loop();
-#line 300 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 298 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 325 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 323 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cargaCELDA();
-#line 347 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 345 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void purgaCELDA();
-#line 365 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 363 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void vertxCELDA(int cantidad);
-#line 393 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 391 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void estadCELDA();
-#line 400 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 398 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driveCELDA();
-#line 404 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 402 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 float calcularMediaMovil(float datosIN[30]);
-#line 412 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 410 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void tareCELLS();
-#line 420 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 418 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void resetCELLS();
-#line 432 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 430 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cellMEASURE();
-#line 461 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 459 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverACTIVE(bool sentido);
-#line 473 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 471 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverSTOP();
-#line 479 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 477 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void calibrarCELDAS(int PESO);
-#line 501 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 499 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void sendMEASURE();
 #line 80 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
@@ -222,13 +222,12 @@ void setup() {
   esp_now_register_send_cb(OnDataSent);
   esp_now_register_recv_cb(OnDataRecv);
 
-
-
+  
   //* REGISTRAR PEERS
   memcpy(master.peer_addr, macMASTER, 6);
   master.channel = 1;  
   master.encrypt = false;
-
+  
   //* AÑADIR PEERS      
   if (esp_now_add_peer(&master) != ESP_OK){
     Serial.println("Failed to add peer");
@@ -241,7 +240,6 @@ void setup() {
   pinMode(LEDCARGA,OUTPUT);
   pinMode(LEDVERTX,OUTPUT);
   pinMode(LEDPURGA,OUTPUT);
-
 
 
 

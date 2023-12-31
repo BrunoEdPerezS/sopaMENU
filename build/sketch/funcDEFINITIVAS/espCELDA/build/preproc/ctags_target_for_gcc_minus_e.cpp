@@ -185,7 +185,6 @@ void setup() {
   esp_now_register_recv_cb(OnDataRecv);
 
 
-
   //* REGISTRAR PEERS
   memcpy(master.peer_addr, macMASTER, 6);
   master.channel = 1;
@@ -203,7 +202,6 @@ void setup() {
   pinMode(17,0x03);
   pinMode(4,0x03);
   pinMode(16,0x03);
-
 
 
 
@@ -258,7 +256,7 @@ rawMEASURE = celda4.read();
 Serial.println(rawMEASURE);
 
 */
-# 250 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 248 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 // Buffers de medida
 /*
 
@@ -317,7 +315,7 @@ Serial.println(rawMEASURE);
 indice = (indice + 1) % numDatos;
 
 */
-# 280 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 278 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 cellMEASURE();
 // Imprimir resultado
 if (printENABLE){
@@ -427,7 +425,7 @@ void vertxCELDA(int cantidad){
     }
 
     */
-# 383 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 381 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
     digitalWrite(4,0x1);
     delay(2000);
     break;

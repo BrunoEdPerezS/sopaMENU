@@ -182,13 +182,12 @@ void setup() {
   esp_now_register_send_cb(OnDataSent);
   esp_now_register_recv_cb(OnDataRecv);
 
-
-
+  
   //* REGISTRAR PEERS
   memcpy(master.peer_addr, macMASTER, 6);
   master.channel = 1;  
   master.encrypt = false;
-
+  
   //* AÑADIR PEERS      
   if (esp_now_add_peer(&master) != ESP_OK){
     Serial.println("Failed to add peer");
@@ -201,7 +200,6 @@ void setup() {
   pinMode(LEDCARGA,OUTPUT);
   pinMode(LEDVERTX,OUTPUT);
   pinMode(LEDPURGA,OUTPUT);
-
 
 
 
