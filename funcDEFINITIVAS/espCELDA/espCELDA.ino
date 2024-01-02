@@ -1,3 +1,5 @@
+
+//? VERSION MODIFICADA SIN ERROR DE MEDICION!!!
 //* COMUNICACION MULTICELDA DESDE EL MASTER
 //MAC ADRESS DEL MASTER HOUSE: A0:B7:65:DD:9E:D4
 //MAC ADRESS DEL MASTER SOPA: {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}
@@ -5,7 +7,7 @@
 
 
 
-
+#include <Preferences.h>
 #include <esp_now.h>
 #include <WiFi.h>
 #include "HX711.h"
@@ -56,8 +58,9 @@ float gainC1=1,gainC2=1,gainC3=1,gainC4=1;
 float meanCELDA =0; //Valor medio medido en la celda
 float CONTENIDO =0; //Carga que posee el contenedor
 float meanSCALED =0;
-float gainMEAN =1;
-float meanALL =0, meanOFFSET =0;
+float gainMEAN;
+float meanOFFSET;
+float meanALL =0;
 
 
 int indice = 0;           // Índice actual en el array
@@ -70,6 +73,7 @@ uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
 //String messageToSend = "string1";
 
 esp_now_peer_info_t master;
+Preferences preferences;
 
 HX711 celda1;
 HX711 celda2;
@@ -162,6 +166,12 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
 
 void setup() {
+  //Setup de las preferences y EEPROM
+  cargarValoresDesdePreferences();
+
+
+
+
   //Init de las celdas
   celda1.begin(LOADCELL_DOUT_PIN1, LOADCELL_SCK_PIN1, 64);    // Set gain to 64, uses A- and A+ on the HX711 Board
   celda2.begin(LOADCELL_DOUT_PIN2, LOADCELL_SCK_PIN2, 64);
@@ -277,18 +287,22 @@ indice = (indice + 1) % numDatos;
 */
 cellMEASURE();
 // Imprimir resultado
-if (printENABLE){
+//if (printENABLE){
 Serial.println("Mediciones: ");
-Serial.printf("C1: %.4f\n",tarado1);
-Serial.printf("C2: %.4f\n",tarado2);
-Serial.printf("C3: %.4f\n",tarado3);
-Serial.printf("C4: %.4f\n",tarado4);
-Serial.printf("Promedio:  %.4f\n",meanCELDA);
+Serial.printf("C1: %.4f\n",mean1);
+Serial.printf("C2: %.4f\n",mean2);
+Serial.printf("C3: %.4f\n",mean3);
+Serial.printf("C4: %.4f\n",mean4);
+Serial.printf("----------\n");
+
+Serial.printf("MEANRAW: %.4f\n",meanALL);
+Serial.printf("Offset:  %.4f\n",meanOFFSET);
+Serial.printf("GAIN:  %.4f\n",gainMEAN);
 Serial.printf("Promedio CORREX:  %.4f\n",meanSCALED);
 //float finalMEAN = (tarado1+tarado2+tarado3+tarado4)/4;
 //Serial.println(finalMEAN);
 //sendDATOSLCD();
-}
+//}
 
 
 
@@ -408,22 +422,12 @@ float calcularMediaMovil(float datosIN[30]) {
 }
 
 void tareCELLS(){
-  offset1 = mean1;
-  offset2 = mean2;
-  offset3 = mean3;
-  offset4 = mean4;
   meanOFFSET = meanALL;
 }
 
 void resetCELLS(){
-  offset1 = 0;
-  offset2 = 0;
-  offset3 = 0;
-  offset4 = 0;
-  gainC1 = 1;
-  gainC2 = 1;
-  gainC3 = 1;
-  gainC4 = 1;
+  
+  meanOFFSET = 0;
   gainMEAN = 1;
 }
 
@@ -441,18 +445,8 @@ void cellMEASURE(){
 
   meanALL = (mean1+mean2+mean3+mean4)/4;
 
-
   //(Mean - offset)*GAIN
-  tarado1 = (mean1-offset1)*gainC1;
-  tarado2 = (mean2-offset2)*gainC2;
-  tarado3 = (mean3-offset3)*gainC3;
-  tarado4 = (mean4-offset4)*gainC4; 
   meanSCALED = (meanALL-meanOFFSET)*gainMEAN;
-  
-  //MEAN CELDA FINAL 
-  meanCELDA = (tarado1+tarado2+tarado3+tarado4)/4;
-
-
   indice = (indice + 1) % numDatos;
 }
 
@@ -478,22 +472,17 @@ void calibrarCELDAS(int PESO){
   float PESOF = float(PESO);
   if (CANTIDADVERT == 9999){
   Serial.printf("Reseteando ganancias a 1\n");
-  gainC1   = 1;
-  gainC2   = 1;
-  gainC3   = 1;
-  gainC4   = 1;
   gainMEAN = 1;
   }else{
   Serial.printf("Calibrando celdas con %d g.\n",CANTIDADVERT);
-  cellMEASURE();
-  gainC1   = PESOF/(mean1-offset1);
-  gainC2   = PESOF/(mean2-offset2);
-  gainC3   = PESOF/(mean3-offset3);
-  gainC4   = PESOF/(mean4-offset4);
-  gainMEAN = PESOF/(meanALL-meanOFFSET);
-  Serial.printf("Ganancias obtenidas G1:%.4f ,G1:%.4f ,G1:%.4f ,G1:%.4f \n",gainC1,gainC2,gainC3,gainC4);
+  if (meanALL - meanOFFSET != 0) {
+    gainMEAN = PESOF / (meanALL - meanOFFSET);
+  } else {
+    gainMEAN = 1.0; // Si el denominador es cero, establecer gainMEAN en 1
   }
-
+  Serial.printf("Ganancia obtenida G1:%.4f \n",gainMEAN);
+  }
+  guardarValoresEnPreferences();
 }
 
 void sendMEASURE(){
@@ -501,3 +490,24 @@ void sendMEASURE(){
   sendSTRING(buffer,macMASTER);
 }
 
+//? MANEJO DE MEMORIA EEPROM 
+
+void cargarValoresDesdePreferences() {
+  preferences.begin("my-app", false);  // El segundo argumento indica si borrar las preferencias al arrancar
+
+  // Leer los valores de gainMEAN y meanOffset desde las preferencias
+  gainMEAN = preferences.getFloat("gainMEAN", 1.0);  // Si no está inicializado, se establece en 1.0
+  meanOFFSET = preferences.getFloat("meanOffset", 1.0);  // Si no está inicializado, se establece en 1.0
+
+  preferences.end();
+}
+
+void guardarValoresEnPreferences() {
+  preferences.begin("my-app", false);  // El segundo argumento indica si borrar las preferencias al arrancar
+
+  // Guardar los valores de gainMEAN y meanOffset en las preferencias
+  preferences.putFloat("gainMEAN", gainMEAN);
+  preferences.putFloat("meanOffset", meanOFFSET);
+
+  preferences.end();
+}

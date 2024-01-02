@@ -11,13 +11,8 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\calibracionCELDAS\\build\\sketch\\calibracionCELDAS.ino.cpp",
-    "Include": "HX711.h",
-    "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\HX711_Arduino_Library\\src"
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\calibracionCELDAS\\build\\sketch\\calibracionCELDAS.ino.cpp",
-    "Include": "WiFi.h",
-    "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src"
+    "Include": "Preferences.h",
+    "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src"
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\medicionesEX\\calibracionCELDAS\\build\\sketch\\calibracionCELDAS.ino.cpp",
@@ -25,52 +20,7 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\HX711_Arduino_Library\\src\\HX711.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFi.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiAP.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiClient.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiGeneric.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiMulti.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiSTA.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiScan.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiServer.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiUdp.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src\\Preferences.cpp",
     "Include": "",
     "Includepath": null
   }

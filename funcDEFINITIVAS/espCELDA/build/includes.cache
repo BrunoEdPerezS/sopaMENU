@@ -11,6 +11,11 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Include": "Preferences.h",
+    "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src"
+  },
+  {
+    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "WiFi.h",
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src"
   },
@@ -21,6 +26,11 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src\\Preferences.cpp",
     "Include": "",
     "Includepath": null
   },

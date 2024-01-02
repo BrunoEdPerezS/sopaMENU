@@ -1,9 +1,18 @@
 # 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 # 2 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 2
 # 3 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 2
-# 4 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 2
+
+# 3 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+//#include <EEPROM.h>
 # 5 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 2
 # 6 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 2
+//#include <EEPROM.h>
+# 8 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 2
+
+
+
+
+
 
 //! Estructura base para implementar una vista de scroll------------
   /*
@@ -25,7 +34,7 @@
   scrollSIGN(menu0F);
 
   */
-# 19 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 26 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 //! Estructura base para implementar una vista de SETTING------------
   /*
 
@@ -54,7 +63,7 @@
    cambioSETTING(5); (el parámetro de esta funcion debe ser la vista a la cual responde)
 
   */
-# 35 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 42 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 //! Estructura base para implementar una notificacion (como un cuadro de dialogo)------------
 /*
 
@@ -85,11 +94,12 @@
  * FALTA PROGRAMAR EL MONITOREO DE ESTADO
 
 */
-# 56 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 63 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 //! MACS DE LOS PEERS CASA:
 //esp1MAC: A0:B7:65:DD:04:5C
 //esp2MAC: A0:B7:65:DC:15:A8
-//contMAC: 
+//contMAC: 94:B5:55:F9:12:68
+
 
 
 
@@ -103,9 +113,9 @@
 unsigned long buttonTIME = 0;
 unsigned long lastBTIME = 0;
 hw_timer_t *My_timer = 
-# 72 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 3 4
+# 80 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino" 3 4
                       __null
-# 72 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 80 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
                           ;
 portMUX_TYPE mux = {.owner = 0xB33FFFFF,.count = 0} /**< Spinlock initializer */;
 
@@ -141,21 +151,31 @@ int addRECshowparam[4];
 int addRECcantidad = 0;
 
 //La primera fila del array es inaccesible para el programa ya que esta reservada para edicion
-int RECETA[11][9] = {
-  {1, 0, 0, 0, 0, 0, 10, 99999, 99999},
+int RECETA[11][9]; //= {
+/*  {1, 0, 0, 0, 0, 0, 10, 99999, 99999},
+
   {10, 10, 10, 10, 10, 10, 10, 99999, 99999},
+
   {20, 20, 20, 20, 20, 20, 20, 99999, 99999},
+
   {30, 30, 30, 30, 30, 30, 30, 99999, 99999},
+
   {40, 40, 40, 40, 40, 40, 40, 99999, 99999},
+
   {50, 50, 50, 50, 50, 50, 50, 99999, 99999},
+
   {60, 60, 60, 60, 60, 60, 60, 99999, 99999},
+
   {70, 70, 70, 70, 70, 70, 70, 99999, 99999},
+
   {80, 80, 80, 80, 80, 80, 80, 99999, 99999},
+
   {90, 90, 90, 90, 90, 90, 90, 99999, 99999},
+
   {100, 100, 100, 100, 100, 100, 100, 99999, 99999}
-};
 
-
+};*/
+# 130 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 int activeCONTS = 2;
 int statusMATRIX[8] ={0, 1, 2, 3, 4, 5, 6,99999};
 
@@ -215,7 +235,7 @@ uint8_t macCeldas[][6] = {
 //esp2MAC: A0:B7:65:DC:15:A8
   {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
   {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
-  {0x32, 0xAE, 0xA4, 0x07, 0x0D, 0x66},
+  {0x94, 0xB5, 0x55, 0xF9, 0x12, 0x68},
   {0x3C, 0x71, 0xBF, 0xAA, 0xC2, 0x04},
   {0xC2, 0x8A, 0x54, 0x82, 0xDE, 0x5F},
   {0x60, 0x05, 0x20, 0x65, 0x41, 0x80},
@@ -233,7 +253,7 @@ esp_now_peer_info_t celda4 = {};
 esp_now_peer_info_t celda5 = {};
 esp_now_peer_info_t celda6 = {};
 esp_now_peer_info_t celda7 = {};
-
+Preferences preferences;
 
 
 
@@ -447,6 +467,22 @@ attachInterrupt((((19)<40)?(19):-1), BUTTONpress2, 0x02);
 
 pinMode(17, 0x05);
 attachInterrupt((((17)<40)?(17):-1), BUTTONpress3, 0x02);
+
+//? Setup de la eeprom
+  preferences.begin("my-app", false); // El segundo argumento indica si borrar las preferencias al arrancar
+
+  // Intentar leer la matriz de las preferencias
+  leerMatrizDePreferences();
+
+  // Si la matriz en las preferencias no ha sido inicializada, configúrala y guárdala
+  if (esMatrizPreferencesVacia()) {
+    inicializarMatrizRECETA();
+    guardarMatrizEnPreferences();
+    leerMatrizDePreferences();
+  }
+
+
+
 
 //? SETUP PEERS ESPNOW
 
@@ -961,6 +997,10 @@ else if (strcmp(VISTA, "B0B0A0") == 0) {
    lcd.clear();
    lcd.setCursor(0,1);
    lcd.print("    PREPARANDO    ");
+   //Mandar a todos a verter 100g
+   funcionVERTSWEEP();
+   delay(5000);
+   //Funcion de vertimiento final
    funcionVERTX();
    }
 
@@ -1168,7 +1208,9 @@ else if (strcmp(VISTA, "C0A1") == 0) {
    for (int i = 0; i < 7; i++) {
    RECETA[addREC_slot][i] = RECETA[0][i];
    }
-   cambioVISTA(7,"C0");}
+   guardarMatrizEnPreferences();
+   cambioVISTA(7,"C0");
+   }
    //go BACK
    cambioVISTA(8,"C0");
 }
@@ -1322,7 +1364,7 @@ else if (strcmp(VISTA, "D0A1") == 0) {
       sendSTRING("TAREX",macCeldas[contSELECT]);
    }
    else if ((scrollSTATE==2) && SELECT){
-      sendSTRING("CALIB500",macCeldas[contSELECT]);
+      sendSTRING("CALIB285",macCeldas[contSELECT]);
    }
    else if ((scrollSTATE==3) && SELECT){
       sendSTRING("MEASX",macCeldas[contSELECT]);
@@ -1373,8 +1415,6 @@ else if (strcmp(VISTA, "D0A1d") == 0){
    delay(500);
    cambioEVENTO("D0A1");
 }
-
-
 else if (strcmp(VISTA, "D0B0") == 0) {
    //!VISTA SCROLL
    scrolling(conSELECTscroll_f);
@@ -1420,8 +1460,6 @@ else if (strcmp(VISTA, "D0B1") == 0) {
    //go BACK
    cambioVISTA(3,"D0");
 }
-
-
 else if (strcmp(VISTA, "D0C0") == 0) {
 
 
@@ -1446,8 +1484,6 @@ else if (strcmp(VISTA, "E0") == 0){
    generarVISTA(E0notif,E0notif_f);
    cambioEVENTO("MAIN");
 }
-
-
 else {
   Serial.print("Problemas con las vistas...");
 }
@@ -1541,7 +1577,7 @@ void generarVISTA(char menu[][20],int opciones) {
 /*Esta funcion realiza el cambio de vista, para ello se le entrega el estado de "Scroll" en el que realizara, y la vista hacia la que 
 
 se deriva dicho cambio*/
-# 1506 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 1530 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] ){
 
    if ((scrollSTATE == opcion)&&(SELECT)){
@@ -1793,7 +1829,7 @@ void sendSTRING(String messageToSend, uint8_t* MAC){
 }
 
 */
-# 1729 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 1753 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC) {
   uint8_t messageLength = messageToSend.length() + 1; // Include the null terminator
   uint8_t messageBytes[messageLength];
@@ -1801,7 +1837,7 @@ void sendSTRING(String messageToSend, uint8_t* MAC) {
 
   int retry = 0;
   bool sentSuccessfully = false;
-
+  Serial.println(messageToSend);
   do {
 
     esp_err_t result = esp_now_send(MAC, messageBytes, messageLength);
@@ -1860,12 +1896,14 @@ void statusCHECK(uint8_t *cellADDRESS,int cellIndex){
 
 //! SOLO SE ACTIVA SI SE HIZO UNA CARGA PREVIA Y SI LOS CONTENEDORES NO ESTAN VACIOS
 //TODO IMPLEMENTAR ESAS CONDICIONES
-void funcionVERTX(){
+void funcionVERTSWEEP(){
 //Primero sweep de vertido 100g
 for (int rr = 0; rr < 6; rr++) {
     sendSTRING("VERTX100",macCeldas[rr]);
     delay(200);
 }
+}
+void funcionVERTX(){
 //Despues vertido necesario
 for (int rr = 0; rr < 6; rr++) {
    int toVERT = RECETA[receta_seleccionada][rr] * cantPORCIONES;
@@ -1900,6 +1938,69 @@ bool todosCeros(int contenedores) {
 void dispensarSOPA(){
    int porcion = RECETA[receta_seleccionada][6];
    String buffer = String("VERTX") + String(porcion);
-   sendSTRING(buffer,macCeldas[0]);
+   sendSTRING(buffer,macCeldas[0]);// TODO CAMBIAR POR EL CONTENEDOR 7
    delay(100);
+}
+
+//? Manejo de la eeprom 
+
+
+void leerMatrizDePreferences() {
+  for (int fila = 0; fila < 11; fila++) {
+    for (int columna = 0; columna < 9; columna++) {
+      String clave = "RECETA_" + String(fila) + "_" + String(columna);
+      RECETA[fila][columna] = preferences.getInt(clave.c_str(), 0);
+    }
+  }
+}
+
+bool esMatrizPreferencesVacia() {
+  for (int fila = 0; fila < 11; fila++) {
+    for (int columna = 0; columna < 9; columna++) {
+      String clave = "RECETA_" + String(fila) + "_" + String(columna);
+      if (preferences.getInt(clave.c_str(), 0) != 0) {
+        return false; // La matriz en las preferencias no está vacía
+      }
+    }
+  }
+  Serial.println("Preferencias vacia");
+
+  return true; // La matriz en las preferencias está vacía
+}
+
+void inicializarMatrizRECETA() {
+  // Inicializar la matriz RECETA con valores específicos
+  // Puedes modificar estos valores según sea necesario
+  Serial.println("Inicializando preferencias");
+  int valoresIniciales[11][9] = {
+    {1, 0, 0, 0, 0, 0, 10, 99999, 99999},
+    {10, 10, 10, 10, 10, 10, 10, 99999, 99999},
+    {20, 20, 20, 20, 20, 20, 20, 99999, 99999},
+    {30, 30, 30, 30, 30, 30, 30, 99999, 99999},
+    {40, 40, 40, 40, 40, 40, 40, 99999, 99999},
+    {50, 50, 50, 50, 50, 50, 50, 99999, 99999},
+    {60, 60, 60, 60, 60, 60, 60, 99999, 99999},
+    {70, 70, 70, 70, 70, 70, 70, 99999, 99999},
+    {80, 80, 80, 80, 80, 80, 80, 99999, 99999},
+    {90, 90, 90, 90, 90, 90, 90, 99999, 99999},
+    {100, 100, 100, 100, 100, 100, 100, 99999, 99999}
+  };
+
+  // Copiar los valores iniciales a la matriz global RECETA
+  for (int fila = 0; fila < 11; fila++) {
+    for (int columna = 0; columna < 9; columna++) {
+      RECETA[fila][columna] = valoresIniciales[fila][columna];
+    }
+  }
+}
+
+void guardarMatrizEnPreferences() {
+   Serial.print("Guardando en preferencias");
+  for (int fila = 0; fila < 11; fila++) {
+    for (int columna = 0; columna < 9; columna++) {
+      String clave = "RECETA_" + String(fila) + "_" + String(columna);
+      preferences.putInt(clave.c_str(), RECETA[fila][columna]);
+    }
+  }
+  preferences.end();
 }

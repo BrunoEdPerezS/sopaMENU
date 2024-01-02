@@ -21,13 +21,13 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\build\\sketch\\sopaMENU.ino.cpp",
-    "Include": "EEPROM.h",
-    "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\EEPROM\\src"
+    "Include": "WiFi.h",
+    "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src"
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\build\\sketch\\sopaMENU.ino.cpp",
-    "Include": "WiFi.h",
-    "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src"
+    "Include": "Preferences.h",
+    "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src"
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\build\\sketch\\sopaMENU.ino.cpp",
@@ -41,11 +41,6 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\Wire\\src\\Wire.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\EEPROM\\src\\EEPROM.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -91,6 +86,11 @@
   },
   {
     "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src\\WiFiUdp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src\\Preferences.cpp",
     "Include": "",
     "Includepath": null
   }

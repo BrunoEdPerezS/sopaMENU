@@ -318,18 +318,22 @@ indice = (indice + 1) % numDatos;
 # 278 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 cellMEASURE();
 // Imprimir resultado
-if (printENABLE){
+//if (printENABLE){
 Serial.println("Mediciones: ");
-Serial.printf("C1: %.4f\n",tarado1);
-Serial.printf("C2: %.4f\n",tarado2);
-Serial.printf("C3: %.4f\n",tarado3);
-Serial.printf("C4: %.4f\n",tarado4);
-Serial.printf("Promedio:  %.4f\n",meanCELDA);
+Serial.printf("C1: %.4f\n",mean1);
+Serial.printf("C2: %.4f\n",mean2);
+Serial.printf("C3: %.4f\n",mean3);
+Serial.printf("C4: %.4f\n",mean4);
+Serial.printf("----------\n");
+
+Serial.printf("MEANRAW: %.4f\n",meanALL);
+Serial.printf("Offset:  %.4f\n",meanOFFSET);
+Serial.printf("GAIN:  %.4f\n",gainMEAN);
 Serial.printf("Promedio CORREX:  %.4f\n",meanSCALED);
 //float finalMEAN = (tarado1+tarado2+tarado3+tarado4)/4;
 //Serial.println(finalMEAN);
 //sendDATOSLCD();
-}
+//}
 
 
 
@@ -425,7 +429,7 @@ void vertxCELDA(int cantidad){
     }
 
     */
-# 381 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 385 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
     digitalWrite(4,0x1);
     delay(2000);
     break;

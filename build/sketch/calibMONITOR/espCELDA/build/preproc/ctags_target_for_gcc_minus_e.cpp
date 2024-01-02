@@ -286,7 +286,7 @@ indice = (indice + 1) % numDatos;
 # 246 "C:\\Users\\bruno\\Desktop\\sopaMENU\\calibMONITOR\\espCELDA\\espCELDA.ino"
 cellMEASURE();
 // Imprimir resultado
-if (printENABLE){
+//if (printENABLE){
 Serial.println("Mediciones: ");
 Serial.printf("C1: %.4f\n",tarado1);
 Serial.printf("C2: %.4f\n",tarado2);
@@ -296,8 +296,8 @@ Serial.printf("Promedio:  %.4f\n",meanCELDA);
 Serial.printf("Promedio CORREX:  %.4f\n",meanSCALED);
 //float finalMEAN = (tarado1+tarado2+tarado3+tarado4)/4;
 //Serial.println(finalMEAN);
-sendDATOSLCD();
-}
+//sendDATOSLCD();
+//}
 
 
 

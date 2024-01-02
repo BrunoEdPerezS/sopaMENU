@@ -88,33 +88,33 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
 void setup();
 #line 214 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void loop();
-#line 298 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 302 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 323 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 327 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cargaCELDA();
-#line 345 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 349 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void purgaCELDA();
-#line 363 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 367 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void vertxCELDA(int cantidad);
-#line 391 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 395 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void estadCELDA();
-#line 398 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
-void driveCELDA();
 #line 402 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+void driveCELDA();
+#line 406 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 float calcularMediaMovil(float datosIN[30]);
-#line 410 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 414 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void tareCELLS();
-#line 418 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 422 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void resetCELLS();
-#line 430 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 434 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cellMEASURE();
-#line 459 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 463 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverACTIVE(bool sentido);
-#line 471 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 475 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverSTOP();
-#line 477 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 481 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void calibrarCELDAS(int PESO);
-#line 499 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 503 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void sendMEASURE();
 #line 80 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
@@ -317,18 +317,22 @@ indice = (indice + 1) % numDatos;
 */
 cellMEASURE();
 // Imprimir resultado
-if (printENABLE){
+//if (printENABLE){
 Serial.println("Mediciones: ");
-Serial.printf("C1: %.4f\n",tarado1);
-Serial.printf("C2: %.4f\n",tarado2);
-Serial.printf("C3: %.4f\n",tarado3);
-Serial.printf("C4: %.4f\n",tarado4);
-Serial.printf("Promedio:  %.4f\n",meanCELDA);
+Serial.printf("C1: %.4f\n",mean1);
+Serial.printf("C2: %.4f\n",mean2);
+Serial.printf("C3: %.4f\n",mean3);
+Serial.printf("C4: %.4f\n",mean4);
+Serial.printf("----------\n");
+
+Serial.printf("MEANRAW: %.4f\n",meanALL);
+Serial.printf("Offset:  %.4f\n",meanOFFSET);
+Serial.printf("GAIN:  %.4f\n",gainMEAN);
 Serial.printf("Promedio CORREX:  %.4f\n",meanSCALED);
 //float finalMEAN = (tarado1+tarado2+tarado3+tarado4)/4;
 //Serial.println(finalMEAN);
 //sendDATOSLCD();
-}
+//}
 
 
 
