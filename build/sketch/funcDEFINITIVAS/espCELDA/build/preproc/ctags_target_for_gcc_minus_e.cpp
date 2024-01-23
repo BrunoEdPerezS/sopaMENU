@@ -1,5 +1,7 @@
 #line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\preproc\\ctags_target_for_gcc_minus_e.cpp"
 # 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+
+//? VERSION MODIFICADA SIN ERROR DE MEDICION!!!
 //* COMUNICACION MULTICELDA DESDE EL MASTER
 //MAC ADRESS DEL MASTER HOUSE: A0:B7:65:DD:9E:D4
 //MAC ADRESS DEL MASTER SOPA: {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}
@@ -7,10 +9,10 @@
 
 
 
-
-# 10 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
 # 11 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
 # 12 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
+# 13 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
+# 14 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
 
 
 
@@ -58,8 +60,9 @@ float gainC1=1,gainC2=1,gainC3=1,gainC4=1;
 float meanCELDA =0; //Valor medio medido en la celda
 float CONTENIDO =0; //Carga que posee el contenedor
 float meanSCALED =0;
-float gainMEAN =1;
-float meanALL =0, meanOFFSET =0;
+float gainMEAN;
+float meanOFFSET;
+float meanALL =0;
 
 
 int indice = 0; // Índice actual en el array
@@ -72,6 +75,7 @@ uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
 //String messageToSend = "string1";
 
 esp_now_peer_info_t master;
+Preferences preferences;
 
 HX711 celda1;
 HX711 celda2;
@@ -164,6 +168,12 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
 
 void setup() {
+  //Setup de las preferences y EEPROM
+  cargarValoresDesdePreferences();
+
+
+
+
   //Init de las celdas
   celda1.begin(LOADCELL_DOUT_PIN1, LOADCELL_SCK_PIN1, 64); // Set gain to 64, uses A- and A+ on the HX711 Board
   celda2.begin(LOADCELL_DOUT_PIN2, LOADCELL_SCK_PIN2, 64);
@@ -256,7 +266,7 @@ rawMEASURE = celda4.read();
 Serial.println(rawMEASURE);
 
 */
-# 248 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 258 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 // Buffers de medida
 /*
 
@@ -315,7 +325,7 @@ Serial.println(rawMEASURE);
 indice = (indice + 1) % numDatos;
 
 */
-# 278 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 288 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 cellMEASURE();
 // Imprimir resultado
 //if (printENABLE){
@@ -411,31 +421,29 @@ void vertxCELDA(int cantidad){
   bool COMPLETE = false;
   //TODO   Ciclo de vertimiento, se vierte material hasta que se cumpla la cota de vertimiento (CONTENIDO TOTAL - CANTIDAD)
   //TODO   este ciclo solo funciona una vez que se ha cargado el contenedor, de lo contrario se acciona el driver por dos segundos.
+  float CONTENIDO = meanSCALED;
 
-  while ((STOPX == false)||(!COMPLETE))
+  while ((STOPX == false))
   {
     driverACTIVE(true);
     Serial.println("VERTIENDO MATERIAL");
-    /*
-
+    Serial.printf("Total: %.4f \n",CONTENIDO);
+    Serial.printf("Mean celda: %.4f \n",meanSCALED);
+    Serial.printf("Vertido: %d \n",cantidad);
     cellMEASURE();
-
-    if(meanCELDA < (CONTENIDO-cantidad))
-
+    //delay(20);
+    if(meanSCALED < (CONTENIDO-cantidad))
     {
-
-      COMPLETE = true;
-
+      //COMPLETE = true;
+      STOPX = true;
     }
-
-    */
-# 385 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
     digitalWrite(4,0x1);
-    delay(2000);
-    break;
+    //delay(2000);
+    //break;
   }
   driverSTOP();
-  STOPX == false;
+  STOPX = false;
+  //COMPLETE = false;
   digitalWrite(4,0x0);
   Serial.printf("Se vertieron %d g. de material\n",cantidad);
 }
@@ -460,22 +468,12 @@ float calcularMediaMovil(float datosIN[30]) {
 }
 
 void tareCELLS(){
-  offset1 = mean1;
-  offset2 = mean2;
-  offset3 = mean3;
-  offset4 = mean4;
   meanOFFSET = meanALL;
 }
 
 void resetCELLS(){
-  offset1 = 0;
-  offset2 = 0;
-  offset3 = 0;
-  offset4 = 0;
-  gainC1 = 1;
-  gainC2 = 1;
-  gainC3 = 1;
-  gainC4 = 1;
+
+  meanOFFSET = 0;
   gainMEAN = 1;
 }
 
@@ -493,18 +491,11 @@ void cellMEASURE(){
 
   meanALL = (mean1+mean2+mean3+mean4)/4;
 
-
   //(Mean - offset)*GAIN
-  tarado1 = (mean1-offset1)*gainC1;
-  tarado2 = (mean2-offset2)*gainC2;
-  tarado3 = (mean3-offset3)*gainC3;
-  tarado4 = (mean4-offset4)*gainC4;
   meanSCALED = (meanALL-meanOFFSET)*gainMEAN;
-
-  //MEAN CELDA FINAL 
-  meanCELDA = (tarado1+tarado2+tarado3+tarado4)/4;
-
-
+  if (meanSCALED <=0){
+    meanSCALED = 0;
+  }
   indice = (indice + 1) % numDatos;
 }
 
@@ -530,25 +521,42 @@ void calibrarCELDAS(int PESO){
   float PESOF = float(PESO);
   if (CANTIDADVERT == 9999){
   Serial.printf("Reseteando ganancias a 1\n");
-  gainC1 = 1;
-  gainC2 = 1;
-  gainC3 = 1;
-  gainC4 = 1;
   gainMEAN = 1;
   }else{
   Serial.printf("Calibrando celdas con %d g.\n",CANTIDADVERT);
-  cellMEASURE();
-  gainC1 = PESOF/(mean1-offset1);
-  gainC2 = PESOF/(mean2-offset2);
-  gainC3 = PESOF/(mean3-offset3);
-  gainC4 = PESOF/(mean4-offset4);
-  gainMEAN = PESOF/(meanALL-meanOFFSET);
-  Serial.printf("Ganancias obtenidas G1:%.4f ,G1:%.4f ,G1:%.4f ,G1:%.4f \n",gainC1,gainC2,gainC3,gainC4);
+  if (meanALL - meanOFFSET != 0) {
+    gainMEAN = PESOF / (meanALL - meanOFFSET);
+  } else {
+    gainMEAN = 1.0; // Si el denominador es cero, establecer gainMEAN en 1
   }
-
+  Serial.printf("Ganancia obtenida G1:%.4f \n",gainMEAN);
+  }
+  guardarValoresEnPreferences();
 }
 
 void sendMEASURE(){
   String buffer = String("MEASX") + String(meanSCALED);
   sendSTRING(buffer,macMASTER);
+}
+
+//? MANEJO DE MEMORIA EEPROM 
+
+void cargarValoresDesdePreferences() {
+  preferences.begin("my-app", false); // El segundo argumento indica si borrar las preferencias al arrancar
+
+  // Leer los valores de gainMEAN y meanOffset desde las preferencias
+  gainMEAN = preferences.getFloat("gainMEAN", 1.0); // Si no está inicializado, se establece en 1.0
+  meanOFFSET = preferences.getFloat("meanOffset", 1.0); // Si no está inicializado, se establece en 1.0
+
+  preferences.end();
+}
+
+void guardarValoresEnPreferences() {
+  preferences.begin("my-app", false); // El segundo argumento indica si borrar las preferencias al arrancar
+
+  // Guardar los valores de gainMEAN y meanOffset en las preferencias
+  preferences.putFloat("gainMEAN", gainMEAN);
+  preferences.putFloat("meanOffset", meanOFFSET);
+
+  preferences.end();
 }

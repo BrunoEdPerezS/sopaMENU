@@ -128,6 +128,7 @@ volatile bool EVENT = true;
 int scrollSTATE = 0;
 int scrollOFFSET = 0;
 char VISTA[12] = "MAIN";
+char VISTA_ANTERIOR[12] = "MAIN";
 int valuetoSET = 0;
 int settingLOOP = false;
 int cantPORCIONES = 1;
@@ -175,8 +176,8 @@ int RECETA[11][9]; //= {
   {100, 100, 100, 100, 100, 100, 100, 99999, 99999}
 
 };*/
-# 130 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
-int activeCONTS = 2;
+# 131 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+int activeCONTS = 1;
 int statusMATRIX[8] ={0, 1, 2, 3, 4, 5, 6,99999};
 
 
@@ -233,15 +234,16 @@ uint8_t macCeldas[][6] = {
 
 //esp1MAC: A0:B7:65:DD:04:5C
 //esp2MAC: A0:B7:65:DC:15:A8
-  {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
-  {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
   {0x94, 0xB5, 0x55, 0xF9, 0x12, 0x68},
+  {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
   {0x3C, 0x71, 0xBF, 0xAA, 0xC2, 0x04},
   {0xC2, 0x8A, 0x54, 0x82, 0xDE, 0x5F},
   {0x60, 0x05, 0x20, 0x65, 0x41, 0x80},
   {0x10, 0xAA, 0xBB, 0xCC, 0x33, 0xF5}
 };
 
+int contVACIOS[6] = {0,0,0,0,0,0};
 
 // Define the message to be sent as a string
 //String messageToSend = "string1";
@@ -420,6 +422,10 @@ int D0C0scroll_f = 8; //Declarar opciones (filas del menu)
 char E0notif[4][20]; //Declarar la matriz de la vista
 int E0notif_f = 4; //Declarar opciones (filas del menu)
 
+//? Menu EMPTY
+char EMPTY_NOT[4][20]; //Declarar la matriz de la vista
+int EMPTY_NOT_f = 4; //Declarar opciones (filas del menu)
+
 
 //? FUNCIONES CALLBACK DE ESPNOW 
 // Callback when data is sent
@@ -445,6 +451,14 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   } else if (HEADER.equalsIgnoreCase("STATE")){
     //Serial.println(TEXTO); 
     ESTAD = TEXTO.toInt();
+    digitalWrite(2, 0x1);
+    delay(500);
+    digitalWrite(2, 0x0);
+    delay(500);
+  } else if (HEADER.equalsIgnoreCase("EMPTY")){
+    //Serial.println(TEXTO); 
+    strcpy(VISTA_ANTERIOR,VISTA);
+    strcpy(VISTA, "EMPTY");
     digitalWrite(2, 0x1);
     delay(500);
     digitalWrite(2, 0x0);
@@ -773,6 +787,15 @@ attachInterrupt((((17)<40)?(17):-1), BUTTONpress3, 0x02);
   //Setup del lcd
   lcd.init();
   lcd.backlight();
+
+//? VISTA EMPTY ALERT
+  strcpy(EMPTY_NOT[0], "Contenedores:");
+  strcpy(EMPTY_NOT[1], "carga insuficiente");
+  strcpy(EMPTY_NOT[2], "");
+  strcpy(EMPTY_NOT[3], "Volver");
+
+
+
 }
 
 
@@ -998,10 +1021,21 @@ else if (strcmp(VISTA, "B0B0A0") == 0) {
    lcd.setCursor(0,1);
    lcd.print("    PREPARANDO    ");
    //Mandar a todos a verter 100g
+   if (measSWEPP(activeCONTS)){
    funcionVERTSWEEP();
-   delay(5000);
-   //Funcion de vertimiento final
    funcionVERTX();
+   }
+   else{
+   cambioVISTA(2,"EMPTY");
+   }
+
+
+
+
+   //delay(5000);
+
+   //Funcion de vertimiento final
+
    }
 
 
@@ -1034,6 +1068,7 @@ else if (strcmp(VISTA, "B0B0A1") == 0) {
       statusCHECK(macCeldas[yyy], yyy);
       lcd.setCursor(yyy * 2 + 1, 1);
       lcd.print("**");
+      Serial.println(yyy);
       delay(500);
    }
    lcd.setCursor(0,2);
@@ -1484,6 +1519,12 @@ else if (strcmp(VISTA, "E0") == 0){
    generarVISTA(E0notif,E0notif_f);
    cambioEVENTO("MAIN");
 }
+
+//? Vista EMPTY
+else if (strcmp(VISTA, "EMPTY") == 0){
+   generarVISTA(EMPTY_NOT,EMPTY_NOT_f);
+   cambioEVENTO("MAIN");
+}
 else {
   Serial.print("Problemas con las vistas...");
 }
@@ -1577,7 +1618,7 @@ void generarVISTA(char menu[][20],int opciones) {
 /*Esta funcion realiza el cambio de vista, para ello se le entrega el estado de "Scroll" en el que realizara, y la vista hacia la que 
 
 se deriva dicho cambio*/
-# 1530 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 1571 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] ){
 
    if ((scrollSTATE == opcion)&&(SELECT)){
@@ -1829,7 +1870,7 @@ void sendSTRING(String messageToSend, uint8_t* MAC){
 }
 
 */
-# 1753 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 1794 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC) {
   uint8_t messageLength = messageToSend.length() + 1; // Include the null terminator
   uint8_t messageBytes[messageLength];
@@ -1902,6 +1943,12 @@ for (int rr = 0; rr < 6; rr++) {
     sendSTRING("VERTX100",macCeldas[rr]);
     delay(200);
 }
+delay(5000);
+for (int rr = 0; rr < 6; rr++) {
+    sendSTRING("STOPX",macCeldas[rr]);
+    delay(200);
+}
+delay(1000);
 }
 void funcionVERTX(){
 //Despues vertido necesario
@@ -1938,7 +1985,7 @@ bool todosCeros(int contenedores) {
 void dispensarSOPA(){
    int porcion = RECETA[receta_seleccionada][6];
    String buffer = String("VERTX") + String(porcion);
-   sendSTRING(buffer,macCeldas[0]);// TODO CAMBIAR POR EL CONTENEDOR 7
+   sendSTRING(buffer,macCeldas[6]);// TODO CAMBIAR POR EL CONTENEDOR 7
    delay(100);
 }
 
@@ -2003,4 +2050,29 @@ void guardarMatrizEnPreferences() {
     }
   }
   preferences.end();
+}
+
+bool measSWEPP(int contenedores) {
+    for (int i = 0; i < contenedores; ++i) {
+        int toVERT = (RECETA[receta_seleccionada][i] * cantPORCIONES)+100;
+        sendSTRING("MEASX",macCeldas[i]);
+        sendSTRING("MEASX",macCeldas[i]);
+        sendSTRING("MEASX",macCeldas[i]);
+        delay(500);
+        Serial.printf("Cont  %d medicion: %.4f\n",i,MEAS);
+        Serial.printf("A dispensar: %d\n",toVERT);
+        if (MEAS<toVERT){
+         contVACIOS[i] = 1;
+        }else{
+         contVACIOS[i] = 0;
+        }
+    }
+    for (int i = 0; i < contenedores; ++i) {
+        if (contVACIOS[i] != 0) {
+            // Si al menos un elemento no es cero, retorna falso
+            return false;
+        }
+    }
+    // Si todos los elementos son cero, retorna verdadero
+    return true;
 }

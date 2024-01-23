@@ -99,29 +99,29 @@ void cargaCELDA();
 void purgaCELDA();
 #line 377 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void vertxCELDA(int cantidad);
-#line 405 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 410 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void estadCELDA();
-#line 412 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 417 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driveCELDA();
-#line 416 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 421 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 float calcularMediaMovil(float datosIN[30]);
-#line 424 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 429 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void tareCELLS();
-#line 428 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 433 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void resetCELLS();
-#line 434 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 439 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cellMEASURE();
-#line 453 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 461 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverACTIVE(bool sentido);
-#line 465 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 473 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void driverSTOP();
-#line 471 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 479 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void calibrarCELDAS(int PESO);
-#line 488 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 496 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void sendMEASURE();
-#line 495 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 503 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void cargarValoresDesdePreferences();
-#line 505 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+#line 513 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void guardarValoresEnPreferences();
 #line 84 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
@@ -423,24 +423,29 @@ void vertxCELDA(int cantidad){
   bool COMPLETE = false;
   //TODO   Ciclo de vertimiento, se vierte material hasta que se cumpla la cota de vertimiento (CONTENIDO TOTAL - CANTIDAD)
   //TODO   este ciclo solo funciona una vez que se ha cargado el contenedor, de lo contrario se acciona el driver por dos segundos.
+  float CONTENIDO = meanSCALED;
   
-  while ((STOPX == false)||(!COMPLETE))
+  while ((STOPX == false))
   {
     driverACTIVE(true);
     Serial.println("VERTIENDO MATERIAL");
-    /*
+    Serial.printf("Total: %.4f \n",CONTENIDO);
+    Serial.printf("Mean celda: %.4f \n",meanSCALED);
+    Serial.printf("Vertido: %d \n",cantidad);
     cellMEASURE();
-    if(meanCELDA < (CONTENIDO-cantidad))
+    //delay(20);
+    if(meanSCALED < (CONTENIDO-cantidad))
     {
-      COMPLETE = true;
+      //COMPLETE = true;
+      STOPX = true;
     }
-    */
     digitalWrite(LEDVERTX,HIGH);
-    delay(2000);
-    break;
+    //delay(2000);
+    //break;
   }
   driverSTOP();
-  STOPX == false;
+  STOPX = false;
+  //COMPLETE = false;
   digitalWrite(LEDVERTX,LOW);
   Serial.printf("Se vertieron %d g. de material\n",cantidad);
 }
@@ -490,6 +495,9 @@ void cellMEASURE(){
 
   //(Mean - offset)*GAIN
   meanSCALED = (meanALL-meanOFFSET)*gainMEAN;
+  if (meanSCALED <=0){
+    meanSCALED = 0;
+  }
   indice = (indice + 1) % numDatos;
 }
 

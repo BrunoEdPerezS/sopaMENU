@@ -91,6 +91,7 @@ volatile bool EVENT  = true;
 int scrollSTATE = 0;
 int scrollOFFSET = 0;
 char VISTA[12] = "MAIN";
+char VISTA_ANTERIOR[12] = "MAIN";
 int valuetoSET = 0;
 int settingLOOP = false;
 int cantPORCIONES = 1;
@@ -129,78 +130,80 @@ int RECETA[11][9]; //= {
 };*/
 
 
-int activeCONTS = 2;
+int activeCONTS = 1;
 int statusMATRIX[8] ={0, 1, 2, 3, 4, 5, 6,99999};
 
 
 //INTERRUPCION BOTON UP
-#line 377 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
-void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
 #line 383 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
+#line 389 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 410 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 424 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setup();
-#line 732 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 755 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void loop();
-#line 1450 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1491 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarVISTA(char entrada[][20], char salida[4][20], int scroll, int filas);
-#line 1469 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1510 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling(int filas);
-#line 1489 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
-void scrollSIGN(int filas);
-#line 1509 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
-void generarVISTA(char menu[][20],int opciones);
 #line 1530 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void scrollSIGN(int filas);
+#line 1550 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+void generarVISTA(char menu[][20],int opciones);
+#line 1571 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] );
-#line 1544 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1585 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingMENU(char menu[4][20], int valor);
-#line 1551 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1592 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioSETTING(char destino[12]);
-#line 1560 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1601 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void setterFUNC(int steps, int setSTEP, int startIndex, int limit);
-#line 1593 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1634 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void settingBACK(char destino[12]);
-#line 1603 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1644 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrollingSETMENU();
-#line 1623 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1664 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void scrolling2();
-#line 1643 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1684 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAsettmenu(char menu[][20],int opciones, int valor);
-#line 1663 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1704 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioEVENTO(char destino[12]);
-#line 1679 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1720 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void asignarPARAMS(int entrada[9], int salida_int[4], int scroll, int filas);
-#line 1698 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1739 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void generarVISTAparams(char menu[][20],int entrada[9] ,int opciones);
-#line 1753 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1794 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 1787 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1828 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void funcCARGA(uint8_t *cellADDRESS);
-#line 1790 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1831 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void funcPURGA(uint8_t *cellADDRESS);
-#line 1793 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1834 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void funcVERTX(uint8_t *cellADDRESS,int cantidad);
-#line 1804 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1845 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void statusCHECK(uint8_t *cellADDRESS,int cellIndex);
-#line 1819 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1860 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void funcionVERTSWEEP();
-#line 1826 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1873 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void funcionVERTX();
-#line 1839 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1886 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void vertCANCEL();
-#line 1847 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1894 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 bool todosCeros(int contenedores);
-#line 1858 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1905 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void dispensarSOPA();
-#line 1868 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1915 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void leerMatrizDePreferences();
-#line 1877 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1924 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 bool esMatrizPreferencesVacia();
-#line 1891 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1938 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void inicializarMatrizRECETA();
-#line 1917 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1964 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void guardarMatrizEnPreferences();
-#line 135 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+#line 1975 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+bool measSWEPP(int contenedores);
+#line 136 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce
@@ -253,15 +256,16 @@ uint8_t macCeldas[][6] = {
 
 //esp1MAC: A0:B7:65:DD:04:5C
 //esp2MAC: A0:B7:65:DC:15:A8
-  {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
-  {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
   {0x94, 0xB5, 0x55, 0xF9, 0x12, 0x68},
+  {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
   {0x3C, 0x71, 0xBF, 0xAA, 0xC2, 0x04},
   {0xC2, 0x8A, 0x54, 0x82, 0xDE, 0x5F},
   {0x60, 0x05, 0x20, 0x65, 0x41, 0x80},
   {0x10, 0xAA, 0xBB, 0xCC, 0x33, 0xF5}
 };
 
+int contVACIOS[6] = {0,0,0,0,0,0};
 
 // Define the message to be sent as a string
 //String messageToSend = "string1";
@@ -440,6 +444,10 @@ int  D0C0scroll_f = 8;   //Declarar opciones (filas del menu)
 char E0notif[4][20]; //Declarar la matriz de la vista
 int  E0notif_f = 4;   //Declarar opciones (filas del menu)
 
+//? Menu EMPTY
+char EMPTY_NOT[4][20]; //Declarar la matriz de la vista
+int  EMPTY_NOT_f = 4;   //Declarar opciones (filas del menu)
+
 
 //? FUNCIONES CALLBACK DE ESPNOW 
 // Callback when data is sent
@@ -465,6 +473,14 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   } else if (HEADER.equalsIgnoreCase("STATE")){
     //Serial.println(TEXTO); 
     ESTAD = TEXTO.toInt();
+    digitalWrite(2, HIGH);
+    delay(500);
+    digitalWrite(2, LOW);
+    delay(500);
+  } else if (HEADER.equalsIgnoreCase("EMPTY")){
+    //Serial.println(TEXTO); 
+    strcpy(VISTA_ANTERIOR,VISTA);
+    strcpy(VISTA, "EMPTY");
     digitalWrite(2, HIGH);
     delay(500);
     digitalWrite(2, LOW);
@@ -793,6 +809,15 @@ attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
   //Setup del lcd
   lcd.init();                      
   lcd.backlight();
+
+//? VISTA EMPTY ALERT
+  strcpy(EMPTY_NOT[0],  "Contenedores:");
+  strcpy(EMPTY_NOT[1],  "carga insuficiente");
+  strcpy(EMPTY_NOT[2],  "");
+  strcpy(EMPTY_NOT[3],  "Volver");
+
+
+
 }
 
 
@@ -1018,10 +1043,21 @@ else if (strcmp(VISTA, "B0B0A0") == 0) {
    lcd.setCursor(0,1);
    lcd.print("    PREPARANDO    ");
    //Mandar a todos a verter 100g
+   if (measSWEPP(activeCONTS)){
    funcionVERTSWEEP();
-   delay(5000);
-   //Funcion de vertimiento final
    funcionVERTX();
+   }
+   else{
+   cambioVISTA(2,"EMPTY");
+   }
+   
+
+
+   
+   //delay(5000);
+   
+   //Funcion de vertimiento final
+   
    }
 
 
@@ -1054,6 +1090,7 @@ else if (strcmp(VISTA, "B0B0A1") == 0) {
       statusCHECK(macCeldas[yyy], yyy);
       lcd.setCursor(yyy * 2 + 1, 1);
       lcd.print("**");
+      Serial.println(yyy);
       delay(500);
    }
    lcd.setCursor(0,2);
@@ -1504,6 +1541,12 @@ else if (strcmp(VISTA, "E0") == 0){
    generarVISTA(E0notif,E0notif_f);
    cambioEVENTO("MAIN");
 }
+
+//? Vista EMPTY
+else if (strcmp(VISTA, "EMPTY") == 0){
+   generarVISTA(EMPTY_NOT,EMPTY_NOT_f);
+   cambioEVENTO("MAIN");
+}
 else {
   Serial.print("Problemas con las vistas...");
 }
@@ -1891,6 +1934,12 @@ for (int rr = 0; rr < 6; rr++) {
     sendSTRING("VERTX100",macCeldas[rr]);
     delay(200);
 }
+delay(5000);
+for (int rr = 0; rr < 6; rr++) {
+    sendSTRING("STOPX",macCeldas[rr]);
+    delay(200);
+}
+delay(1000);
 }
 void funcionVERTX(){
 //Despues vertido necesario
@@ -1927,7 +1976,7 @@ bool todosCeros(int contenedores) {
 void dispensarSOPA(){
    int porcion = RECETA[receta_seleccionada][6];
    String buffer = String("VERTX") + String(porcion);
-   sendSTRING(buffer,macCeldas[0]);// TODO CAMBIAR POR EL CONTENEDOR 7
+   sendSTRING(buffer,macCeldas[6]);// TODO CAMBIAR POR EL CONTENEDOR 7
    delay(100);
 }
 
@@ -1992,4 +2041,29 @@ void guardarMatrizEnPreferences() {
     }
   }
   preferences.end();
+}
+
+bool measSWEPP(int contenedores) {
+    for (int i = 0; i < contenedores; ++i) {
+        int toVERT = (RECETA[receta_seleccionada][i] * cantPORCIONES)+100;
+        sendSTRING("MEASX",macCeldas[i]);
+        sendSTRING("MEASX",macCeldas[i]);
+        sendSTRING("MEASX",macCeldas[i]);
+        delay(500);
+        Serial.printf("Cont  %d medicion: %.4f\n",i,MEAS);
+        Serial.printf("A dispensar: %d\n",toVERT);
+        if (MEAS<toVERT){
+         contVACIOS[i] = 1;
+        }else{
+         contVACIOS[i] = 0;
+        }
+    }
+    for (int i = 0; i < contenedores; ++i) {
+        if (contVACIOS[i] != 0) {
+            // Si al menos un elemento no es cero, retorna falso
+            return false;
+        }
+    }
+    // Si todos los elementos son cero, retorna verdadero
+    return true;
 }

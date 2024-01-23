@@ -28,7 +28,7 @@ volatile bool STOPX = false;
 
 //* Variables de estado de celda
 bool ocupado = false;
-bool empty      = true;
+bool empty      = false;
 
 //Setting de mediciones
 // HX711 circuit wiring
@@ -380,24 +380,33 @@ void vertxCELDA(int cantidad){
   bool COMPLETE = false;
   //TODO   Ciclo de vertimiento, se vierte material hasta que se cumpla la cota de vertimiento (CONTENIDO TOTAL - CANTIDAD)
   //TODO   este ciclo solo funciona una vez que se ha cargado el contenedor, de lo contrario se acciona el driver por dos segundos.
+  float CONTENIDO = meanSCALED;
   
-  while ((STOPX == false)||(!COMPLETE))
+  
+  while ((STOPX == false))
   {
     driverACTIVE(true);
     Serial.println("VERTIENDO MATERIAL");
-    /*
+    Serial.printf("Total: %.4f \n",CONTENIDO);
+    Serial.printf("Mean celda: %.4f \n",meanSCALED);
+    Serial.printf("Vertido: %d \n",cantidad);
     cellMEASURE();
-    if(meanCELDA < (CONTENIDO-cantidad))
+    //delay(20);
+    if(meanSCALED < (CONTENIDO-cantidad))
     {
-      COMPLETE = true;
+      //COMPLETE = true;
+      STOPX = true;
+    }else if (meanSCALED<100){
+      STOPX = true;
+      empty = true;
     }
-    */
     digitalWrite(LEDVERTX,HIGH);
-    delay(2000);
-    break;
+    //delay(2000);
+    //break;
   }
   driverSTOP();
-  STOPX == false;
+  STOPX = false;
+  //COMPLETE = false;
   digitalWrite(LEDVERTX,LOW);
   Serial.printf("Se vertieron %d g. de material\n",cantidad);
 }
@@ -447,6 +456,9 @@ void cellMEASURE(){
 
   //(Mean - offset)*GAIN
   meanSCALED = (meanALL-meanOFFSET)*gainMEAN;
+  if (meanSCALED <=0){
+    meanSCALED = 0;
+  }
   indice = (indice + 1) % numDatos;
 }
 
