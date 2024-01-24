@@ -1119,8 +1119,14 @@ else if (strcmp(VISTA, "B0B0C0") == 0) {
    scrollSIGN(B0B0C0scroll_f);
    //!MODELO
    if((scrollSTATE == 2)&&SELECT){
+      lcd.clear();
+      lcd.setCursor(0,1);
+      lcd.print("    DISPENSANDO    ");
       dispensarSOPA();
+      delay(2000);
+      statusCHECK(macCeldas[0], 0);
    }
+
 
    //Cambio de vista 
 
@@ -1131,11 +1137,28 @@ else if (strcmp(VISTA, "B0B0C0") == 0) {
 }
 else if (strcmp(VISTA, "B0B0C1") == 0) {
    //!VISTA NOTIF
+   //TODO CAMBIAR LOS CEROS, SOLO ESTAN PARA TESTING
+
+   if (statusMATRIX[0] == 0){
+      generarVISTA(B0B0C1notif,B0B0C1notif_f);
+      Serial.println(statusMATRIX[0]);
+   }else if ((statusMATRIX[0] != 0)&&(EVENT||UP||DOWN)){
+      lcd.clear();
+      lcd.setCursor(0,1);
+      lcd.print("    CANCELADO    ");
+   }else{
+      statusCHECK(macCeldas[0], 0);
+      lcd.clear();
+      Serial.println(statusMATRIX[0]);
+      lcd.setCursor(0,1);
+      lcd.print("    ESPERE        ");
+   }
    //scrolling(menuA0A0Conf_F);
-   generarVISTA(B0B0C1notif,B0B0C1notif_f);
+   //generarVISTA(B0B0C1notif,B0B0C1notif_f);
    //scrollSIGN(menuA0A0Conf_F);
 
    //!MODELO
+
    //Cambio de vista 
    //Correr cell check
    cambioEVENTO("B0B0C0");
@@ -1618,7 +1641,7 @@ void generarVISTA(char menu[][20],int opciones) {
 /*Esta funcion realiza el cambio de vista, para ello se le entrega el estado de "Scroll" en el que realizara, y la vista hacia la que 
 
 se deriva dicho cambio*/
-# 1571 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 1594 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void cambioVISTA(int opcion, char destino[12] ){
 
    if ((scrollSTATE == opcion)&&(SELECT)){
@@ -1870,7 +1893,7 @@ void sendSTRING(String messageToSend, uint8_t* MAC){
 }
 
 */
-# 1794 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
+# 1817 "C:\\Users\\bruno\\Desktop\\sopaMENU\\sopaMENU.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC) {
   uint8_t messageLength = messageToSend.length() + 1; // Include the null terminator
   uint8_t messageBytes[messageLength];
@@ -1984,8 +2007,9 @@ bool todosCeros(int contenedores) {
 
 void dispensarSOPA(){
    int porcion = RECETA[receta_seleccionada][6];
+   Serial.printf("Dispensando porcion: %d\n",porcion);
    String buffer = String("VERTX") + String(porcion);
-   sendSTRING(buffer,macCeldas[6]);// TODO CAMBIAR POR EL CONTENEDOR 7
+   sendSTRING(buffer,macCeldas[0]);// TODO CAMBIAR POR EL CONTENEDOR 7
    delay(100);
 }
 
