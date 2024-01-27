@@ -128,7 +128,7 @@ int RECETA[11][9]; //= {
 };*/
 
 
-int activeCONTS = 1;
+int activeCONTS = 6; //De 1 a 6
 int statusMATRIX[8] ={0, 1, 2, 3, 4, 5, 6,99999};
 
 
@@ -181,6 +181,7 @@ lastBTIME = buttonTIME;
 }
 
 //? MAC CELDAS Y PEERS
+/*
 uint8_t macCeldas[][6] = {
 
 //esp1MAC: A0:B7:65:DD:04:5C
@@ -193,6 +194,33 @@ uint8_t macCeldas[][6] = {
   {0x60, 0x05, 0x20, 0x65, 0x41, 0x80},
   {0x10, 0xAA, 0xBB, 0xCC, 0x33, 0xF5}
 };
+
+
+uint8_t macCeldas[][7] = {
+//esp1MAC: A0:B7:65:DD:04:5C
+//esp2MAC: A0:B7:65:DC:15:A8
+  {0x94, 0xB5, 0x55, 0xF9, 0x12, 0x68},
+  {0xA0, 0xB7, 0x65, 0xDC, 0x15, 0xA8},
+  {0x3C, 0x71, 0xBF, 0xAA, 0xC2, 0x04},
+  {0xC2, 0x8A, 0x54, 0x82, 0xDE, 0x5F},
+  {0x60, 0x05, 0x20, 0x65, 0x41, 0x80},
+  {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
+  {0x10, 0xAA, 0xBB, 0xCC, 0x33, 0xF5}
+};
+*/
+//MACS SOPA
+uint8_t macCeldas[][7] = {
+{0x24,0xD7,0xEB,0x0E,0xD6,0xAC},
+{0x24,0xD7,0xEB,0x0F,0xCD,0x88},
+{0x24,0xD7,0xEB,0x0F,0xCC,0x88},
+{0xC0,0x49,0xEF,0xD3,0x8B,0x18},
+{0x24,0xD7,0xEB,0x11,0xA3,0x50},
+{0x94,0xB5,0x55,0xF9,0x12,0x68},
+{0xC0,0x49,0xEF,0xD3,0x65,0x48}
+};
+
+
+
 
 int contVACIOS[6] = {0,0,0,0,0,0};
 
@@ -484,7 +512,7 @@ attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
   celda6.channel = 1;  
   celda6.encrypt = false;
 
-  memcpy(celda6.peer_addr, macCeldas[6], 6);
+  memcpy(celda7.peer_addr, macCeldas[6], 6);
   celda7.channel = 1;  
   celda7.encrypt = false;
 
@@ -975,6 +1003,10 @@ else if (strcmp(VISTA, "B0B0A0") == 0) {
    if (measSWEPP(activeCONTS)){
    funcionVERTSWEEP();
    funcionVERTX();
+   //Asumir todos ocupados
+   for(int yyy = 0; yyy < activeCONTS; yyy++){
+      statusMATRIX[yyy]=1;
+   }
    }
    else{
    cambioVISTA(2,"EMPTY");
@@ -1027,6 +1059,8 @@ else if (strcmp(VISTA, "B0B0A1") == 0) {
    delay(200);
    if (todosCeros(activeCONTS)){
       UP = true;
+   }else if ((!todosCeros(activeCONTS))&&(UP||DOWN||SELECT)){
+      stopSWEEP();
    }
 
    cambioEVENTO("B0B0A2");
@@ -1883,8 +1917,13 @@ void statusCHECK(uint8_t *cellADDRESS,int cellIndex){
 void funcionVERTSWEEP(){
 //Primero sweep de vertido 100g
 for (int rr = 0; rr < 6; rr++) {
-    sendSTRING("VERTX100",macCeldas[rr]);
-    delay(200);
+   //sendSTRING("VERTX100",macCeldas[rr]);
+   if(RECETA[receta_seleccionada][rr]!=0){
+      sendSTRING("VERTX100",macCeldas[rr]);
+   }else{
+      Serial.printf("Nada que verter CONTENEDOR: %d \n",rr);
+   }
+   delay(200);
 }
 delay(5000);
 for (int rr = 0; rr < 6; rr++) {
@@ -1898,7 +1937,11 @@ void funcionVERTX(){
 for (int rr = 0; rr < 6; rr++) {
    int toVERT = RECETA[receta_seleccionada][rr] * cantPORCIONES;
    String buffer = String("VERTX")+String(toVERT);
+   if(RECETA[receta_seleccionada][rr]!=0){
    sendSTRING(buffer,macCeldas[rr]);
+   }else{
+      Serial.printf("Nada que verter CONTENEDOR: %d \n",rr);
+   }
    delay(200);
 }
 delay(500);
@@ -2002,14 +2045,19 @@ bool measSWEPP(int contenedores) {
         sendSTRING("MEASX",macCeldas[i]);
         sendSTRING("MEASX",macCeldas[i]);
         sendSTRING("MEASX",macCeldas[i]);
-        delay(500);
+        delay(100);
         Serial.printf("Cont  %d medicion: %.4f\n",i,MEAS);
         Serial.printf("A dispensar: %d\n",toVERT);
-        if (MEAS<toVERT){
+        if (RECETA[receta_seleccionada][i]==0){
+         contVACIOS[i] = 0;
+         Serial.println("A VERTER CERO");         
+        }else if(MEAS<toVERT){
          contVACIOS[i] = 1;
-        }else{
+        }
+        else{
          contVACIOS[i] = 0;
         }
+        delay(400);
     }
     for (int i = 0; i < contenedores; ++i) {
         if (contVACIOS[i] != 0) {
@@ -2019,4 +2067,11 @@ bool measSWEPP(int contenedores) {
     }
     // Si todos los elementos son cero, retorna verdadero
     return true;
+}
+void stopSWEEP(){
+   Serial.println("Stop sweep");
+   for(int rr = 0; rr<6; rr++){
+      sendSTRING("STOPX",macCeldas[rr]);
+      delay(200);
+   }
 }
