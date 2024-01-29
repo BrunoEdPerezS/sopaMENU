@@ -67,7 +67,8 @@ int indice = 0;           // Índice actual en el array
 int CANTIDADVERT = 0;
 
 // REPLACE WITH THE MAC Address of your receiver 
-uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
+//uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}; // Master casa
+uint8_t macMASTER[] = {0xC0,0x49,0xEF,0xD3,0xE9,0xBC}; // MASTER SOPA
 
 // Define the message to be sent as a string
 //String messageToSend = "string1";

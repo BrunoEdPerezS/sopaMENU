@@ -1109,7 +1109,7 @@ else if (strcmp(VISTA, "B0B0C0") == 0) {
       lcd.print("    DISPENSANDO    ");
       dispensarSOPA();
       delay(2000);
-      statusCHECK(macCeldas[0], 0);
+      statusCHECK(macCeldas[6], 6);
    }
    
 
@@ -1124,17 +1124,18 @@ else if (strcmp(VISTA, "B0B0C1") == 0) {
    //!VISTA NOTIF
    //TODO CAMBIAR LOS CEROS, SOLO ESTAN PARA TESTING
    
-   if (statusMATRIX[0] == 0){
+   if (statusMATRIX[6] == 0){
       generarVISTA(B0B0C1notif,B0B0C1notif_f);
-      Serial.println(statusMATRIX[0]);
-   }else if ((statusMATRIX[0] != 0)&&(EVENT||UP||DOWN)){
+      Serial.println(statusMATRIX[6]);
+   }else if ((statusMATRIX[6] != 0)&&(EVENT||UP||DOWN)){
       lcd.clear();
       lcd.setCursor(0,1);
       lcd.print("    CANCELADO    ");
+      sendSTRING("STOPX",macCeldas[6]);
    }else{
-      statusCHECK(macCeldas[0], 0);
+      statusCHECK(macCeldas[6], 6);
       lcd.clear();
-      Serial.println(statusMATRIX[0]);
+      Serial.println(statusMATRIX[6]);
       lcd.setCursor(0,1);
       lcd.print("    ESPERE        ");
    }
