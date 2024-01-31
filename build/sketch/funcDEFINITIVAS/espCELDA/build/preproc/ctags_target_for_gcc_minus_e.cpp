@@ -30,7 +30,7 @@ volatile bool STOPX = false;
 
 //* Variables de estado de celda
 bool ocupado = false;
-bool empty = true;
+bool empty = false;
 
 //Setting de mediciones
 // HX711 circuit wiring
@@ -69,7 +69,9 @@ int indice = 0; // Índice actual en el array
 int CANTIDADVERT = 0;
 
 // REPLACE WITH THE MAC Address of your receiver 
-uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
+//uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}; // Master casa
+uint8_t macMASTER[] = {0xA8,0x42,0xE3,0xAB,0x4A,0x28};
+//uint8_t macMASTER[] = {0xC0,0x49,0xEF,0xD3,0xE9,0xBC}; // MASTER SOPA
 
 // Define the message to be sent as a string
 //String messageToSend = "string1";
@@ -266,7 +268,7 @@ rawMEASURE = celda4.read();
 Serial.println(rawMEASURE);
 
 */
-# 258 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 260 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 // Buffers de medida
 /*
 
@@ -325,7 +327,7 @@ Serial.println(rawMEASURE);
 indice = (indice + 1) % numDatos;
 
 */
-# 288 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 290 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 cellMEASURE();
 // Imprimir resultado
 //if (printENABLE){
@@ -423,6 +425,7 @@ void vertxCELDA(int cantidad){
   //TODO   este ciclo solo funciona una vez que se ha cargado el contenedor, de lo contrario se acciona el driver por dos segundos.
   float CONTENIDO = meanSCALED;
 
+
   while ((STOPX == false))
   {
     driverACTIVE(true);
@@ -436,6 +439,9 @@ void vertxCELDA(int cantidad){
     {
       //COMPLETE = true;
       STOPX = true;
+    }else if (meanSCALED<100){
+      STOPX = true;
+      empty = true;
     }
     digitalWrite(4,0x1);
     //delay(2000);

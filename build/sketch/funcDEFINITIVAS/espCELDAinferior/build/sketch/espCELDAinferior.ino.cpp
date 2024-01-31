@@ -70,7 +70,8 @@ int indice = 0;           // Índice actual en el array
 int CANTIDADVERT = 0;
 
 // REPLACE WITH THE MAC Address of your receiver 
-uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
+//uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}; // MASTER CASA
+uint8_t macMASTER[] = {0xC0,0x49,0xEF,0xD3,0xE9,0xBC}; // MASTER SOPA
 
 // Define the message to be sent as a string
 //String messageToSend = "string1";
@@ -84,47 +85,47 @@ HX711 celda3;
 HX711 celda4;
 
 // Callback when data is sent
-#line 84 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 85 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
-#line 90 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 91 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 168 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 169 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void setup();
-#line 224 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 225 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void loop();
-#line 312 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 313 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 337 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 338 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void cargaCELDA();
-#line 359 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 360 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void purgaCELDA();
-#line 377 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 378 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void vertxCELDA(int cantidad);
-#line 416 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 417 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void estadCELDA();
-#line 423 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 424 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void driveCELDA();
-#line 427 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 428 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 float calcularMediaMovil(float datosIN[30]);
-#line 435 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 436 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void tareCELLS();
-#line 439 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 440 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void resetCELLS();
-#line 445 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 446 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void cellMEASURE();
-#line 467 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 468 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void driverACTIVE(bool sentido);
-#line 479 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 480 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void driverSTOP();
-#line 485 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 486 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void calibrarCELDAS(int PESO);
-#line 502 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 503 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void sendMEASURE();
-#line 509 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 510 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void cargarValoresDesdePreferences();
-#line 519 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 520 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void guardarValoresEnPreferences();
-#line 84 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+#line 85 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   //Serial.print("\r\nLast Packet Send Status:\t");
   //Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
@@ -498,7 +499,7 @@ void cellMEASURE(){
   mean3 = calcularMediaMovil(buff3);
   mean4 = calcularMediaMovil(buff4);
 
-  meanALL = (mean1+mean2+mean3+mean4)/4;
+  meanALL = (mean3);
 
   //(Mean - offset)*GAIN
   meanSCALED = (meanALL-meanOFFSET)*gainMEAN;

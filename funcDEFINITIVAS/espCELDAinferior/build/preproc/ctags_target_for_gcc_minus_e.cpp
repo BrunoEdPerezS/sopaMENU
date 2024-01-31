@@ -68,7 +68,8 @@ int indice = 0; // Índice actual en el array
 int CANTIDADVERT = 0;
 
 // REPLACE WITH THE MAC Address of your receiver 
-uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4};
+//uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}; // MASTER CASA
+uint8_t macMASTER[] = {0xC0,0x49,0xEF,0xD3,0xE9,0xBC}; // MASTER SOPA
 
 // Define the message to be sent as a string
 //String messageToSend = "string1";
@@ -265,7 +266,7 @@ rawMEASURE = celda4.read();
 Serial.println(rawMEASURE);
 
 */
-# 258 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+# 259 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 // Buffers de medida
 /*
 
@@ -324,7 +325,7 @@ Serial.println(rawMEASURE);
 indice = (indice + 1) % numDatos;
 
 */
-# 288 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+# 289 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
 cellMEASURE();
 // Imprimir resultado
 //if (printENABLE){
@@ -446,7 +447,7 @@ void vertxCELDA(int cantidad){
       empty = true;
 
     }*/
-# 405 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
+# 406 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDAinferior\\espCELDAinferior.ino"
     digitalWrite(4,0x1);
     //delay(2000);
     //break;
@@ -499,7 +500,7 @@ void cellMEASURE(){
   mean3 = calcularMediaMovil(buff3);
   mean4 = calcularMediaMovil(buff4);
 
-  meanALL = (mean1+mean2+mean3+mean4)/4;
+  meanALL = (mean3);
 
   //(Mean - offset)*GAIN
   meanSCALED = (meanALL-meanOFFSET)*gainMEAN;
