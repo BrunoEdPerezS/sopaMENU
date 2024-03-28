@@ -1,5 +1,5 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.ino.cpp.o: \
- C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.ino.cpp \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.ino.cpp.o: \
+ c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.ino.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/esp_arduino_version.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/freertos/include/freertos/FreeRTOS.h \
@@ -132,7 +132,7 @@ C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.i
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_hw_support/include/soc/esp32/spiram.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/io_pin_remap.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \
- C:\Users\bruno\Documents\Arduino\libraries\Preferences\src/Preferences.h \
+ C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\Preferences\src/Preferences.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_wifi/include/esp_now.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_wifi/include/esp_wifi_types.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_wifi/include/esp_private/esp_wifi_types_private.h \
@@ -195,4 +195,4 @@ C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\sketch\espCELDA.i
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\WiFi\src/WiFiUdp.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Udp.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/cbuf.h \
- C:\Users\bruno\Documents\Arduino\libraries\HX711_Arduino_Library\src/HX711.h
+ C:\Users\bruno\OneDrive\Documentos\Arduino\libraries\HX711_Arduino_Library\src/HX711.h

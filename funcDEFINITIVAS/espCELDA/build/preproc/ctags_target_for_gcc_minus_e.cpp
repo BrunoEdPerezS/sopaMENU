@@ -1,4 +1,4 @@
-# 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 1 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 
 //? VERSION MODIFICADA SIN ERROR DE MEDICION!!!
 //* COMUNICACION MULTICELDA DESDE EL MASTER
@@ -8,10 +8,10 @@
 
 
 
-# 11 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
-# 12 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
-# 13 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
-# 14 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
+# 11 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
+# 12 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
+# 13 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
+# 14 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino" 2
 
 
 
@@ -69,7 +69,7 @@ int CANTIDADVERT = 0;
 
 // REPLACE WITH THE MAC Address of your receiver 
 //uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}; // Master casa
-uint8_t macMASTER[] = {0xA8,0x42,0xE3,0xAB,0x4A,0x28};
+  uint8_t macMASTER[] = {0xA8,0x42,0xE3,0xAB,0x4A,0x28};
 //uint8_t macMASTER[] = {0xC0,0x49,0xEF,0xD3,0xE9,0xBC}; // MASTER SOPA
 
 // Define the message to be sent as a string
@@ -209,7 +209,7 @@ void setup() {
 
   pinMode(2,0x03);
   pinMode(18,0x03);
-  pinMode(18,0x03);
+  pinMode(19,0x03);
   pinMode(17,0x03);
   pinMode(4,0x03);
   pinMode(16,0x03);
@@ -218,7 +218,7 @@ void setup() {
 
   digitalWrite(2,0x0);
   digitalWrite(18,0x0);
-  digitalWrite(18,0x0);
+  digitalWrite(19,0x0);
   digitalWrite(17,0x0);
   digitalWrite(4,0x0);
   digitalWrite(16,0x0);
@@ -267,7 +267,7 @@ rawMEASURE = celda4.read();
 Serial.println(rawMEASURE);
 
 */
-# 260 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 260 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 // Buffers de medida
 /*
 
@@ -326,7 +326,7 @@ Serial.println(rawMEASURE);
 indice = (indice + 1) % numDatos;
 
 */
-# 290 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
+# 290 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\espCELDA.ino"
 cellMEASURE();
 // Imprimir resultado
 //if (printENABLE){
@@ -380,7 +380,7 @@ void cargaCELDA(){
   ocupado = true;
   Serial.println("CARGA iniciada");
   Serial.println("PESO TARADO");
-  tareCELLS();
+  //tareCELLS();
   STOPX = false;
   while (STOPX == false)
   {
@@ -401,7 +401,7 @@ void cargaCELDA(){
 void purgaCELDA(){
   ocupado = true;
   Serial.println("PURGA iniciada");
-  driverACTIVE(true);
+  driverACTIVE(false);
   while (STOPX == false)
   {
     Serial.println("PURGANDO EL CONTENEDOR");
@@ -427,11 +427,11 @@ void vertxCELDA(int cantidad){
 
   while ((STOPX == false))
   {
-    driverACTIVE(true);
-    Serial.println("VERTIENDO MATERIAL");
-    Serial.printf("Total: %.4f \n",CONTENIDO);
-    Serial.printf("Mean celda: %.4f \n",meanSCALED);
-    Serial.printf("Vertido: %d \n",cantidad);
+    driverACTIVE(false);
+    //Serial.println("VERTIENDO MATERIAL");
+    //Serial.printf("Total: %.4f \n",CONTENIDO);
+    //Serial.printf("Mean celda: %.4f \n",meanSCALED);
+    //Serial.printf("Vertido: %d \n",cantidad);
     cellMEASURE();
     //delay(20);
     if(meanSCALED < (CONTENIDO-cantidad))
@@ -494,6 +494,7 @@ void cellMEASURE(){
   mean3 = calcularMediaMovil(buff3);
   mean4 = calcularMediaMovil(buff4);
 
+
   meanALL = (mean1+mean2+mean3+mean4)/4;
 
   //(Mean - offset)*GAIN
@@ -506,12 +507,12 @@ void cellMEASURE(){
 
 void driverACTIVE(bool sentido){
   if(sentido){
-    digitalWrite(18,0x1);
-    digitalWrite(19,0x0);
-    Serial.println("Driver SENTIDO1");
-  }else{
     digitalWrite(18,0x0);
     digitalWrite(19,0x1);
+    Serial.println("Driver SENTIDO1");
+  }else{
+    digitalWrite(18,0x1);
+    digitalWrite(19,0x0);
     Serial.println("Driver SENTIDO2");
   }
 }

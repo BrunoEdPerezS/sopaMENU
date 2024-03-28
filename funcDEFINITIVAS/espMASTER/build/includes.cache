@@ -10,27 +10,27 @@
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\variants\\doitESP32devkitV1"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
     "Include": "LiquidCrystal_I2C.h",
-    "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\LiquidCrystal_I2C"
+    "Includepath": "C:\\Users\\bruno\\OneDrive\\Documentos\\Arduino\\libraries\\LiquidCrystal_I2C"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
     "Include": "Wire.h",
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\Wire\\src"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
     "Include": "WiFi.h",
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\build\\sketch\\espMASTER.ino.cpp",
     "Include": "",
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\LiquidCrystal_I2C\\LiquidCrystal_I2C.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\OneDrive\\Documentos\\Arduino\\libraries\\LiquidCrystal_I2C\\LiquidCrystal_I2C.cpp",
     "Include": "",
     "Includepath": null
   },

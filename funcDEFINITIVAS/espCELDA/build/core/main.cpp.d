@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\main.cpp.o: \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\main.cpp.o: \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32\main.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/freertos/include/freertos/FreeRTOS.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/freertos/include/esp_additions/freertos/FreeRTOSConfig.h \

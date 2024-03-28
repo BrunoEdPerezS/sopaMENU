@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\esp32-hal-spi.c.o: \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\esp32-hal-spi.c.o: \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32\esp32-hal-spi.c \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32\esp32-hal-spi.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/dio_qspi/include/sdkconfig.h \

@@ -68,7 +68,7 @@ int CANTIDADVERT = 0;
 
 // REPLACE WITH THE MAC Address of your receiver 
 //uint8_t macMASTER[] = {0xA0, 0xB7, 0x65, 0xDD, 0x9E, 0xD4}; // Master casa
-uint8_t macMASTER[] = {0xA8,0x42,0xE3,0xAB,0x4A,0x28};
+  uint8_t macMASTER[] = {0xA8,0x42,0xE3,0xAB,0x4A,0x28};
 //uint8_t macMASTER[] = {0xC0,0x49,0xEF,0xD3,0xE9,0xBC}; // MASTER SOPA
 
 // Define the message to be sent as a string
@@ -208,7 +208,7 @@ void setup() {
 
   pinMode(2,OUTPUT);
   pinMode(PINDRIVER1,OUTPUT);
-  pinMode(PINDRIVER1,OUTPUT);
+  pinMode(PINDRIVER2,OUTPUT);
   pinMode(LEDCARGA,OUTPUT);
   pinMode(LEDVERTX,OUTPUT);
   pinMode(LEDPURGA,OUTPUT);
@@ -217,7 +217,7 @@ void setup() {
 
   digitalWrite(2,LOW);
   digitalWrite(PINDRIVER1,LOW);
-  digitalWrite(PINDRIVER1,LOW);
+  digitalWrite(PINDRIVER2,LOW);
   digitalWrite(LEDCARGA,LOW);
   digitalWrite(LEDVERTX,LOW);
   digitalWrite(LEDPURGA,LOW);
@@ -340,7 +340,7 @@ void cargaCELDA(){
   ocupado = true;
   Serial.println("CARGA iniciada");
   Serial.println("PESO TARADO");
-  tareCELLS();
+  //tareCELLS();
   STOPX = false;
   while (STOPX == false)
   {
@@ -361,7 +361,7 @@ void cargaCELDA(){
 void purgaCELDA(){
   ocupado = true;
   Serial.println("PURGA iniciada");
-  driverACTIVE(true);
+  driverACTIVE(false);
   while (STOPX == false)
   {
     Serial.println("PURGANDO EL CONTENEDOR");
@@ -387,11 +387,11 @@ void vertxCELDA(int cantidad){
   
   while ((STOPX == false))
   {
-    driverACTIVE(true);
-    Serial.println("VERTIENDO MATERIAL");
-    Serial.printf("Total: %.4f \n",CONTENIDO);
-    Serial.printf("Mean celda: %.4f \n",meanSCALED);
-    Serial.printf("Vertido: %d \n",cantidad);
+    driverACTIVE(false);
+    //Serial.println("VERTIENDO MATERIAL");
+    //Serial.printf("Total: %.4f \n",CONTENIDO);
+    //Serial.printf("Mean celda: %.4f \n",meanSCALED);
+    //Serial.printf("Vertido: %d \n",cantidad);
     cellMEASURE();
     //delay(20);
     if(meanSCALED < (CONTENIDO-cantidad))
@@ -454,6 +454,7 @@ void cellMEASURE(){
   mean3 = calcularMediaMovil(buff3);
   mean4 = calcularMediaMovil(buff4);
 
+
   meanALL = (mean1+mean2+mean3+mean4)/4;
 
   //(Mean - offset)*GAIN
@@ -466,12 +467,12 @@ void cellMEASURE(){
 
 void driverACTIVE(bool sentido){
   if(sentido){
-    digitalWrite(PINDRIVER1,HIGH);
-    digitalWrite(PINDRIVER2,LOW);
-    Serial.println("Driver SENTIDO1");
-  }else{
     digitalWrite(PINDRIVER1,LOW);
     digitalWrite(PINDRIVER2,HIGH);
+    Serial.println("Driver SENTIDO1");
+  }else{
+    digitalWrite(PINDRIVER1,HIGH);
+    digitalWrite(PINDRIVER2,LOW);
     Serial.println("Driver SENTIDO2");
   }
 }

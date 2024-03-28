@@ -10,27 +10,27 @@
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\variants\\doitESP32devkitV1"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "Preferences.h",
-    "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src"
+    "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\Preferences\\src"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "WiFi.h",
     "Includepath": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\WiFi\\src"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "HX711.h",
-    "Includepath": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\HX711_Arduino_Library\\src"
+    "Includepath": "C:\\Users\\bruno\\OneDrive\\Documentos\\Arduino\\libraries\\HX711_Arduino_Library\\src"
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
+    "Sourcefile": "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espCELDA\\build\\sketch\\espCELDA.ino.cpp",
     "Include": "",
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\Preferences\\src\\Preferences.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\2.0.11\\libraries\\Preferences\\src\\Preferences.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -80,7 +80,7 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Users\\bruno\\Documents\\Arduino\\libraries\\HX711_Arduino_Library\\src\\HX711.cpp",
+    "Sourcefile": "C:\\Users\\bruno\\OneDrive\\Documentos\\Arduino\\libraries\\HX711_Arduino_Library\\src\\HX711.cpp",
     "Include": "",
     "Includepath": null
   }

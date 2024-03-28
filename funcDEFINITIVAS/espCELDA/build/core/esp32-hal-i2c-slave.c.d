@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\esp32-hal-i2c-slave.c.o: \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\esp32-hal-i2c-slave.c.o: \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32\esp32-hal-i2c-slave.c \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_common/include/esp_attr.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_rom/include/esp32/rom/gpio.h \

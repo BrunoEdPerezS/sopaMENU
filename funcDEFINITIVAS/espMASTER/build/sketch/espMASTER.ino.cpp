@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#line 1 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 1 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 //* COMUNICACION MULTICELDA DESDE EL MASTER
 //* Control con comandos
 
@@ -32,33 +32,33 @@ volatile bool EVENT  = true;
 volatile bool initCARGA = false;
 String substrings[4];
 //INTERRUPCION BOTON UP
-#line 118 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 118 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
-#line 124 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 124 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len);
-#line 145 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 145 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void setup();
-#line 243 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 243 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void loop();
-#line 311 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 311 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void sendSTRING(String messageToSend, uint8_t* MAC);
-#line 337 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 337 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void funcCARGA(uint8_t *cellADDRESS);
-#line 353 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 353 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void funcPURGA(uint8_t *cellADDRESS);
-#line 361 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 361 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void funcVERTX(uint8_t *cellADDRESS,int cantidad);
-#line 370 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 370 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void calibCELL(uint8_t *cellADDRESS,int cantidad);
-#line 379 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 379 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void resetCELL(uint8_t *cellADDRESS);
-#line 388 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 388 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void processCommand(String command);
-#line 454 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 454 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void separarCadena(String cadena, String* resultado);
-#line 482 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 482 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void lcdPRINT(String data);
-#line 33 "C:\\Users\\bruno\\Desktop\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
+#line 33 "c:\\Users\\bruno\\OneDrive\\Desktop\\SOPA\\sopaMENU\\funcDEFINITIVAS\\espMASTER\\espMASTER.ino"
 void IRAM_ATTR BUTTONpress1(){
    buttonTIME = millis();
 //Condicion para el debounce

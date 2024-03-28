@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espMASTER\build\libraries\Wire\Wire.cpp.o: \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espMASTER\build\libraries\Wire\Wire.cpp.o: \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\Wire\src\Wire.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/esp32-hal-i2c.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_common/include/esp_err.h \

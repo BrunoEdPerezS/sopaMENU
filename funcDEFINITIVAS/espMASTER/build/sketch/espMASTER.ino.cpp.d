@@ -1,5 +1,5 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espMASTER\build\sketch\espMASTER.ino.cpp.o: \
- C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espMASTER\build\sketch\espMASTER.ino.cpp \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espMASTER\build\sketch\espMASTER.ino.cpp.o: \
+ c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espMASTER\build\sketch\espMASTER.ino.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/esp_arduino_version.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/freertos/include/freertos/FreeRTOS.h \
@@ -132,7 +132,7 @@ C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espMASTER\build\sketch\espMASTER
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/esp_hw_support/include/soc/esp32/spiram.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/io_pin_remap.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \
- C:\Users\bruno\Documents\Arduino\libraries\LiquidCrystal_I2C/LiquidCrystal_I2C.h \
+ C:\Users\bruno\OneDrive\Documentos\Arduino\libraries\LiquidCrystal_I2C/LiquidCrystal_I2C.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Print.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\Wire\src/Wire.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/esp32-hal.h \

@@ -1,4 +1,4 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\HardwareSerial.cpp.o: \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espCELDA\build\core\HardwareSerial.cpp.o: \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32\HardwareSerial.cpp \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\variants\doitESP32devkitV1/pins_arduino.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32\io_pin_remap.h \

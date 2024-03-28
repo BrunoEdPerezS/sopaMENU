@@ -74,6 +74,7 @@
 #define BUTTON1 18
 #define BUTTON2 19
 #define BUTTON3 17
+#define PINCONTACTOR 15
 
 unsigned long buttonTIME = 0;  
 unsigned long lastBTIME = 0; 
@@ -195,7 +196,7 @@ uint8_t macCeldas[][6] = {
   {0x10, 0xAA, 0xBB, 0xCC, 0x33, 0xF5}
 };
 
-*/
+
 uint8_t macCeldas[][7] = {
 //esp1MAC: A0:B7:65:DD:04:5C
 //esp2MAC: A0:B7:65:DC:15:A8
@@ -207,18 +208,20 @@ uint8_t macCeldas[][7] = {
   {0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C},
   {0x10, 0xAA, 0xBB, 0xCC, 0x33, 0xF5}
 };
-/*
+*/
 //MACS SOPA
 uint8_t macCeldas[][7] = {
 {0x24,0xD7,0xEB,0x0E,0xD6,0xAC},
 {0x24,0xD7,0xEB,0x0F,0xCD,0x88},
 {0x24,0xD7,0xEB,0x0F,0xCC,0x88},
 {0xC0,0x49,0xEF,0xD3,0x8B,0x18},
-{0x24,0xD7,0xEB,0x11,0xA3,0x50},
-{0x94,0xB5,0x55,0xF9,0x12,0x68},
-{0xC0,0x49,0xEF,0xD3,0x65,0x48}
+{0xC0,0x49,0xEF,0xD3,0x65,0x48},
+//{0x94,0xB5,0x55,0xF9,0x12,0x68},
+{0xC0,0x49,0xEF,0xD3,0xE9,0xBC},
+{0x24,0xD7,0xEB,0x11,0xA3,0x50} //7 SOPA REAL
+//{0xA0, 0xB7, 0x65, 0xDD, 0x04, 0x5C}
 };
-*/
+
 
 
 
@@ -461,6 +464,8 @@ attachInterrupt(digitalPinToInterrupt(BUTTON2), BUTTONpress2, FALLING);
 pinMode(BUTTON3, INPUT_PULLUP);
 attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
 
+pinMode(PINCONTACTOR, OUTPUT);
+digitalWrite(PINCONTACTOR, LOW);
 //? Setup de la eeprom
   preferences.begin("my-app", false);  // El segundo argumento indica si borrar las preferencias al arrancar
 
@@ -775,6 +780,7 @@ attachInterrupt(digitalPinToInterrupt(BUTTON3), BUTTONpress3, FALLING);
 
 
 
+
 }
 
 
@@ -847,8 +853,9 @@ else if (strcmp(VISTA, "A0A1") == 0) {
 
    //!MODELO
    //TODO ENVIAR MENSAJE DE STOP
-   if (UP|DOWN|SELECT){
-      sendSTRING("STOPX",macCeldas[contSELECT]);  
+   if (UP||DOWN||SELECT){
+      sendSTRING("STOPX",macCeldas[contSELECT]);
+      sendSTRING("DRIVS",macCeldas[contSELECT]);  
    }
    
 
@@ -899,8 +906,9 @@ else if (strcmp(VISTA, "A0B1") == 0) {
 
    //!MODELO
    //TODO ENVIAR MENSAJE DE STOP   
-   if (UP|DOWN|SELECT){
+   if (UP||DOWN||SELECT){
       sendSTRING("STOPX",macCeldas[contSELECT]);  
+      sendSTRING("DRIVS",macCeldas[contSELECT]);
    }
    //Cambio de vista 
    cambioEVENTO("A0B2");
@@ -978,6 +986,9 @@ else if (strcmp(VISTA, "B0B0") == 0) {
    generarVISTA(B0B0scroll,B0B0scroll_f);
    scrollSIGN(B0B0scroll_f);
    //!MODELO
+   if((scrollSTATE==1)&&(SELECT)){
+      digitalWrite(PINCONTACTOR,HIGH);
+   }
 
    //Cambio de vista 
    
@@ -1052,13 +1063,18 @@ else if (strcmp(VISTA, "B0B0A1") == 0) {
       lcd.setCursor(yyy * 2 + 1, 1);
       lcd.print("**");
       Serial.println(yyy);
-      delay(500);
+      delay(100);
    }
    lcd.setCursor(0,2);
    lcd.print("                   ");
    delay(200);
    if (todosCeros(activeCONTS)){
       UP = true;
+      //Mezcla automatica de 10 segs
+      digitalWrite(PINCONTACTOR,HIGH);
+      delay(10);
+      digitalWrite(PINCONTACTOR,LOW);
+
    }else if ((!todosCeros(activeCONTS))&&(UP||DOWN||SELECT)){
       stopSWEEP();
    }
@@ -1093,6 +1109,10 @@ else if (strcmp(VISTA, "B0B0B0") == 0) {
    //scrollSIGN(menuA0A0Conf_F);
 
    //!MODELO
+   if(UP||DOWN||SELECT){
+      digitalWrite(PINCONTACTOR,LOW);
+      delay(2000);
+   }
    //Cambio de vista 
    //Correr cell check
    cambioEVENTO("B0B0");
@@ -1103,17 +1123,21 @@ else if (strcmp(VISTA, "B0B0C0") == 0) {
    generarVISTA(B0B0C0scroll,B0B0C0scroll_f);
    scrollSIGN(B0B0C0scroll_f);
    //!MODELO
-   if((scrollSTATE == 2)&&SELECT){
+   Serial.printf("El staste es: %d \n",scrollSTATE);
+   if((scrollSTATE == 2)&&(SELECT)){
       lcd.clear();
       lcd.setCursor(0,1);
       lcd.print("    DISPENSANDO    ");
       dispensarSOPA();
+      dispensarSOPA();
+      ESTAD = 1;
+      statusMATRIX[6] = ESTAD;
       delay(2000);
       statusCHECK(macCeldas[6], 6);
    }
    
 
-   //Cambio de vista 
+   //Cambio6de vista 
    
    //go BACK
    cambioVISTA(2,"B0B0C1");
@@ -1127,17 +1151,32 @@ else if (strcmp(VISTA, "B0B0C1") == 0) {
    if (statusMATRIX[6] == 0){
       generarVISTA(B0B0C1notif,B0B0C1notif_f);
       Serial.println(statusMATRIX[6]);
-   }else if ((statusMATRIX[6] != 0)&&(EVENT||UP||DOWN)){
+      cambioEVENTO("B0B0C0");
+      //scrollSTATE = 2;
+   }else if ((statusMATRIX[6] != 0)&&(SELECT||UP||DOWN)){
       lcd.clear();
       lcd.setCursor(0,1);
       lcd.print("    CANCELADO    ");
+      ESTAD = 0;
+      statusMATRIX[6] = ESTAD;
+      delay(100);
       sendSTRING("STOPX",macCeldas[6]);
+      delay(100);
+      sendSTRING("STOPX",macCeldas[6]);
+      delay(100);
+      sendSTRING("STOPX",macCeldas[6]);
+      delay(100);
+      cambioEVENTO("B0B0C0");
    }else{
+      Serial.println("Wait loop");
+      ESTAD = 1;
+      statusMATRIX[6] = ESTAD;
       statusCHECK(macCeldas[6], 6);
       lcd.clear();
-      Serial.println(statusMATRIX[6]);
+      //Serial.println(statusMATRIX[6]);
       lcd.setCursor(0,1);
-      lcd.print("    ESPERE        ");
+      lcd.print("      ESPERE      ");
+      delay(100);
    }
    //scrolling(menuA0A0Conf_F);
    //generarVISTA(B0B0C1notif,B0B0C1notif_f);
@@ -1145,9 +1184,9 @@ else if (strcmp(VISTA, "B0B0C1") == 0) {
 
    //!MODELO
    
-   //Cambio de vista 
-   //Correr cell check
-   cambioEVENTO("B0B0C0");
+  //Cambio de vista 
+  //Correr cell check
+  //cambioEVENTO("B0B0C0");
 } 
 
 //? Vistas rama C
@@ -1271,7 +1310,7 @@ else if (strcmp(VISTA, "C0A2I") == 0) {
 } 
 else if (strcmp(VISTA, "C0A2Iset") == 0){
    //!VISTA SETTING LOOP
-   setterFUNC(10,100,0,1000);
+   setterFUNC(10,10,0,1000);
    addRECcantidad = valuetoSET;
    RECETA[0][addREC_ingSELECT] = valuetoSET;
    settingBACK("C0A2I");
@@ -1356,6 +1395,7 @@ else if (strcmp(VISTA, "D0") == 0) {
       lcd.setCursor(0,3);
       //checkSWEEP
       for (int yyy = 0; yyy < 7; yyy++) {
+         ESTAD = 2;
          statusCHECK(macCeldas[yyy], yyy);
          lcd.setCursor(yyy * 2 + 1, 3);
          lcd.print("**");
@@ -1408,7 +1448,7 @@ else if (strcmp(VISTA, "D0A1") == 0) {
       sendSTRING("TAREX",macCeldas[contSELECT]);  
    }
    else if ((scrollSTATE==2) && SELECT){
-      sendSTRING("CALIB285",macCeldas[contSELECT]);  
+      sendSTRING("CALIB500",macCeldas[contSELECT]);  
    }
    else if ((scrollSTATE==3) && SELECT){
       sendSTRING("MEASX",macCeldas[contSELECT]);  
@@ -1901,15 +1941,20 @@ void funcVERTX(uint8_t *cellADDRESS,int cantidad){
 
 //! EL STATUS CHECK NO ESTA FUNCIONANDO DEBIDAMETNE
 void statusCHECK(uint8_t *cellADDRESS,int cellIndex){
-   sendSTRING("ESTAD",cellADDRESS);
+   for(int p = 0 ; p<3;p++){
+      sendSTRING("ESTAD",cellADDRESS);
+      sendSTRING("ESTAD",cellADDRESS);
+      delay(200);
+      if (ESTAD == 2){
+      statusMATRIX[cellIndex] = 2;
+      }else{
+      statusMATRIX[cellIndex] = ESTAD; 
+      }
+      delay(100);
+   }   
    //Serial.println(ESTAD);
    delay(1000);
-   if (ESTAD == 2){
-   statusMATRIX[cellIndex] = 2;
-   }else{
-   statusMATRIX[cellIndex] = ESTAD; 
-   ESTAD = 2;
-   }
+
 };
 
 
@@ -1973,7 +2018,7 @@ void dispensarSOPA(){
    int porcion = RECETA[receta_seleccionada][6];
    Serial.printf("Dispensando porcion: %d\n",porcion);
    String buffer = String("VERTX") + String(porcion);
-   sendSTRING(buffer,macCeldas[0]);// TODO CAMBIAR POR EL CONTENEDOR 7
+   sendSTRING(buffer,macCeldas[6]);// TODO CAMBIAR POR EL CONTENEDOR 7
    delay(100);
 }
 

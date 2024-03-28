@@ -1,6 +1,6 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espCELDA\build\libraries\Preferences\Preferences.cpp.o: \
- C:\Users\bruno\Documents\Arduino\libraries\Preferences\src\Preferences.cpp \
- C:\Users\bruno\Documents\Arduino\libraries\Preferences\src\Preferences.h \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espCELDA\build\libraries\Preferences\Preferences.cpp.o: \
+ C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\Preferences\src\Preferences.cpp \
+ C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\libraries\Preferences\src\Preferences.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Arduino.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/esp_arduino_version.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11/tools/sdk/esp32/include/freertos/include/freertos/FreeRTOS.h \

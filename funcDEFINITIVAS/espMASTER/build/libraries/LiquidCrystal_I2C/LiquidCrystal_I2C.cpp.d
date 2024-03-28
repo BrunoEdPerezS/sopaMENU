@@ -1,6 +1,6 @@
-C:\Users\bruno\Desktop\sopaMENU\funcDEFINITIVAS\espMASTER\build\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp.o: \
- C:\Users\bruno\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp \
- C:\Users\bruno\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.h \
+c:\Users\bruno\OneDrive\Desktop\SOPA\sopaMENU\funcDEFINITIVAS\espMASTER\build\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp.o: \
+ C:\Users\bruno\OneDrive\Documentos\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp \
+ C:\Users\bruno\OneDrive\Documentos\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/Print.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/WString.h \
  C:\Users\bruno\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.11\cores\esp32/pgmspace.h \
